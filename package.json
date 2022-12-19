@@ -2,5 +2,24 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express-validator": "^6.14.2"
-  }
+  },
+  "name": "authenticate-me",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tvongvone/API-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tvongvone/API-Project/issues"
+  },
+  "homepage": "https://github.com/tvongvone/API-Project#readme",
+  "description": ""
 }
