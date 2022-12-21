@@ -30,9 +30,7 @@ module.exports = {
       lng: -122.4730327,
       name: "App Academy",
       description: "Place where web developers are created",
-      price: 123,
-      avgRating: 4.5,
-      previewImage: "Image url"
+      price: 123
     }
    ])
   },
