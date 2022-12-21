@@ -9,6 +9,7 @@ const {handleValidationErrors} = require('../../utils/validation')
 const validateSpot = [
     check('address')
     .exists({checkFalsy: true})
+    .notEmpty()
     .withMessage('Street address is required'),
     check('city')
     .exists({checkFalsy: true})
@@ -35,19 +36,42 @@ const validateSpot = [
     .withMessage('Description is required'),
     check('price')
     .exists({checkFalsy:true})
-    .withMessage('Price is required')
+    .withMessage('Price is required'),
+    handleValidationErrors
 ]
 
-router.post('/', validateSpot, async(req, res, next) => {
+router.post('/', validateSpot, requireAuth, async (req, res, next) => {
+    const currentUser = req.user.id
 
+    const {address, city, state, country, lat, lng, name, description, price} = req.body
+
+    const userSpot = await Spot.create({
+        ownerId: currentUser,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+    })
+    if(userSpot) {
+        res.status = 201
+        res.json(userSpot)
+    } else {
+        res.status = 400
+        next(err)
+    }
 })
 
 router.get('/current', requireAuth, async (req, res) => {
-    const userId = req.user.id
+
 
     const currentUsersSpots = await Spot.findAll({
         where: {
-            ownerId: userId
+            ownerId: req.user.id // req.user comes from requireAuth
         }
     })
 
@@ -63,6 +87,26 @@ router.get('/', async(req, res) => {
 
     return res.json(allSpots)
 })
+
+router.get('/:id', async(req, res, next) => {
+    const {id} = req.params
+
+    const spot = await Spot.findByPk(id)
+
+    if(!spot) {
+        const err =  new Error("Spot couldn't be found")
+        err.status = 404
+        err.errors = ["Spot couldn't be found with the specified Id"]
+        next(err)
+    } else {
+
+
+        res.status = 200
+        res.json(spot)
+    }
+})
+
+
 
 
 module.exports = router;
