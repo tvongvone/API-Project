@@ -30,6 +30,7 @@ const validateSpot = [
     .isString()
     .withMessage('Longitude is not valid'),
     check('name')
+    .exists({checkFalsy:true})
     .isLength({max: 50})
     .withMessage('Name must be less than 50 characters'),
     check('description')
@@ -40,6 +41,38 @@ const validateSpot = [
     .withMessage('Price is required'),
     handleValidationErrors
 ]
+
+router.delete('/:id', requireAuth, async (req, res, next) => {
+    const deleteSpot = await Spot.findByPk(req.params.id)
+
+    if(deleteSpot) {
+        deleteSpot.destroy()
+        res.status = 200;
+        res.json({
+            message: "Successfully deleted",
+            statusCode: 200
+        })
+
+    }
+})
+
+router.put('/:id', validateSpot, requireAuth, async(req, res, next) => {
+    const {address, city, state, country,lat, lng, name, description, price} = req.body
+
+    const spot = await Spot.findByPk(req.params.id)
+
+    if(spot) {
+        spot.update({
+            address, city, state, country,lat, lng, name, description, price
+        })
+
+        res.json(spot)
+    } else {
+        const err = new Error("Spot couldn't be found")
+        err.status = 404
+        next(err)
+    }
+})
 
 router.post('/:id/images', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.id)
