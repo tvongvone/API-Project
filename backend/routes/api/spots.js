@@ -1,10 +1,11 @@
 const express = require("express")
 const {setCookie, requireAuth} = require('../../utils/auth')
-const {Spot} = require('../../db/models')
+const {Spot, Image, User} = require('../../db/models')
 
 const router = express.Router();
 const {check} = require('express-validator');
-const {handleValidationErrors} = require('../../utils/validation')
+const {handleValidationErrors} = require('../../utils/validation');
+const { ResultWithContext } = require("express-validator/src/chain");
 
 const validateSpot = [
     check('address')
@@ -39,6 +40,32 @@ const validateSpot = [
     .withMessage('Price is required'),
     handleValidationErrors
 ]
+
+router.post('/:id/images', requireAuth, async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.id)
+
+    if(spot.ownerId === req.user.id) {
+        const {url, preview} = req.body
+
+        const image = await Image.create({
+            spotId: req.params.id,
+            url,
+            preview
+        })
+
+        const imageScope = await Image.scope('defaultScope').findByPk(image.id)
+
+        res.status = 200
+        res.json(imageScope)
+
+    } else {
+        const err = new Error("Spot couldn't be found")
+        err.status = 404
+        err.errors = ['Spot does not belong to current User']
+        next(err)
+    }
+
+})
 
 router.post('/', validateSpot, requireAuth, async (req, res, next) => {
     const currentUser = req.user.id
@@ -91,7 +118,22 @@ router.get('/', async(req, res) => {
 router.get('/:id', async(req, res, next) => {
     const {id} = req.params
 
-    const spot = await Spot.findByPk(id)
+    const spot = await Spot.findOne({
+        where: {
+            id: id
+        },
+        include: [
+            {
+                model: Image,
+                as: 'SpotImages',
+            },
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName'],
+                as: 'Owner'
+            }
+        ]
+    })
 
     if(!spot) {
         const err =  new Error("Spot couldn't be found")
