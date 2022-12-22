@@ -2,7 +2,7 @@ const express = require('express');
 
 const {setTokenCookie, restoreUser} = require('../../utils/auth')
 const {User} = require('../../db/models');
-// const { json } = require('sequelize');
+
 
 const router = express.Router();
 
