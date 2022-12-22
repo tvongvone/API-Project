@@ -40,8 +40,8 @@ module.exports = {
       country: "United States of America",
       lat: 34.7645358,
       lng: -123.4730327,
-      name: "Anotha Academy",
-      description: "Place where software developers are created",
+      name: "Random Place",
+      description: "Place where software developers stay",
       price: 231
     },
     {
@@ -52,8 +52,8 @@ module.exports = {
       country: "United States of America",
       lat: 32.7645358,
       lng: -112.4730327,
-      name: "Dolphin Academy",
-      description: "Place where swimmers are created",
+      name: "Dolphin paradise",
+      description: "Place where swimmers stay",
       price: 13
     },
     {
@@ -64,8 +64,8 @@ module.exports = {
       country: "United States of America",
       lat: 24.7645358,
       lng: -101.4730327,
-      name: "Gambling Academy",
-      description: "Place where the best gamblers are made",
+      name: "Gambling maniacs",
+      description: "Place where the best gamblers stay",
       price: 500
     }
    ])
@@ -81,7 +81,7 @@ module.exports = {
     options.tableName = 'Spots'
     const Op = Sequelize.Op
     await queryInterface.bulkDelete(options, {
-      address: {[Op.in]: ['123 Disney Lane']}
+      address: {[Op.in]: ['123 Disney Lane', '321 Marvel Lane', '12 Ocean Side', '532 Lucky draw lane']}
     }, {})
   }
 };

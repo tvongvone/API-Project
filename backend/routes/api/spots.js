@@ -5,7 +5,6 @@ const {Spot, Image, User} = require('../../db/models')
 const router = express.Router();
 const {check} = require('express-validator');
 const {handleValidationErrors} = require('../../utils/validation');
-const { ResultWithContext } = require("express-validator/src/chain");
 
 const validateSpot = [
     check('address')
