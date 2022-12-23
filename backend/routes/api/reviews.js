@@ -1,8 +1,7 @@
 const express = require('express');
 
 const {requireAuth} = require('../../utils/auth')
-const {Review, Image} = require('../../db/models');
-const image = require('../../db/models/image');
+const {Review, Image, Spot} = require('../../db/models');
 
 
 const router = express.Router();
@@ -76,7 +75,17 @@ router.get('/current', requireAuth, async (req, res, next) => {
     const review = await Review.findAll({
         where: {
             userId: req.user.id
-        }
+        },
+        include: [
+            {
+                model: Spot
+            },
+            {
+                model: Image,
+                as: 'ReviewImages',
+                attributes: ['id', 'url']
+            }
+        ]
     })
 
     res.json(review)
