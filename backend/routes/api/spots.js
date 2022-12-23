@@ -5,7 +5,6 @@ const {Spot, Image, User, Review, Booking, Sequelize} = require('../../db/models
 const router = express.Router();
 const {check} = require('express-validator');
 const {handleValidationErrors} = require('../../utils/validation');
-const booking = require("../../db/models/booking");
 
 const Op = Sequelize.Op
 
@@ -66,7 +65,21 @@ const dateMiddleware = (req, res, next) => {
 router.delete('/:id', requireAuth, async (req, res, next) => {
     const deleteSpot = await Spot.findByPk(req.params.id)
 
-    if(deleteSpot) {
+    if(!deleteSpot) {
+        const err = new Error("Couldn't find a Spot with the specified id")
+        err.title = "Validation Error"
+        err.status = 404
+        err.errors = ["Spot couldn't be found"]
+        next(err)
+    }
+    const owner = await Spot.findOne({where: {id: req.params.id, ownerId: req.user.id}})
+
+    if(!owner) {
+        const err = new Error("This is not your spot")
+        err.title = "Authorization Error"
+        err.status = 404
+        next(err)
+    } else {
         await deleteSpot.destroy()
         res.status = 200;
         res.json({
@@ -80,7 +93,12 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 router.put('/:id', validateSpot, requireAuth, async(req, res, next) => {
     const {address, city, state, country,lat, lng, name, description, price} = req.body
 
-    const spot = await Spot.findByPk(req.params.id)
+    const spot = await Spot.findOne({
+        where: {
+            id:req.params.id,
+            ownerId: req.user.id
+        }
+    })
 
     if(spot) {
         spot.update({
@@ -89,9 +107,17 @@ router.put('/:id', validateSpot, requireAuth, async(req, res, next) => {
 
         res.json(spot)
     } else {
+        const nonOwner = await Spot.findByPk(req.params.id)
+        if(nonOwner) {
+            const err = new Error("Spot does not belong to you")
+            err.title = 'Authorization Error'
+            err.status = 404
+            next(err)
+        }   else {
         const err = new Error("Spot couldn't be found")
         err.status = 404
         next(err)
+        }
     }
 })
 
@@ -152,41 +178,51 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
     })
 
     if(owner) {
-        res.statusCode = 404
-        res.json({
-            message: "Spot must not belong to current user",
-            statusCode: 404
-        })
+        const err = new Error("Spot must not belong to user")
+        err.title = "Authorization Error"
+        err.status = 404
+        // res.statusCode = 404
+        // res.json({
+        //     message: "Spot must not belong to current user",
+        //     statusCode: 404
+        // })
+        next(err)
     }
-    const spotExist = await Spot.findByPk(req.params.id)
+        const spotExist = await Spot.findByPk(req.params.id)
 
     if(!spotExist) {
-        res.statusCode = 404
-        res.json({message: "Spot couldn't be found", statusCode: 404})
+        const err = new Error("Could not find Spot by specified Id")
+        err.title = "Server Error"
+        err.status = 404
+        next(err)
     }
 
-    const existingBooking = await Booking.findOne({
+    const existingBooking = await Booking.findAll({
         where: {
             spotId: req.params.id,
-            [Op.or]: [
-                {startDate: req.body.startDate},
-                {startDate: req.body.endDate},
-                {endDate: req.body.startDate},
-                {endDate: req.body.endDate}
-            ]
         }
     })
+    let bookingList = []
+    existingBooking.forEach(booking => {
+        bookingList.push(booking.toJSON())
+    })
+
+    bookingList.forEach(ele => {
+        console.log(ele.startDate)
+    })
+
     if(existingBooking) {
-        res.statusCode = 403
-        res.json({
-            message: "Sorry, this spot is already booked for the specified dates",
-            statusCode: 403,
-            errors: [
-                "Start date conflicts with an existing booking",
-                "End date conflicts with an existing booking"
-            ]
-        })
-    }
+        // res.statusCode = 403
+        // res.json({
+        //     message: "Sorry, this spot is already booked for the specified dates",
+        //     statusCode: 403,
+        //     errors: [
+        //         "Start date conflicts with an existing booking",
+        //         "End date conflicts with an existing booking"
+        //     ]
+        //})
+
+    } else {
 
     const booking = await Booking.create({
         spotId: parseInt(req.params.id),
@@ -196,6 +232,7 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
     })
 
     res.json(booking)
+    }
 })
 
 router.post('/:id/images', requireAuth, async (req, res, next) => {

@@ -19,17 +19,20 @@ module.exports = (sequelize, DataTypes) => {
       Spot.hasMany(models.Image, {
         foreignKey: 'spotId',
         as: 'SpotImages',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        hooks: true
       })
 
       Spot.hasMany(models.Review, {
         foreignKey: 'spotId',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        hooks: true
       })
 
       Spot.hasMany(models.Booking, {
         foreignKey: 'spotId',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        hooks: true
       })
 
       // Spot.belongsToMany(models.User, {through: models.Booking})
@@ -41,8 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique:true
+      allowNull: false
     },
     city: {
       type: DataTypes.STRING,

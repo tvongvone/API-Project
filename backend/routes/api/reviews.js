@@ -47,27 +47,48 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
         where: {
             id: req.params.id,
             userId: req.user.id
-        }
+        },
+        include: [
+            {
+                model: Image,
+                as: "ReviewImages"
+            }
+        ]
     })
 
     if(!theReview) {
-        const err = new Error("Review couldn't be found")
-        err.status = 404
-        next(err)
-    }else {
+        const review = await Review.findByPk(req.params.id)
 
-    await Image.create({
-        reviewId: req.params.id,
-        url: req.body.url
-    })
-
-    const reviewImage = await Image.scope('reviewScope').findOne({
-        where: {
-            reviewId: req.params.id
+        if(review) {
+            const err = new Error("Review must belong to user")
+            err.title = 'Authorization error'
+            err.status = 404;
+            next(err)
+        } else{
+            const err = new Error("Review couldn't be found")
+            err.status = 404
+            next(err)
         }
-    })
+    } else {
+    if(theReview.toJSON().ReviewImages.length >= 10) {
+        const err = new Error("10 images max per resource")
+        err.status = 403
+        err.errors=["Maximum number of images for this resource was reached"]
+        next(err)
+    } else{
+        await Image.create({
+            reviewId: req.params.id,
+            url: req.body.url
+        })
 
-    res.json(reviewImage)
+        const reviewImage = await Image.scope('reviewScope').findOne({
+            where: {
+                reviewId: req.params.id
+            }
+        })
+
+        res.json(reviewImage)
+    }
 }
 })
 
@@ -92,6 +113,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 })
 
 router.delete('/:id', requireAuth, async(req, res, next) => {
+    const nonOwner = await Review.findByPk(req.params.id)
     const deleteItem = await Review.findOne({
         where: {
             id: req.params.id,
@@ -99,12 +121,14 @@ router.delete('/:id', requireAuth, async(req, res, next) => {
         }
     })
 
-    if(!deleteItem) {
+    if(!nonOwner) {
         const err = new Error("Couldn't find a Review with the specified id")
         err.status = 404
         err.errors = ["Review couldn't be found"]
         next(err)
-    } else {
+    }
+
+    if(deleteItem) {
 
         await deleteItem.destroy()
 
@@ -112,7 +136,13 @@ router.delete('/:id', requireAuth, async(req, res, next) => {
             message: "Successfully deleted",
             statusCode: 200
         })
+    } else {
+        const err = new Error("Spot does not belong to current user")
+        err.title = "Authorization Error"
+        err.status = 404
+        next(err)
     }
+
 })
 
 

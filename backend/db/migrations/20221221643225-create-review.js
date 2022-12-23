@@ -24,7 +24,8 @@ module.exports = {
         allowNull:false,
         references: {
           model: "Spots",
-          onDelete: 'CASCADE'
+          onDelete: 'CASCADE',
+          hooks: true
         }
       },
       stars: {

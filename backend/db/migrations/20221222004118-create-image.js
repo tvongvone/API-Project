@@ -20,14 +20,16 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'Spots',
-          onDelete: 'CASCADE'
+          onDelete: 'CASCADE',
+          hooks:true
         }
       },
       reviewId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Reviews',
-          onDelete: 'CASCADE'
+          onDelete: 'CASCADE',
+          hooks:true
         }
       },
       url: {
