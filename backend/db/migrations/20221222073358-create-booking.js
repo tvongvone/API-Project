@@ -20,14 +20,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'Spots',
-          onDelete: 'cascade'
+          onDelete: 'CASCADE'
         }
       },
       userId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
-          onDelete: 'cascade'
+          onDelete: 'CASCADE'
         }
       },
       startDate: {

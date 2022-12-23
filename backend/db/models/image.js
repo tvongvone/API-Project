@@ -13,15 +13,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Image.belongsTo(models.Spot, {
-        foreignKey: 'spotId',
-        onDelete:'cascade'
+        foreignKey: 'spotId'
+      })
+
+      Image.belongsTo(models.Review, {
+        foreignKey: 'reviewId'
       })
     }
   }
   Image.init({
     spotId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
+    },
+    reviewId: {
+      type: DataTypes.INTEGER
     },
     url: {
       type: DataTypes.STRING,
@@ -33,7 +38,12 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Image',
     defaultScope: {
       attributes: {
-        exclude: ['spotId', 'createdAt', 'updatedAt']
+        exclude: ['spotId','reviewId', 'createdAt', 'updatedAt']
+      }
+    },
+    scopes: {
+      reviewScope: {
+        attributes: ['id', 'url']
       }
     }
   });

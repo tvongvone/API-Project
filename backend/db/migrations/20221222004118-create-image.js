@@ -1,5 +1,7 @@
 'use strict';
 
+const { sequelize } = require('../models');
+
 let options = {};
 if(process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
@@ -20,9 +22,15 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'Spots',
-          onDelete: 'cascade'
-        },
-        allowNull:false
+          onDelete: 'CASCADE'
+        }
+      },
+      reviewId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Reviews',
+          onDelete: 'CASCADE'
+        }
       },
       url: {
         type: Sequelize.STRING,

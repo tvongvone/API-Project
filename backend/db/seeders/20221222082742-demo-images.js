@@ -54,7 +54,7 @@ module.exports = {
     const Op = Sequelize.Op
     await queryInterface.bulkDelete(options, {
       url: {
-        [Op.in]: ['disney image', 'random image', 'DC image', 'dog image']
+        [Op.in]: ['disney image', 'random image', 'DC image', 'dog image', 'review image', 'random stuff', 'id 2 image url']
       }
     })
   }
