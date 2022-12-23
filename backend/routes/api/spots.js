@@ -1,10 +1,13 @@
 const express = require("express")
 const {requireAuth} = require('../../utils/auth')
-const {Spot, Image, User, Review, Sequelize} = require('../../db/models')
+const {Spot, Image, User, Review, Booking, Sequelize} = require('../../db/models')
 
 const router = express.Router();
 const {check} = require('express-validator');
 const {handleValidationErrors} = require('../../utils/validation');
+const booking = require("../../db/models/booking");
+
+const Op = Sequelize.Op
 
 const validateSpot = [
     check('address')
@@ -40,6 +43,25 @@ const validateSpot = [
     .withMessage('Price is required'),
     handleValidationErrors
 ]
+
+const dateMiddleware = (req, res, next) => {
+    const {startDate, endDate} = req.body
+    if(new Date(startDate) < new Date()) {
+        const err = new Error("Booking must be in the future")
+        err.title = 'Validation Error'
+        err.status = 403
+        next(err)
+    }
+
+    if(new Date(endDate) <= new Date(startDate)) {
+        const err = new Error("endDate cannot be on or before startDate")
+        err.title = 'Validation Error'
+        err.status = 400
+        next(err)
+    }
+
+    next()
+}
 
 router.delete('/:id', requireAuth, async (req, res, next) => {
     const deleteSpot = await Spot.findByPk(req.params.id)
@@ -119,8 +141,61 @@ router.post('/:id/reviews', requireAuth, async (req, res, next) => {
 
         res.json(theReview)
     }
+})
 
+router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next) => {
+    const owner = await Spot.findOne({
+        where: {
+            id: req.params.id,
+            ownerId: req.user.id
+        }
+    })
 
+    if(owner) {
+        res.statusCode = 404
+        res.json({
+            message: "Spot must not belong to current user",
+            statusCode: 404
+        })
+    }
+    const spotExist = await Spot.findByPk(req.params.id)
+
+    if(!spotExist) {
+        res.statusCode = 404
+        res.json({message: "Spot couldn't be found", statusCode: 404})
+    }
+
+    const existingBooking = await Booking.findOne({
+        where: {
+            spotId: req.params.id,
+            [Op.or]: [
+                {startDate: req.body.startDate},
+                {startDate: req.body.endDate},
+                {endDate: req.body.startDate},
+                {endDate: req.body.endDate}
+            ]
+        }
+    })
+    if(existingBooking) {
+        res.statusCode = 403
+        res.json({
+            message: "Sorry, this spot is already booked for the specified dates",
+            statusCode: 403,
+            errors: [
+                "Start date conflicts with an existing booking",
+                "End date conflicts with an existing booking"
+            ]
+        })
+    }
+
+    const booking = await Booking.create({
+        spotId: parseInt(req.params.id),
+        userId: req.user.id,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate
+    })
+
+    res.json(booking)
 })
 
 router.post('/:id/images', requireAuth, async (req, res, next) => {
@@ -221,6 +296,48 @@ router.get('/current', requireAuth, async (req, res) => {
 
 
     return res.json(spotsList)
+})
+
+router.get('/:id/bookings', requireAuth, async(req, res, next) => {
+    const owner = await Spot.findOne({
+        where: {
+            id: req.params.id,
+            ownerId: req.user.id,
+        }
+    })
+
+    if(owner) {
+        const ownerBookings = await Booking.findAll({
+            where: {
+                spotId: req.params.id
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                }
+            ],
+            attributes: {}
+        })
+        res.json(ownerBookings)
+    }
+
+    const spotExists = await Spot.findOne({
+        id: req.params.id
+    })
+
+    if(!spotExists) {
+        res.statusCode = 404
+        res.json({message: "Spot couldn't be found", statusCode: 404})
+    } else {
+        const bookings = await Booking.findAll({
+            where: {
+                spotId: req.params.id
+            },
+            attributes: ["spotId", "startDate", "endDate"]
+        })
+        res.json(bookings)
+    }
 })
 
 router.get('/:id/reviews', async (req, res, next) => {
