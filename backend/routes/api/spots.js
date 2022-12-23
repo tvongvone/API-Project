@@ -177,21 +177,28 @@ router.post('/', validateSpot, requireAuth, async (req, res, next) => {
 })
 
 router.get('/current', requireAuth, async (req, res) => {
-
-
-    const currentUsersSpots = await Spot.findAll({
+    const spots = await Spot.findAll({
         where: {
             ownerId: req.user.id // req.user comes from requireAuth
-        }
+        },
+        include: [
+            {
+                model: Review
+            },
+            {
+                model: Image,
+                as: 'SpotImages'
+            }
+        ]
     })
 
-    res.status = 200
-
-    return res.json(currentUsersSpots)
+    return res.json(spots)
 })
 
 router.get('/:id/reviews', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.id)
+
+
 
     if(!spot) {
         const err = new Error("Couldn't find a Spot with the specified id")
@@ -214,7 +221,7 @@ router.get('/:id/reviews', async (req, res, next) => {
             ]
         })
 
-        res.json(reviews)
+        res.json({reviews})
     }
 })
 
