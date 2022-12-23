@@ -1,6 +1,6 @@
 const express = require("express")
 const {requireAuth} = require('../../utils/auth')
-const {Spot, Image, User, Review} = require('../../db/models')
+const {Spot, Image, User, Review, Sequelize} = require('../../db/models')
 
 const router = express.Router();
 const {check} = require('express-validator');
@@ -184,6 +184,7 @@ router.get('/current', requireAuth, async (req, res) => {
         include: [
             {
                 model: Review
+                //attributes: [[Sequelize.fn("AVG", Sequelize.col("stars")), "avgRating"]]
             },
             {
                 model: Image,
@@ -191,8 +192,35 @@ router.get('/current', requireAuth, async (req, res) => {
             }
         ]
     })
+    let spotsList = []
+    spots.forEach(ele => {
+        spotsList.push(ele.toJSON())
+    })
 
-    return res.json(spots)
+    spotsList.forEach(spot => {
+        let i = 0
+        let sum = 0
+        spot.Reviews.forEach(review => {
+            i++
+            sum = sum + review.stars
+        })
+
+        spot.avgRating = sum / i
+
+        spot.SpotImages.forEach(image => {
+            if(image.preview === true) {
+                spot.previewImage = image.url
+            }
+        })
+        if(!spot.previewImage) {
+            spot.previewImage = 'N/A'
+        }
+        delete spot.Reviews
+        delete spot.SpotImages
+    })
+
+
+    return res.json(spotsList)
 })
 
 router.get('/:id/reviews', async (req, res, next) => {
@@ -228,11 +256,48 @@ router.get('/:id/reviews', async (req, res, next) => {
 
 
 router.get('/', async(req, res) => {
-    const allSpots = await Spot.findAll()
+    const allSpots = await Spot.findAll({
+        include: [
+            {
+                model: Review
+            },
+            {
+                model: Image,
+                as: 'SpotImages'
+            }
+        ]
+    })
+
+    let spotsList = []
+    allSpots.forEach(ele => {
+        spotsList.push(ele.toJSON())
+    })
+
+    spotsList.forEach(spot => {
+        let i = 0
+        let sum = 0
+        spot.Reviews.forEach(review => {
+            i++
+            sum = sum + review.stars
+        })
+
+        spot.avgRating = sum / i
+
+        spot.SpotImages.forEach(image => {
+            if(image.preview === true) {
+                spot.previewImage = image.url
+            }
+        })
+        if(!spot.previewImage) {
+            spot.previewImage = 'N/A'
+        }
+        delete spot.Reviews
+        delete spot.SpotImages
+    })
 
     res.status = 200
 
-    return res.json(allSpots)
+    return res.json(spotsList)
 })
 
 router.get('/:id', async(req, res, next) => {
