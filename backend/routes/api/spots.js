@@ -178,17 +178,14 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
     })
 
     if(owner) {
-        const err = new Error("Spot must not belong to user")
-        err.title = "Authorization Error"
-        err.status = 404
-        // res.statusCode = 404
-        // res.json({
-        //     message: "Spot must not belong to current user",
-        //     statusCode: 404
-        // })
-        next(err)
+        res.statusCode = 404
+        return res.json({
+            message: "Spot must not belong to current user",
+            statusCode: 404
+        })
     }
-        const spotExist = await Spot.findByPk(req.params.id)
+
+    const spotExist = await Spot.findByPk(req.params.id)
 
     if(!spotExist) {
         const err = new Error("Could not find Spot by specified Id")
@@ -202,37 +199,39 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
             spotId: req.params.id,
         }
     })
+
     let bookingList = []
     existingBooking.forEach(booking => {
         bookingList.push(booking.toJSON())
     })
 
-    bookingList.forEach(ele => {
-        console.log(ele.startDate)
+    bookingList.forEach(booking => {
+        if(new Date(req.body.startDate) >= new Date(booking.startDate) &&
+        new Date(req.body.startDate <= new Date(booking.endDate))) {
+            const err = new Error("Sorry, this spot is already booked for the specified dates")
+            err.status = 403
+            err.errors = ['Start date conflicts with an existing booking',
+        'End date conflicts with an existing booking']
+            next(err)
+        }
+        if(new Date(req.body.endDate) >= new Date(booking.startDate) &&
+        new Date(req.body.endDate <= new Date(booking.endDate))) {
+            const err = new Error("Sorry, this spot is already booked for the specified dates")
+            err.status = 403
+            err.errors = ['Start date conflicts with an existing booking',
+            'End date conflicts with an existing booking']
+            next(err)
+        }
     })
 
-    if(existingBooking) {
-        // res.statusCode = 403
-        // res.json({
-        //     message: "Sorry, this spot is already booked for the specified dates",
-        //     statusCode: 403,
-        //     errors: [
-        //         "Start date conflicts with an existing booking",
-        //         "End date conflicts with an existing booking"
-        //     ]
-        //})
+        const booking = await Booking.create({
+            spotId: parseInt(req.params.id),
+            userId: req.user.id,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate
+        })
 
-    } else {
-
-    const booking = await Booking.create({
-        spotId: parseInt(req.params.id),
-        userId: req.user.id,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate
-    })
-
-    res.json(booking)
-    }
+        res.json(booking)
 })
 
 router.post('/:id/images', requireAuth, async (req, res, next) => {

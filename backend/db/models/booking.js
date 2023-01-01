@@ -15,13 +15,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId'
       })
       Booking.belongsTo(models.Spot, {
-        foreignKey: 'spotId'
+        foreignKey: 'spotId',
       })
     }
   }
   Booking.init({
     spotId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
+    userId: {
+      type: DataTypes.INTEGER
+    },
     startDate: {
       type: DataTypes.DATE,
       allowNull: false
