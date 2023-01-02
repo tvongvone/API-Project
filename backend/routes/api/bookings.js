@@ -26,6 +26,48 @@ const dateMiddleware = (req, res, next) => {
     next()
 }
 
+router.delete('/:id', requireAuth, async (req, res, next) => {
+    const exist = await Booking.findByPk(req.params.id)
+
+    if(!exist) {
+        res.statusCode = 404
+        return res.json({
+            message: "Booking couldn't be found",
+            statusCode: 404
+        })
+    }
+
+    const owner = await Booking.findOne({
+        where: {
+            id: req.params.id,
+            userId: req.user.id
+        }
+    })
+
+    if(!owner) {
+        res.statusCode = 404
+        return res.json({
+            message: "Booking does not belong to you",
+            statusCode: 404
+        })
+    }
+
+    if(owner.dataValues.startDate <= new Date() && owner.dataValues.endDate >= new Date()) {
+        res.statusCode = 403
+        return res.json({
+            message: "Bookings that have been started can't be deleted"
+        })
+    } else {
+        await owner.destroy()
+        res.statusCode = 200
+
+        res.json({
+            message: "Successfully deleted",
+            statusCode: 200
+        })
+    }
+})
+
 router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
     const ownBooking = await Booking.findOne({
         where: {
@@ -70,7 +112,7 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
             err.status = 403
             err.errors = ['Start date conflicts with an existing booking',
             'End date conflicts with an existing booking']
-             return next(err)
+            return next(err)
         }
         }
 
@@ -83,8 +125,8 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
     }
 })
 
-router.get('/current', requireAuth,async (req, res, next) => {
-const booking = await Booking.findAll({
+router.get('/current', requireAuth, async (req, res, next) => {
+    const booking = await Booking.findAll({
     where: {
         userId: req.user.id,
         spotId: {
@@ -96,8 +138,8 @@ const booking = await Booking.findAll({
             model: Spot
         }
     ]
-})
-res.json(booking)
+    })
+    res.json(booking)
 })
 
 module.exports = router;

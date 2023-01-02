@@ -397,12 +397,13 @@ router.get('/:id/reviews', async (req, res, next) => {
                 },
                 {
                     model: Image,
-                    as: 'ReviewImages'
+                    as: 'ReviewImages',
+                    attributes: ['id', 'url']
                 }
             ]
         })
 
-        res.json({reviews})
+        res.json(reviews)
     }
 })
 
@@ -464,6 +465,7 @@ router.get('/:id', async(req, res, next) => {
             {
                 model: Image,
                 as: 'SpotImages',
+                attributes: ['id', 'url', 'preview']
             },
             {
                 model: User,
@@ -485,8 +487,5 @@ router.get('/:id', async(req, res, next) => {
         res.json(spot)
     }
 })
-
-
-
 
 module.exports = router;
