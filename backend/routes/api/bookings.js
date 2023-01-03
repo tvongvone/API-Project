@@ -1,22 +1,21 @@
 const express = require('express');
 
 const {requireAuth} = require('../../utils/auth')
-const {User, Booking, Spot, Sequelize} = require('../../db/models');
+const {Booking, Spot, Sequelize} = require('../../db/models');
 const Op = Sequelize.Op
-
 
 const router = express.Router();
 
 const dateMiddleware = (req, res, next) => {
     const {startDate, endDate} = req.body
-    if(new Date(startDate) < new Date()) {
+    if(new Date(startDate).getTime() < new Date().getTime()) {
         const err = new Error("Booking must be in the future")
         err.title = 'Validation Error'
         err.status = 403
         next(err)
     }
 
-    if(new Date(endDate) <= new Date(startDate)) {
+    if(new Date(endDate).getTime() <= new Date(startDate).getTime()) {
         const err = new Error("endDate cannot be on or before startDate")
         err.title = 'Validation Error'
         err.status = 400
@@ -52,7 +51,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
         })
     }
 
-    if(owner.dataValues.startDate <= new Date() && owner.dataValues.endDate >= new Date()) {
+    if(new Date(owner.dataValues.startDate).getTime() <= new Date().getTime() && new Date(owner.dataValues.endDate).getTime() >= new Date().getTime()) {
         res.statusCode = 403
         return res.json({
             message: "Bookings that have been started can't be deleted"

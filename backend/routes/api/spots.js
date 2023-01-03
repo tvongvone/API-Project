@@ -45,14 +45,14 @@ const validateSpot = [
 
 const dateMiddleware = (req, res, next) => {
     const {startDate, endDate} = req.body
-    if(new Date(startDate) < new Date()) {
+    if(new Date(startDate).getTime() < new Date().getTime()) {
         const err = new Error("Booking must be in the future")
         err.title = 'Validation Error'
         err.status = 403
         next(err)
     }
 
-    if(new Date(endDate) <= new Date(startDate)) {
+    if(new Date(endDate).getTime() <= new Date(startDate).getTime()) {
         const err = new Error("endDate cannot be on or before startDate")
         err.title = 'Validation Error'
         err.status = 400
@@ -206,16 +206,16 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
     })
 
     bookingList.forEach(booking => {
-        if(new Date(req.body.startDate) >= new Date(booking.startDate) &&
-        new Date(req.body.startDate <= new Date(booking.endDate))) {
+        if(new Date(req.body.startDate).getTime() >= new Date(booking.startDate).getTime() &&
+        new Date(req.body.startDate).getTime() <= new Date(booking.endDate).getTime()) {
             const err = new Error("Sorry, this spot is already booked for the specified dates")
             err.status = 403
             err.errors = ['Start date conflicts with an existing booking',
         'End date conflicts with an existing booking']
             next(err)
         }
-        if(new Date(req.body.endDate) >= new Date(booking.startDate) &&
-        new Date(req.body.endDate <= new Date(booking.endDate))) {
+        if(new Date(req.body.endDate).getTime() >= new Date(booking.startDate).getTime() &&
+        new Date(req.body.endDate).getTime() <= new Date(booking.endDate).getTime()) {
             const err = new Error("Sorry, this spot is already booked for the specified dates")
             err.status = 403
             err.errors = ['Start date conflicts with an existing booking',
@@ -409,8 +409,137 @@ router.get('/:id/reviews', async (req, res, next) => {
 
 
 
-router.get('/', async(req, res) => {
+router.get('/', async(req, res, next) => {
+
+    let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query
+
+    let result = {}
+
+    const optionalParams = {where: {}}
+
+    const err = new Error("Validation Error")
+
+   if(parseInt(page) < 0 || parseInt(page) > 10) {
+    err.status = 400
+    err.errors = ['Page must be greater than or equal to 0']
+    next(err)
+   }
+
+   if(parseInt(size) < 0 || parseInt(size) > 10) {
+    err.status = 400
+    err.errors = ['Size must be greater than or equal to 0']
+    next(err)
+   }
+
+   if(!page) page = 0
+   if(!size) size = 20
+
+   page = parseInt(page)
+   size = parseInt(size)
+
+   let pagination = {}
+
+   if (page >= 1 && size >= 1) {
+    pagination.limit = size,
+    pagination.offset = size * (page - 1)
+}
+    if(minLat && maxLat) {
+        if(isNaN(parseFloat(minLat))) {
+            err.status = 400
+            err.errors = ['Minimum latitude is invalid']
+            next(err)
+        } else if (isNaN(parseFloat(maxLat))) {
+            err.status = 400
+            err.errors = ['Maximum latitude is invalid']
+            next(err)
+        } else {
+            optionalParams.where.lat = {[Op.between]: [parseFloat(minLat), parseFloat(maxLat)]}
+        }
+    }
+
+    else if(minLat) {
+        if(isNaN(parseInt(minLat))) {
+            err.status = 400
+            err.errors = ['Minimum latitude is invalid']
+            next(err)
+        } else {
+            optionalParams.where.lat = {[Op.gte]: parseFloat(minLat)}
+        }
+    }
+
+    else if(maxLat) {
+        if(isNaN(parseInt(maxLat))) {
+            err.status = 400
+            err.errors = ['Maximum latitude is invalid']
+            next(err)
+        } else {
+            optionalParams.where.lat = {[Op.lte]: parseFloat(maxLat)}
+        }
+    }
+
+    if(minLng && maxLng) {
+        if(isNaN(parseFloat(minLng))) {
+            err.status = 400
+            err.errors = ['Minimum longitude is invalid']
+            next(err)
+        }
+        else if (isNaN(parseFloat(maxLng))) {
+            err.status = 400
+            err.errors = ['Maximum longitude is invalid']
+            next(err)
+        } else {
+            optionalParams.where.lng = {[Op.between]: [parseFloat(minLng), parseFloat(maxLng)]}
+        }
+    } else if (minLng) {
+        if(isNaN(parseFloat(minLng))) {
+            err.status = 400
+            err.errors = ['Minimum longitude is invalid']
+            next(err)
+        } else {
+            optionalParams.where.lng = {[Op.gte]: parseFloat(minLng)}
+        }
+    } else if (maxLng) {
+        if(isNaN(parseFloat(maxLng))) {
+            err.status = 400
+            err.errors = ['Maximum longitude is invalid']
+            next(err)
+        } else {
+            optionalParams.where.lng = {[Op.lte]: parseFloat(maxLng)}
+        }
+    }
+
+    if(minPrice && maxPrice) {
+        if(isNaN(parseFloat(minPrice)) || parseFloat(minPrice) < 0) {
+            err.status = 400
+            err.errors = ['Price must be greater than or equal to 0']
+            next(err)
+        } else if (isNaN(parseFloat(maxPrice)) || parseFloat(maxPrice) < 0) {
+            err.status = 400
+            err.errors = ['Price must be greater than or equal to 0']
+            next(err)
+        } else {
+            optionalParams.where.price = {[Op.between]: [parseFloat(minPrice), parseFloat(maxPrice)]}
+        }
+    } else if (minPrice) {
+        if(isNaN(parseFloat(minPrice)) || parseFloat(minPrice) < 0) {
+            err.status = 400
+            err.errors = ['Price must be greater than or equal to 0']
+            next(err)
+        } else {
+            optionalParams.where.price = {[Op.gte]: parseFloat(minPrice)}
+        }
+    } else if (maxPrice) {
+        if (isNaN(parseFloat(maxPrice)) || parseFloat(maxPrice) < 0) {
+            err.status = 400
+            err.errors = ['Price must be greater than or equal to 0']
+            next(err)
+        } else {
+            optionalParams.where.price = {[Op.lte]: parseFloat(maxPrice)}
+        }
+    }
+
     const allSpots = await Spot.findAll({
+        ...optionalParams,
         include: [
             {
                 model: Review
@@ -419,7 +548,8 @@ router.get('/', async(req, res) => {
                 model: Image,
                 as: 'SpotImages'
             }
-        ]
+        ],
+        ...pagination
     })
 
     let spotsList = []
@@ -448,11 +578,19 @@ router.get('/', async(req, res) => {
         delete spot.Reviews
         delete spot.SpotImages
     })
-
+    result.Spots = allSpots
+    result.page = page
+    result.size = size
     res.status = 200
 
-    return res.json(spotsList)
+    return res.json(result)
 })
+
+
+
+
+
+
 
 router.get('/:id', async(req, res, next) => {
     const {id} = req.params
