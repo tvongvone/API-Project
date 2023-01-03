@@ -146,8 +146,24 @@ router.get('/current', requireAuth, async (req, res, next) => {
         }
     ],
     })
+    let bookingList = []
+    booking.forEach(book => {
+        bookingList.push(book.toJSON())
+    })
 
-    res.json(booking)
+    bookingList.forEach(ele => {
+        ele.Spot.SpotImages.forEach(image => {
+            if(image.preview === true) {
+                ele.Spot.previewImage = image.url
+            }
+        })
+        if(!ele.Spot.previewImage) {
+            ele.Spot.previewImage = 'N/A'
+        }
+        delete ele.Spot.SpotImages
+    })
+
+    res.json(bookingList)
 })
 
 module.exports = router;

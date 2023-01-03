@@ -393,7 +393,8 @@ router.get('/:id/reviews', async (req, res, next) => {
             },
             include: [
                 {
-                    model: User
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
                 },
                 {
                     model: Image,
@@ -578,7 +579,7 @@ router.get('/', async(req, res, next) => {
         delete spot.Reviews
         delete spot.SpotImages
     })
-    result.Spots = allSpots
+    result.Spots = spotsList
     result.page = page
     result.size = size
     res.status = 200

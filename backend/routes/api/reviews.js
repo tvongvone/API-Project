@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {requireAuth} = require('../../utils/auth')
-const {Review, Image, Spot} = require('../../db/models');
+const {Review, Image, Spot,User} = require('../../db/models');
 
 
 const router = express.Router();
@@ -99,7 +99,16 @@ router.get('/current', requireAuth, async (req, res, next) => {
         },
         include: [
             {
-                model: Spot
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: Spot,
+                attributes: {exclude: ['createdAt', 'updatedAt']},
+                include: {
+                    model: Image,
+                    as: "SpotImages"
+                }
             },
             {
                 model: Image,
@@ -108,8 +117,21 @@ router.get('/current', requireAuth, async (req, res, next) => {
             }
         ]
     })
+    let reviewList = []
+    review.forEach(ele => reviewList.push(ele.toJSON()))
+    reviewList.forEach(ele => {
+        ele.Spot.SpotImages.forEach(image => {
+            if(image.preview === true) {
+                ele.Spot.previewImage = image.url
+            }
+        })
+        if(!ele.Spot.previewImage) {
+            ele.Spot.previewImage = 'N/A'
+        }
+        delete ele.Spot.SpotImages
+    })
 
-    res.json(review)
+    res.json(reviewList)
 })
 
 router.delete('/:id', requireAuth, async(req, res, next) => {
