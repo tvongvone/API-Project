@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {requireAuth} = require('../../utils/auth')
-const {Booking, Spot, Sequelize} = require('../../db/models');
+const {Booking, Spot, Sequelize, Image} = require('../../db/models');
 const Op = Sequelize.Op
 
 const router = express.Router();
@@ -134,10 +134,19 @@ router.get('/current', requireAuth, async (req, res, next) => {
     },
     include: [
         {
-            model: Spot
+            model: Spot,
+            include: [
+                {
+                    model: Image,
+                    as: 'SpotImages',
+                    attributes: ['url', 'preview']
+                }
+            ],
+            attributes: {exclude: ['createdAt', 'updatedAt']}
         }
-    ]
+    ],
     })
+
     res.json(booking)
 })
 
