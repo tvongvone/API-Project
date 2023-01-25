@@ -68,20 +68,34 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 })
 
 router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
+    let noErrors = true
     const ownBooking = await Booking.findOne({
         where: {
             id: req.params.id,
             userId: req.user.id
         }
     })
+    const bookingExist = await Booking.findByPk(req.params.id)
+
+    if(!bookingExist) {
+        noErrors = false
+        res.status = 404
+        res.json({
+            message: "Booking couldn't be found",
+            statusCode: 404
+        })
+    }
+
 
 
      if(!ownBooking) {
+        noErrors = false
         const err = "Booking must belong to User"
         err.status = 404
         next(err)
-    } else {
+    }
         if(ownBooking.dataValues.endDate < new Date()) {
+            noErrors = false
             res.status = 403
             return res.json({
                 message: "Past booking can't be modified",
@@ -98,6 +112,7 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
         for (let book of allBookings) {
             if (new Date(req.body.startDate) >= new Date(book.dataValues.startDate) &&
             new Date(req.body.startDate <= new Date(book.dataValues.endDate))) {
+            noErrors = false
             const err = new Error("Sorry, this spot is already booked for the specified dates")
             err.status = 403
             err.errors = ['Start date conflicts with an existing booking',
@@ -107,6 +122,7 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
 
             if(new Date(req.body.endDate) >= new Date(book.dataValues.startDate) &&
             new Date(req.body.endDate <= new Date(book.dataValues.endDate))) {
+            noErrors = false
             const err = new Error("Sorry, this spot is already booked for the specified dates")
             err.status = 403
             err.errors = ['Start date conflicts with an existing booking',
@@ -115,13 +131,15 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
         }
         }
 
-        ownBooking.update({
-            startDate: req.body.startDate,
-            endDate: req.body.endDate
-        })
+        if(noErrors) {
+            ownBooking.update({
+                startDate: req.body.startDate,
+                endDate: req.body.endDate
+            })
 
-        res.json(ownBooking)
-    }
+            res.json(ownBooking)
+        }
+
 })
 
 router.get('/current', requireAuth, async (req, res, next) => {

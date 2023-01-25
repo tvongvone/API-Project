@@ -177,7 +177,10 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
         }
     })
 
+    let noErrors = true;
+
     if(owner) {
+        noErrors = false
         res.statusCode = 404
         return res.json({
             message: "Spot must not belong to current user",
@@ -188,6 +191,7 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
     const spotExist = await Spot.findByPk(req.params.id)
 
     if(!spotExist) {
+        noErrors = false
         const err = new Error("Could not find Spot by specified Id")
         err.title = "Server Error"
         err.status = 404
@@ -208,6 +212,7 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
     bookingList.forEach(booking => {
         if(new Date(req.body.startDate).getTime() >= new Date(booking.startDate).getTime() &&
         new Date(req.body.startDate).getTime() <= new Date(booking.endDate).getTime()) {
+            noErrors = false
             const err = new Error("Sorry, this spot is already booked for the specified dates")
             err.status = 403
             err.errors = ['Start date conflicts with an existing booking',
@@ -216,6 +221,7 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
         }
         if(new Date(req.body.endDate).getTime() >= new Date(booking.startDate).getTime() &&
         new Date(req.body.endDate).getTime() <= new Date(booking.endDate).getTime()) {
+            noErrors = false
             const err = new Error("Sorry, this spot is already booked for the specified dates")
             err.status = 403
             err.errors = ['Start date conflicts with an existing booking',
@@ -224,6 +230,7 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
         }
     })
 
+    if(noErrors) {
         const booking = await Booking.create({
             spotId: parseInt(req.params.id),
             userId: req.user.id,
@@ -232,12 +239,19 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
         })
 
         res.json(booking)
+    }
 })
 
 router.post('/:id/images', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.id)
-
-    if(spot.ownerId === req.user.id) {
+    if(!spot) {
+        res.status = 404
+        res.json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    else if(spot.ownerId === req.user.id) {
         const {url, preview} = req.body
 
         const image = await Image.create({
@@ -247,7 +261,12 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
             preview
         })
 
-        const imageScope = await Image.scope('defaultScope').findByPk(image.id)
+        const imageScope = await Image.findOne({
+            where: {
+                id: image.id
+            },
+            attributes: ['id', 'url', 'preview']
+        })
 
         res.status = 200
         res.json(imageScope)
@@ -336,6 +355,16 @@ router.get('/current', requireAuth, async (req, res) => {
 })
 
 router.get('/:id/bookings', requireAuth, async(req, res, next) => {
+
+    const spotExists = await Spot.findOne({
+        id: req.params.id
+    })
+
+    if(!spotExists) {
+        res.statusCode = 404
+        res.json({message: "Spot couldn't be found", statusCode: 404})
+    }
+
     const owner = await Spot.findOne({
         where: {
             id: req.params.id,
@@ -356,18 +385,17 @@ router.get('/:id/bookings', requireAuth, async(req, res, next) => {
             ],
             attributes: {}
         })
-        let result = {}
-        result.Bookings = ownerBookings
-        res.json(result)
-    }
 
-    const spotExists = await Spot.findOne({
-        id: req.params.id
-    })
+        if(ownerBookings.length < 1) {
+            return res.json({
+                message: "This spot currently has no bookings!"
+            })
+        }   else {
+                let result = {}
+                result.Bookings = ownerBookings
+                return res.json(result)
+        }
 
-    if(!spotExists) {
-        res.statusCode = 404
-        res.json({message: "Spot couldn't be found", statusCode: 404})
     } else {
         const bookings = await Booking.findAll({
             where: {
@@ -375,9 +403,15 @@ router.get('/:id/bookings', requireAuth, async(req, res, next) => {
             },
             attributes: ["spotId", "startDate", "endDate"]
         })
+        if(bookings.length < 1) {
+            return res.json({
+                message: "This spot currently has no bookings!"
+            })
+        } else {
         let result = {}
         result.Bookings = bookings
         res.json(result)
+        }
     }
 })
 
