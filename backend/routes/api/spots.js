@@ -329,9 +329,10 @@ router.get('/current', requireAuth, async (req, res) => {
         delete spot.Reviews
         delete spot.SpotImages
     })
+    let result = {}
+    result.Spots = spotsList
 
-
-    return res.json(spotsList)
+    return res.json(result)
 })
 
 router.get('/:id/bookings', requireAuth, async(req, res, next) => {
@@ -355,7 +356,9 @@ router.get('/:id/bookings', requireAuth, async(req, res, next) => {
             ],
             attributes: {}
         })
-        res.json(ownerBookings)
+        let result = {}
+        result.Bookings = ownerBookings
+        res.json(result)
     }
 
     const spotExists = await Spot.findOne({
@@ -372,7 +375,9 @@ router.get('/:id/bookings', requireAuth, async(req, res, next) => {
             },
             attributes: ["spotId", "startDate", "endDate"]
         })
-        res.json(bookings)
+        let result = {}
+        result.Bookings = bookings
+        res.json(result)
     }
 })
 
@@ -403,8 +408,9 @@ router.get('/:id/reviews', async (req, res, next) => {
                 }
             ]
         })
-
-        res.json(reviews)
+        let result = {}
+        result.Reviews = reviews
+        res.json(result)
     }
 })
 

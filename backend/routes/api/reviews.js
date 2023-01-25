@@ -70,24 +70,26 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
             next(err)
         }
     } else {
+
     if(theReview.toJSON().ReviewImages.length >= 10) {
         const err = new Error("10 images max per resource")
         err.status = 403
         err.errors=["Maximum number of images for this resource was reached"]
         next(err)
     } else{
-        await Image.create({
+        const reviewImage = await Image.create({
             reviewId: req.params.id,
             url: req.body.url
         })
 
-        const reviewImage = await Image.scope('reviewScope').findOne({
+        const displayImage = await Image.findOne({
             where: {
-                reviewId: req.params.id
-            }
+                id: reviewImage.dataValues.id
+            },
+            attributes: ['id', 'url']
         })
 
-        res.json(reviewImage)
+        res.json(displayImage)
     }
 }
 })
@@ -117,6 +119,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
             }
         ]
     })
+    let result = {}
     let reviewList = []
     review.forEach(ele => reviewList.push(ele.toJSON()))
     reviewList.forEach(ele => {
@@ -130,8 +133,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
         }
         delete ele.Spot.SpotImages
     })
+    result.Reviews = reviewList
 
-    res.json(reviewList)
+    res.json(result)
 })
 
 router.delete('/:id', requireAuth, async(req, res, next) => {

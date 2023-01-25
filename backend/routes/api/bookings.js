@@ -162,8 +162,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
         }
         delete ele.Spot.SpotImages
     })
-
-    res.json(bookingList)
+    let result = {}
+    result.Bookings = bookingList
+    res.json(result)
 })
 
 module.exports = router;
