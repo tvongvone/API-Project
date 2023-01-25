@@ -261,15 +261,15 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
             preview
         })
 
-        const imageScope = await Image.findOne({
-            where: {
-                id: image.id
-            },
-            attributes: ['id', 'url', 'preview']
-        })
+        // const imageScope = await Image.findOne({
+        //     where: {
+        //         id: image.id
+        //     },
+        //     attributes: ['id', 'url', 'preview']
+        // })
 
         res.status = 200
-        res.json(imageScope)
+        res.json(image)
 
     } else {
         const err = new Error("Spot couldn't be found")
