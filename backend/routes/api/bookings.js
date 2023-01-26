@@ -69,12 +69,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
 
 router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
     let noErrors = true
-    const ownBooking = await Booking.findOne({
-        where: {
-            id: req.params.id,
-            userId: req.user.id
-        }
-    })
+
     const bookingExist = await Booking.findByPk(req.params.id)
 
     if(!bookingExist) {
@@ -87,6 +82,12 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
     }
 
 
+    const ownBooking = await Booking.findOne({
+        where: {
+            id: req.params.id,
+            userId: req.user.id
+        }
+    })
 
      if(!ownBooking) {
         noErrors = false
@@ -109,27 +110,31 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
             }
         })
 
-        for (let book of allBookings) {
-            if (new Date(req.body.startDate) >= new Date(book.dataValues.startDate) &&
-            new Date(req.body.startDate <= new Date(book.dataValues.endDate))) {
-            noErrors = false
-            const err = new Error("Sorry, this spot is already booked for the specified dates")
-            err.status = 403
-            err.errors = ['Start date conflicts with an existing booking',
-            'End date conflicts with an existing booking']
-            return next(err)
-            }
+        let bookingList = []
+        allBookings.forEach(booking => {
+            bookingList.push(booking.toJSON())
+        })
 
-            if(new Date(req.body.endDate) >= new Date(book.dataValues.startDate) &&
-            new Date(req.body.endDate <= new Date(book.dataValues.endDate))) {
-            noErrors = false
-            const err = new Error("Sorry, this spot is already booked for the specified dates")
-            err.status = 403
-            err.errors = ['Start date conflicts with an existing booking',
+        bookingList.forEach(booking => {
+            if(new Date(req.body.startDate).getTime() >= new Date(booking.startDate).getTime() &&
+            new Date(req.body.startDate).getTime() <= new Date(booking.endDate).getTime()) {
+                noErrors = false
+                const err = new Error("Sorry, this spot is already booked for the specified dates")
+                err.status = 403
+                err.errors = ['Start date conflicts with an existing booking',
             'End date conflicts with an existing booking']
-            return next(err)
-        }
-        }
+                next(err)
+            }
+            if(new Date(req.body.endDate).getTime() >= new Date(booking.startDate).getTime() &&
+            new Date(req.body.endDate).getTime() <= new Date(booking.endDate).getTime()) {
+                noErrors = false
+                const err = new Error("Sorry, this spot is already booked for the specified dates")
+                err.status = 403
+                err.errors = ['Start date conflicts with an existing booking',
+                'End date conflicts with an existing booking']
+                next(err)
+            }
+        })
 
         if(noErrors) {
             ownBooking.update({

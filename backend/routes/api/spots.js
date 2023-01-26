@@ -356,14 +356,14 @@ router.get('/current', requireAuth, async (req, res) => {
 
 router.get('/:id/bookings', requireAuth, async(req, res, next) => {
 
-    const spotExists = await Spot.findOne({
-        id: req.params.id
-    })
+    const spotExists = await Spot.findByPk(req.params.id)
+
 
     if(!spotExists) {
         res.statusCode = 404
-        res.json({message: "Spot couldn't be found", statusCode: 404})
+        return res.json({message: "Spot couldn't be found", statusCode: 404})
     }
+
 
     const owner = await Spot.findOne({
         where: {
@@ -396,7 +396,9 @@ router.get('/:id/bookings', requireAuth, async(req, res, next) => {
                 return res.json(result)
         }
 
-    } else {
+    }
+
+
         const bookings = await Booking.findAll({
             where: {
                 spotId: req.params.id
@@ -411,7 +413,6 @@ router.get('/:id/bookings', requireAuth, async(req, res, next) => {
         let result = {}
         result.Bookings = bookings
         res.json(result)
-        }
     }
 })
 
