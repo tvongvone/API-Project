@@ -1,0 +1,28 @@
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    width: 500px;
+    height: 500px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.form-container input[type=text], .form-container input[type=password] {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color: #ddd;
+}
+
+.form-container button {
+    width: 75%;
+    margin-top: 20px;
+    height: 50px;
+    border-radius: 10px;
+}
