@@ -2,3 +2,29 @@
 .hidden {
     display:none
 }
+
+
+.profile-dropdown {
+    position: absolute;
+    right: 40px;
+    z-index: 1;
+    border: solid 1px black;
+    background-color: white;
+}
+
+.fas:hover {
+    cursor: pointer;
+}
+
+.list-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-bottom: 1px solid black;
+}
+
+ul {
+    list-style: none;
+}
