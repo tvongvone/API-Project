@@ -1,6 +1,6 @@
 const express = require("express")
 const {requireAuth} = require('../../utils/auth')
-const {Spot, Image, User, Review, Booking, Sequelize} = require('../../db/models')
+const {Spot, Image, User, Review, Booking, Sequelize, sequelize} = require('../../db/models')
 
 const router = express.Router();
 const {check} = require('express-validator');
@@ -642,6 +642,12 @@ router.get('/:id', async(req, res, next) => {
             id: id
         },
         include: [
+            {
+                model: Review,
+                attributes: [
+                    [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating']
+                ]
+            },
             {
                 model: Image,
                 as: 'SpotImages',

@@ -1,0 +1,36 @@
+
+.single-spot-container {
+    display: flex;
+    flex-direction: column;
+    margin:  20px 100px;
+}
+
+.the-images {
+    display: flex;
+    width: 100%;
+}
+
+.first-image {
+    width: 50%;
+}
+.side-images {
+    display: flex;
+    flex-wrap: wrap;
+    width: 25%;
+}
+
+.spot-info {
+    width: 850px;
+}
+
+.spot-info-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.spot-rating {
+    display: flex;
+    width: 400px;
+    border: solid 3px black;
+    border-radius: 10px;
+}

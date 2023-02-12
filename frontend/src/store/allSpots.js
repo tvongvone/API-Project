@@ -2,12 +2,15 @@ import { csrfFetch } from "./csrf";
 
 const LOAD = 'spots/load'
 
-export const load = spots => {
+
+const load = spots => {
     return {
         type: LOAD,
         spots
     }
 }
+
+
 
 export const getAllSpots = () => async dispatch => {
     const response = await csrfFetch('/api/spots')
@@ -17,6 +20,8 @@ export const getAllSpots = () => async dispatch => {
         dispatch(load(data.Spots))
     }
 }
+
+
 
 
 const initialState = []

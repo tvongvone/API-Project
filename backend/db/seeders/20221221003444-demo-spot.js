@@ -29,7 +29,7 @@ module.exports = {
       lat: 37.7645358,
       lng: -122.4730327,
       name: "App Academy",
-      description: "Place where web developers are created",
+      description: "Place where web developers are created dsiofio fsd soifj sdoifjiosdfj isojfi iosj fiosd fio sdfisfjisdjf i iosdjf iosdjf ios dsifj sdoifj siodfj iosj dfoisdj fiosdjf iosj fdiosdj fiosdj fios siodjfiso dfjisd f oisjdf oisjfi osfj  oisdjf iosfj  dsfsifjisdjfios.",
       price: 123
     },
     {
