@@ -36,6 +36,7 @@ export default function SingleSpot() {
                         <div>{singleSpot.Reviews[0].avgRating}</div>
                     </div>
                 </div>
+                {}
             </div>
         </div>
     )
