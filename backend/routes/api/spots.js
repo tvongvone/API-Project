@@ -251,7 +251,8 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
             statusCode: 404
         })
     }
-    else if(spot.ownerId === req.user.id) {
+
+    if(spot.ownerId === req.user.id) {
         const {url, preview} = req.body
 
         const image = await Image.create({
@@ -261,15 +262,9 @@ router.post('/:id/images', requireAuth, async (req, res, next) => {
             preview
         })
 
-        const imageScope = await Image.findOne({
-            where: {
-                id: image.id
-            },
-            attributes: ['id', 'url', 'preview']
-        })
 
         res.status = 200
-        res.json(imageScope)
+        res.json(image)
 
     } else {
         const err = new Error("Spot couldn't be found")
@@ -291,11 +286,11 @@ router.post('/', validateSpot, requireAuth, async (req, res, next) => {
         city,
         state,
         country,
-        lat: parseFloat(lat),
-        lng: parseFloat(lng),
+        lat,
+        lng,
         name,
         description,
-        price: parseInt(price)
+        price
     })
     if(userSpot) {
         res.status = 201
@@ -635,33 +630,23 @@ router.get('/', async(req, res, next) => {
 
 
 router.get('/:id', async(req, res, next) => {
-    const {id} = req.params
-    let result = {}
-
-    const images = await Image.findAll({
+    let spot = await Spot.findOne({
         where: {
-            spotId: id
-        },
-        attributes: ['id', 'url', 'preview']
-    })
-
-    let spot = await Spot.findByPk(id, {
-        where: {
-            id: id
+            id: req.params.id
         },
         include: [
             {
-                model: Review,
-                attributes: [
-                    [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating']
-                ]
+                model: Review
+            },
+            {
+                model: Image,
+                as: 'SpotImages'
             },
             {
                 model: User,
-                attributes: ['id', 'firstName', 'lastName'],
                 as: 'Owner'
             }
-        ]
+        ],
     })
 
     if(!spot) {
@@ -672,10 +657,9 @@ router.get('/:id', async(req, res, next) => {
     } else {
         spot = spot.toJSON()
 
-        result.spot = spot
-        result.spot.spotImages = images
+        // result.spot.spotImages = images
         res.status = 200
-        res.json(result.spot)
+        res.json(spot)
     }
 })
 

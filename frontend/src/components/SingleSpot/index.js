@@ -12,22 +12,22 @@ export default function SingleSpot() {
     const reviewsData = useSelector(state => state.reviews)
     const reviews = Object.values(reviewsData.spots)
 
-    console.log(reviews)
+    console.log(singleSpot)
 
     useEffect(() => {
         dispatch(getSingleSpot(id))
         dispatch(getSpotReviews(id))
     }, [dispatch, id])
 
-    return singleSpot && singleSpot.spotImages && singleSpot.Owner && reviews ? (
+    return singleSpot && singleSpot.SpotImages && singleSpot.Owner && singleSpot.Reviews ? (
         <div className="container">
             <div className="single-spot-container">
                 <h2>{singleSpot.name}</h2>
                 <h3>{singleSpot.city}, {singleSpot.state}, {singleSpot.country}</h3>
                 <div className='the-images'>
-                    <img className='first-image'src={singleSpot.spotImages[0].url} alt="N/A"/>
+                    <img className='first-image'src={singleSpot.SpotImages[0].url} alt="N/A"/>
                     {
-                        singleSpot.spotImages.slice(1).map(image => (
+                        singleSpot.SpotImages.slice(1).map(image => (
                             <img className='side-images' key={image.id} src={image.url} alt="N/A" />
                         ))
                     }

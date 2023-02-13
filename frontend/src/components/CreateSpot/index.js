@@ -1,10 +1,12 @@
-import { useSelector } from "react-redux"
-import { Redirect } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { NavLink, Redirect } from "react-router-dom"
 import { useState } from "react"
 import './CreateSpot.css'
+import { createSingleSpot, postPreviewImage } from "../../store/singleSpot"
 
 export default function CreateSpot() {
     const currentUser = useSelector(state => state.session.user)
+    const dispatch = useDispatch()
 
     const [country, setCountry] = useState('')
     const [address, setAddress] = useState('')
@@ -12,6 +14,7 @@ export default function CreateSpot() {
     const [state, setState] = useState('')
     const [latitude, setLatitude] = useState('')
     const [longitude, setLongitude] = useState('')
+    const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [previewImage, setPreviewImage] = useState('')
@@ -22,6 +25,22 @@ export default function CreateSpot() {
         return (
         <Redirect to='/' />
         )
+    }
+
+    const submitHandler = async e => {
+        e.preventDefault()
+        setErrors([])
+
+        try{
+            const response = await dispatch(createSingleSpot({country, address, city, state, lat: +latitude, lng: +longitude, name,  description, price}))
+
+            dispatch(postPreviewImage({id: response.id, url: previewImage}))
+        } catch(e) {
+            const error = await e.json()
+            setErrors(error.errors)
+        }
+
+
     }
 
     return (
@@ -52,6 +71,11 @@ export default function CreateSpot() {
                         <textarea id="description" name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)}/>
                     </div>
                     <div>
+                        <h3>Create a title for your spot</h3>
+                        <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+                        <input id='name' name='price' placeholder="name" value={name} type="text" onChange={e => setName(e.target.value)} />
+                    </div>
+                    <div>
                         <h3>Set a base price for your spot</h3>
                         <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                         <span className='dollar-sign'>$ <input id="price" name="price" placeholder="Price" value={price} type="text" onChange={e => setPrice(e.target.value)}/></span>
@@ -65,6 +89,7 @@ export default function CreateSpot() {
                         <input  id="image4" name="image4" placeholder="Image URL" type='text' />
                         <input  id="image5" name="image5" placeholder="Image URL" type='text' />
                     </div>
+                    <button type="submit" onClick={submitHandler}>Create Spot</button>
                 </form>
            </div>
         </div>

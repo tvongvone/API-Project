@@ -19,6 +19,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 25%;
+    height: 50%;
 }
 
 .spot-info {
