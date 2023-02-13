@@ -27,8 +27,8 @@ module.exports = {
     },
     {
       spotId: 1,
-      url: 'random image',
-      preview: false
+      url: 'https://media.architecturaldigest.com/photos/571e97c5741fcddb16b559c9/2:1/w_5127,h_2563,c_limit/modernist-decor-inspiration-01.jpg',
+      preview: true
     },
     {
       spotId: 2,

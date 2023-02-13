@@ -19,15 +19,15 @@ export default function SingleSpot() {
         dispatch(getSpotReviews(id))
     }, [dispatch, id])
 
-    return singleSpot && singleSpot.SpotImages &&(
+    return singleSpot && singleSpot.spotImages &&(
         <div className="container">
             <div className="single-spot-container">
                 <h2>{singleSpot.name}</h2>
                 <h3>{singleSpot.city}, {singleSpot.state}, {singleSpot.country}</h3>
                 <div className='the-images'>
-                    <img className='first-image'src={singleSpot.SpotImages[0].url} alt="N/A"/>
+                    <img className='first-image'src={singleSpot.spotImages[0].url} alt="N/A"/>
                     {
-                        singleSpot.SpotImages.slice(1).map(image => (
+                        singleSpot.spotImages.slice(1).map(image => (
                             <img className='side-images' key={image.id} src={image.url} alt="N/A" />
                         ))
                     }

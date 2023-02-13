@@ -636,11 +636,16 @@ router.get('/', async(req, res, next) => {
 
 router.get('/:id', async(req, res, next) => {
     const {id} = req.params
+    let result = {}
 
+    const images = await Image.findAll({
+        where: {
+            spotId: id
+        },
+        attributes: ['id', 'url', 'preview']
+    })
 
-    console.log(typeof(id))
-
-    const spot = await Spot.findOne({
+    let spot = await Spot.findByPk(id, {
         where: {
             id: id
         },
@@ -650,11 +655,6 @@ router.get('/:id', async(req, res, next) => {
                 attributes: [
                     [sequelize.fn('AVG', sequelize.col('stars')), 'avgRating']
                 ]
-            },
-            {
-                model: Image,
-                as: 'SpotImages',
-                attributes: ['id', 'url', 'preview']
             },
             {
                 model: User,
@@ -670,10 +670,12 @@ router.get('/:id', async(req, res, next) => {
         err.errors = ["Spot couldn't be found with the specified Id"]
         next(err)
     } else {
+        spot = spot.toJSON()
 
-
+        result.spot = spot
+        result.spot.spotImages = images
         res.status = 200
-        res.json(spot)
+        res.json(result.spot)
     }
 })
 
