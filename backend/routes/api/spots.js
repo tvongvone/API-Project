@@ -291,11 +291,11 @@ router.post('/', validateSpot, requireAuth, async (req, res, next) => {
         city,
         state,
         country,
-        lat,
-        lng,
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
         name,
         description,
-        price
+        price: parseInt(price)
     })
     if(userSpot) {
         res.status = 201
