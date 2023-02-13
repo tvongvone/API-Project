@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import Spots from "./components/Spots";
 import { getAllSpots } from "./store/allSpots";
 import SingleSpot from "./components/SingleSpot";
+import CreateSpot from "./components/CreateSpot";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +23,9 @@ function App() {
         <Switch>
           <Route path="/" exact>
             <Spots />
+          </Route>
+          <Route path='/spots/new'>
+            <CreateSpot />
           </Route>
           <Route path="/spots/:id">
             <SingleSpot />
