@@ -19,7 +19,7 @@ export default function SingleSpot() {
         dispatch(getSpotReviews(id))
     }, [dispatch, id])
 
-    return singleSpot && singleSpot.spotImages &&(
+    return singleSpot && singleSpot.spotImages && singleSpot.Owner && reviews ? (
         <div className="container">
             <div className="single-spot-container">
                 <h2>{singleSpot.name}</h2>
@@ -57,5 +57,5 @@ export default function SingleSpot() {
                 </div>
             </div>
         </div>
-    )
+    ): <div>Loading...</div>
 }
