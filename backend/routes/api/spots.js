@@ -438,9 +438,8 @@ router.get('/:id/reviews', async (req, res, next) => {
                 }
             ]
         })
-        let result = {}
-        result.Reviews = reviews
-        res.json(result)
+
+        res.json(reviews)
     }
 })
 

@@ -5,7 +5,8 @@ import './Spots.css'
 
 export default function Spots() {
     const spotsData = useSelector(state => state.spots)
-    const spots = Object.values(spotsData)
+
+    const spots = Object.values(spotsData.allSpots)
 
     return spots.length ? (
         <div className='spot-container'>

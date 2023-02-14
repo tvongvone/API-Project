@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
-import { NavLink, Redirect } from "react-router-dom"
-import { useState } from "react"
+import { Redirect } from "react-router-dom"
+import { useEffect, useState } from "react"
 import './CreateSpot.css'
-import { createSingleSpot, postPreviewImage } from "../../store/singleSpot"
+import {useHistory}from 'react-router-dom'
+import { createSingleSpot, postPreviewImage } from "../../store/allSpots"
 
 export default function CreateSpot() {
     const currentUser = useSelector(state => state.session.user)
     const dispatch = useDispatch()
+    const history = useHistory();
 
     const [country, setCountry] = useState('')
     const [address, setAddress] = useState('')
@@ -35,9 +37,10 @@ export default function CreateSpot() {
             const response = await dispatch(createSingleSpot({country, address, city, state, lat: +latitude, lng: +longitude, name,  description, price}))
 
             dispatch(postPreviewImage({id: response.id, url: previewImage}))
+
         } catch(e) {
-            const error = await e.json()
-            setErrors(error.errors)
+           const error = await e.json()
+           setErrors(oldArray => [...oldArray, ...error.errors])
         }
 
 
@@ -48,11 +51,16 @@ export default function CreateSpot() {
            <div className="create-content">
                 <h2>Create a new Spot</h2>
 
-                <form className="the-form">
+                <form className="the-form" onSubmit={submitHandler}>
                     <div>
+                        <ul>
+                            {errors.map((error, idx) => (
+                                <li key={idx}>{error}</li>
+                            ))}
+                        </ul>
                         <h3>Where's your place located?</h3>
                         <p>Guests will only get your exact address once they booked a reservation.</p>
-                        <label htmlFor="country">Country</label>
+                        <label htmlFor="country">Country {country.length < 1}</label>
                         <input id="country" name="country" type='text' placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}/>
                         <label htmlFor="address">Street Address</label>
                         <input id="address" name="address" type='text' placeholder="Address" value={address} onChange={e => setAddress(e.target.value)}/>
@@ -89,7 +97,7 @@ export default function CreateSpot() {
                         <input  id="image4" name="image4" placeholder="Image URL" type='text' />
                         <input  id="image5" name="image5" placeholder="Image URL" type='text' />
                     </div>
-                    <button type="submit" onClick={submitHandler}>Create Spot</button>
+                    <button type="submit">Create Spot</button>
                 </form>
            </div>
         </div>

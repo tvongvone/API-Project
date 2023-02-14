@@ -13,6 +13,7 @@
     height: 250px;
     width: 100%;
     border: 2px solid black;
+    object-fit: cover;
 }
 
 .under-image {
