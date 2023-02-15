@@ -114,10 +114,10 @@ export default function CreateSpot() {
                         <p>Submit a link to at least one photo to publish your spot.</p>
                         <span className={hasSubmitted && a === true ? "" : "hidden"} style={{color: 'red'}}>Preview Image is Required. Must end in .jpg, .jpeg, or .png</span>
                         <input className='required-image' id="previewImage" name="previewImage" placeholder="Preview Image URL" type='url' value={previewImage} onChange={e => setPreviewImage(e.target.value)}/>
-                        <input  id="image2" name="image2" placeholder="Image URL" type='text' />
-                        <input  id="image3" name="image3" placeholder="Image URL" type='text' />
-                        <input  id="image4" name="image4" placeholder="Image URL" type='text' />
-                        <input  id="image5" name="image5" placeholder="Image URL" type='text' />
+                        <input  id="image2" name="image2" placeholder="Image URL" type='url' />
+                        <input  id="image3" name="image3" placeholder="Image URL" type='url' />
+                        <input  id="image4" name="image4" placeholder="Image URL" type='url' />
+                        <input  id="image5" name="image5" placeholder="Image URL" type='url' />
                     </div>
                     <button type="submit">Create Spot</button>
                 </form>
