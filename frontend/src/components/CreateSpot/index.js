@@ -5,22 +5,22 @@ import './CreateSpot.css'
 import {useHistory}from 'react-router-dom'
 import { createSingleSpot, postPreviewImage } from "../../store/allSpots"
 
-export default function CreateSpot() {
+export default function CreateSpot({spot, formType}) {
     const currentUser = useSelector(state => state.session.user)
     const dispatch = useDispatch()
     const history = useHistory();
 
     const [hasSubmitted, setHasSubmitted] = useState(false)
-    const [country, setCountry] = useState('')
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState('')
-    const [latitude, setLatitude] = useState('')
-    const [longitude, setLongitude] = useState('')
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
-    const [price, setPrice] = useState('')
-    const [previewImage, setPreviewImage] = useState('')
+    const [country, setCountry] = useState(spot.country || "")
+    const [address, setAddress] = useState(spot.address || "")
+    const [city, setCity] = useState(spot.city || "")
+    const [state, setState] = useState(spot.state || "")
+    const [latitude, setLatitude] = useState(spot.lng || "")
+    const [longitude, setLongitude] = useState(spot.lng || "")
+    const [name, setName] = useState(spot.name || "")
+    const [description, setDescription] = useState(spot.description || "")
+    const [price, setPrice] = useState(spot.price || "")
+    const [previewImage, setPreviewImage] = useState(spot.SpotImages[0].url || "")
     const [a, setA] = useState(false)
     const [errors, setErrors] = useState([])
 
@@ -29,6 +29,19 @@ export default function CreateSpot() {
         <Redirect to='/' />
         )
     }
+
+    // if(spot) {
+    //     setCountry(spot.country)
+    //     setAddress(spot.address)
+    //     setCity(spot.city)
+    //     setState(spot.state)
+    //     spot.lat ? setLatitude(spot.lat): setLatitude("")
+    //     spot.lng ? setLongitude(spot.lng): setLongitude("")
+    //     setName(spot.name)
+    //     setDescription(spot.description)
+    //     setPrice(spot.price)
+    //     setPreviewImage(spot.SpotImages.find(image => image.preview === true))
+    // }
 
     const submitHandler = async e => {
         e.preventDefault()
@@ -41,11 +54,16 @@ export default function CreateSpot() {
         if(previewImage.endsWith('.jpg') || previewImage.endsWith('.jpeg')) {
             setA(false)
               try {
-                    const response = await dispatch(createSingleSpot({country, address, city, state, lat: +latitude, lng: +longitude, name,  description, price: +price}))
 
-                    dispatch(postPreviewImage({id: response.id, url: previewImage}))
+                    if(formType === 'Edit') {
+                        spot = {...spot, country, address, city, state, lat: +latitude, lng: +longitude, name,  description, price: +price}
+                    } else {
+                        const response = await dispatch(createSingleSpot({country, address, city, state, lat: +latitude, lng: +longitude, name,  description, price: +price}))
 
-                    history.push(`/spots/${response.id}/`)
+                        dispatch(postPreviewImage({id: response.id, url: previewImage}))
+
+                        history.push(`/spots/${response.id}/`)
+                    }
 
                 } catch(e) {
                    const error = await e.json()

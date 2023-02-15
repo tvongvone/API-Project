@@ -1,19 +1,13 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+
+import { useSelector } from 'react-redux'
 import { NavLink, Redirect, Link } from 'react-router-dom';
-import { getCurrentSpots } from '../../store/allSpots';
 import './CurrentSpots.css'
 
 export default function CurrentSpots() {
-    const dispatch = useDispatch();
-    const data = useSelector(state => state.spots.currentSpots)
+    const data = useSelector(state => state.spots)
     const user = useSelector(state => state.session.user)
 
-    const current = Object.values(data)
-
-    useEffect(() => {
-        dispatch(getCurrentSpots())
-    }, [dispatch])
+    const current = Object.values(data.currentSpots)
 
     if(!user) {
         return <Redirect to='/' />
@@ -50,7 +44,7 @@ export default function CurrentSpots() {
                                         </div>
                                         <div>
                                             <Link to={`/spot/${spot.id}/edit`} style={{textDecoration: 'none'}}className='buttons'>Update</Link>
-                                            <Link style={{textDecoration: 'none',marginLeft: '5px'}} className='buttons'>Delete</Link>
+                                            <Link to='/spots' style={{textDecoration: 'none',marginLeft: '5px'}} className='buttons'>Delete</Link>
                                         </div>
                                     </div>
                 </div>

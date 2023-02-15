@@ -106,7 +106,7 @@ export const getCurrentSpots = () => async dispatch => {
 
 
 const initialState = {
-    allSpots : [],
+    allSpots : {},
     singleSpot : {},
     currentSpots: {}
 }
