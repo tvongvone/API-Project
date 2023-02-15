@@ -1,13 +1,20 @@
 
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, Redirect, Link } from 'react-router-dom';
+import { getCurrentSpots } from '../../store/allSpots';
 import './CurrentSpots.css'
 
 export default function CurrentSpots() {
-    const data = useSelector(state => state.spots)
+    const dispatch = useDispatch();
+    const data = useSelector(state => state.spots.currentSpots)
     const user = useSelector(state => state.session.user)
 
-    const current = Object.values(data.currentSpots)
+    const current = Object.values(data)
+
+    useEffect(() => {
+        dispatch(getCurrentSpots())
+    }, [dispatch])
 
     if(!user) {
         return <Redirect to='/' />

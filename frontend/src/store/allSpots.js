@@ -5,6 +5,7 @@ const GETSINGLESPOT = 'spots/getsinglespot'
 const CREATESINGLESPOT = 'spots/createsinglespot'
 const ADDPREVIEWIMAGE = 'spots/addpreviewimage'
 const GETCURRENTSPOTS = 'spots/getcurrentspots'
+const UPDATEONESPOT = 'spots/updateonespot'
 
 
 const load = spots => {
@@ -40,6 +41,13 @@ const getCurrent = bananas => {
     return {
         type: GETCURRENTSPOTS,
         bananas
+    }
+}
+
+const updateSingle = spot => {
+    return {
+        type: UPDATEONESPOT,
+        spot
     }
 }
 
@@ -103,6 +111,21 @@ export const getCurrentSpots = () => async dispatch => {
 }
 
 
+export const updateOneSpot = (obj, id) => async dispatch => {
+    const response = await csrfFetch(`/api/spots/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(obj)
+    })
+
+    const data = await response.json()
+
+    dispatch(updateSingle(data))
+}
+
+
 
 
 const initialState = {
@@ -140,6 +163,12 @@ const spotsReducer = (state = initialState, action) => {
             const newState = {...state}
             newState.currentSpots = action.bananas
             return newState
+        }
+
+        case UPDATEONESPOT: {
+            const newState = {...state}
+            newState.singleSpot[action.spotId] = action.spot
+            return newState;
         }
 
         default: return state

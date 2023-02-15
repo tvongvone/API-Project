@@ -1,0 +1,20 @@
+.create-container {
+    display: flex;
+    border: solid black 2px;
+    justify-content: center;
+}
+
+.create-content {
+    display: block;
+    justify-content: center;
+    border: solid black 1px;
+    width: 500px;
+}
+
+.the-form label {
+    display:block;
+}
+
+.the-form input {
+    width: 80%;
+}
