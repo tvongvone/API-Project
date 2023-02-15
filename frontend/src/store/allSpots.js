@@ -81,8 +81,6 @@ export const postPreviewImage = (obj) => async dispatch => {
 
     const data = await response.json()
 
-    console.log(data)
-
     dispatch(addPreviewImage(data))
 }
 

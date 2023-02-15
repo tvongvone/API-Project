@@ -35,7 +35,7 @@ module.exports = {
         }
       },
       url: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       preview: {
