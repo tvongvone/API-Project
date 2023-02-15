@@ -7,6 +7,7 @@ import Spots from "./components/Spots";
 import { getAllSpots } from "./store/allSpots";
 import SingleSpot from "./components/SingleSpot";
 import CreateSpot from "./components/CreateSpot";
+import CurrentSpots from "./components/CurrentSpots"
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,9 @@ function App() {
         <Switch>
           <Route path="/" exact>
             <Spots />
+          </Route>
+          <Route path='/spots/current'>
+            <CurrentSpots />
           </Route>
           <Route path='/spots/new'>
             <CreateSpot />
