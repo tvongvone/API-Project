@@ -4,6 +4,7 @@ const LOAD = 'spots/load'
 const GETSINGLESPOT = 'spots/getsinglespot'
 const CREATESINGLESPOT = 'spots/createsinglespot'
 const ADDPREVIEWIMAGE = 'spots/addpreviewimage'
+const GETCURRENTSPOTS = 'spots/getcurrentspots'
 
 
 const load = spots => {
@@ -32,6 +33,13 @@ const addPreviewImage = image => {
     return {
         type: ADDPREVIEWIMAGE,
         image
+    }
+}
+
+const getCurrent = bananas => {
+    return {
+        type: GETCURRENTSPOTS,
+        bananas
     }
 }
 
@@ -86,12 +94,21 @@ export const postPreviewImage = (obj) => async dispatch => {
     dispatch(addPreviewImage(data))
 }
 
+export const getCurrentSpots = () => async dispatch => {
+    const response = await csrfFetch('/api/spots/current')
+
+    const data = await response.json()
+
+    dispatch(getCurrent(data.Spots))
+}
+
 
 
 
 const initialState = {
     allSpots : [],
-    singleSpot : {}
+    singleSpot : {},
+    currentSpots: {}
 }
 
 const spotsReducer = (state = initialState, action) => {
@@ -115,10 +132,16 @@ const spotsReducer = (state = initialState, action) => {
 
         case ADDPREVIEWIMAGE: {
             const newState = {...state}
-            console.log(action.image)
             newState.allSpots[action.image.spotId].previewImage = action.image.url
             return newState
         }
+
+        case GETCURRENTSPOTS: {
+            const newState = {...state}
+            action.bananas.forEach(ele => newState.currentSpots[ele.id] = ele)
+            return newState
+        }
+
         default: return state
 
     }

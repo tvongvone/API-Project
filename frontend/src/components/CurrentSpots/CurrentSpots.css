@@ -1,0 +1,39 @@
+
+
+.current-container {
+    display: flex;
+    flex-direction: column;
+    margin: 50px 100px;
+}
+
+
+.navlink {
+    text-decoration: none;
+    font-family:cursive;
+    color: white;
+    border: solid 2px black;
+    width: 180px;
+    text-align: center;
+    box-shadow: 2px;
+    background-color: lightcoral;
+    box-shadow: 4px 3px 3px black;
+}
+
+
+.current-spot {
+    display: flex;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    justify-content: space-evenly;
+}
+
+.buttons {
+    background-color: lightcoral;
+    color: white;
+    border: 2px solid black;
+    box-shadow: 3px 3px 3px black;
+}
+
+.buttons:hover {
+    cursor: pointer;
+}
