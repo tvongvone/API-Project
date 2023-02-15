@@ -82,9 +82,9 @@ export default function CreateSpot() {
                         <label htmlFor="state">State <span className={hasSubmitted && (!state.length) ? "" && setErrors(o => [...o, 'state']): "hidden"} style={{ color: 'red'}}> State is required</span></label>
                         <input id="state" name="state" value={state} type='text' placeholder="State" onChange={e => setState(e.target.value)}/>
                         <label htmlFor="latitude">Latitude</label>
-                        <input id="latitude" name="latitude" value={latitude} placeholder="Latitude" type='text' onChange={e => setLatitude(e.target.value)}/>
+                        <input id="latitude" name="latitude" value={latitude} placeholder="Latitude" type='number' onChange={e => setLatitude(e.target.value)}/>
                         <label htmlFor="longitude">Longitude</label>
-                        <input id="longitude" name="longitude" value={longitude} placeholder="Longitude" type='text' onChange={e => setLongitude(e.target.value)}/>
+                        <input id="longitude" name="longitude" value={longitude} placeholder="Longitude" type='number' onChange={e => setLongitude(e.target.value)}/>
                     </div>
                     <div>
                         <h3>Describe your place to guests</h3>
@@ -98,7 +98,7 @@ export default function CreateSpot() {
                         <h3>Create a title for your spot</h3>
                         <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
                         <span className={hasSubmitted && (!name.length) ? "" && setErrors(o => [...o, 'name']): "hidden"} style={{ color: 'red'}}> Name is required </span>
-                        <input id='name' name='price' placeholder="name" value={name} type="text" onChange={e => setName(e.target.value)} />
+                        <input id='name' name='price' placeholder="name" value={name} type="text" onChange={e => setName(e.target.value)} pattern="[a-zA-Z0-9!@#$%^*_|]{0,100}"/>
                     </div>
                     <div>
                         <h3>Set a base price for your spot</h3>
@@ -106,14 +106,14 @@ export default function CreateSpot() {
                         <span className={hasSubmitted && !price.length ? "" : "hidden"} style={{ color: 'red'}}> Price is required </span>
                         {}
                         <div style={{display:'flex'}}>
-                        <span className='dollar-sign'>$ <input id="price" name="price" placeholder="Price" value={price} type="text" onChange={e => setPrice(e.target.value)}/></span>
+                        <span className='dollar-sign'>$ <input id="price" name="price" placeholder="Price" value={price} type="number" onChange={e => setPrice(e.target.value)}/></span>
                         </div>
                     </div>
                     <div>
                         <h2>Liven up your spot with photos</h2>
                         <p>Submit a link to at least one photo to publish your spot.</p>
-                        <span className={hasSubmitted && a === true ? "" : "hidden"} style={{color: 'red'}}>Preview Image is Required. Must be valid .jpg or .jpeg link</span>
-                        <input className='required-image' id="previewImage" name="previewImage" placeholder="Preview Image URL" type='text' value={previewImage} onChange={e => setPreviewImage(e.target.value)}/>
+                        <span className={hasSubmitted && a === true ? "" : "hidden"} style={{color: 'red'}}>Preview Image is Required. Must end in .jpg, .jpeg, or .png</span>
+                        <input className='required-image' id="previewImage" name="previewImage" placeholder="Preview Image URL" type='url' value={previewImage} onChange={e => setPreviewImage(e.target.value)}/>
                         <input  id="image2" name="image2" placeholder="Image URL" type='text' />
                         <input  id="image3" name="image3" placeholder="Image URL" type='text' />
                         <input  id="image4" name="image4" placeholder="Image URL" type='text' />
