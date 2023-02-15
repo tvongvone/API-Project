@@ -90,7 +90,7 @@ export default function CreateSpot() {
                         <h3>Describe your place to guests</h3>
                         <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
                         <div style={{display:'flex', flexDirection: 'column'}}>
-                        <span className={hasSubmitted && (!description.length) ? "" && setErrors(o => [...o, 'description']): "hidden"} style={{ color: 'red'}}> Description is required</span>
+                        <span className={hasSubmitted && (description.length < 30) ? "" && setErrors(o => [...o, 'description']): "hidden"} style={{ color: 'red'}}> Description is needs a minimum of 30 characters.</span>
                         <textarea id="description" name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)}/>
                         </div>
                     </div>
