@@ -138,7 +138,7 @@ const spotsReducer = (state = initialState, action) => {
 
         case GETCURRENTSPOTS: {
             const newState = {...state}
-            action.bananas.forEach(ele => newState.currentSpots[ele.id] = ele)
+            newState.currentSpots = action.bananas
             return newState
         }
 
