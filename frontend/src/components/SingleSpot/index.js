@@ -10,11 +10,11 @@ export default function SingleSpot() {
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user);
     const singleSpot = useSelector(state => state.spots.singleSpot)
-    const reviews = useSelector(state => state.reviews)
+    const reviewData = useSelector(state => state.reviews.spot)
     const singleAllSpot = useSelector(state => state.spots.allSpots)
-    const singleOne = Object.values(singleAllSpot)
+    const reviews = Object.values(reviewData)
 
-    const singleData = singleOne.find(spot => spot.id === +id)
+    const singleData = singleAllSpot[id]
 
 
     useEffect(() => {

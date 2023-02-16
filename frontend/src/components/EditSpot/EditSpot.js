@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { getAllSpots, getSingleSpot } from "../../store/allSpots"
+import {  getSingleSpot } from "../../store/allSpots"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import FormPage from "../FormPage"

@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, Redirect, Link } from 'react-router-dom';
 import { getCurrentSpots } from '../../store/allSpots';
 import './CurrentSpots.css'
+import OpenModalButton from '../OpenModalButton';
+import DeleteComponent from './DeleteComponent'
 
 export default function CurrentSpots() {
     const dispatch = useDispatch();
@@ -51,7 +53,7 @@ export default function CurrentSpots() {
                                         </div>
                                         <div>
                                             <Link to={`/spot/${spot.id}/edit`} style={{textDecoration: 'none'}}className='buttons'>Update</Link>
-                                            <Link to='/spots' style={{textDecoration: 'none',marginLeft: '5px'}} className='buttons'>Delete</Link>
+                                            <OpenModalButton modalComponent={<DeleteComponent />} buttonText='Delete'/>
                                         </div>
                                     </div>
                 </div>

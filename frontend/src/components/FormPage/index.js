@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect, useParams } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import { useState} from "react"
 import './FormPage.css'
 import {useHistory}from 'react-router-dom'
 import { createSingleSpot,postPreviewImage, updateOneSpot } from "../../store/allSpots"
 
 export default function FormPage({spot, formType}) {
-    const {id} = useParams()
+    // const {id} = useParams()
     const currentUser = useSelector(state => state.session.user)
     const dispatch = useDispatch();
     const history = useHistory();
@@ -45,10 +45,8 @@ export default function FormPage({spot, formType}) {
 
             try{
 
-            const response = await dispatch(updateOneSpot({country, address, city, state, lat: +lat, lng: +lng, name,  description, price: +price}, id))
-
-
-            history.push(`/spots/${id}/`)
+            await dispatch(updateOneSpot({country, address, city, state, lat: +lat, lng: +lng, name,  description, price: +price},spot.id))
+            history.push(`/spots/${spot.id}/`)
 
             } catch(e) {
                 // const error = await e.json()

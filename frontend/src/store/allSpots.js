@@ -6,6 +6,7 @@ const CREATESINGLESPOT = 'spots/createsinglespot'
 const ADDPREVIEWIMAGE = 'spots/addpreviewimage'
 const GETCURRENTSPOTS = 'spots/getcurrentspots'
 const UPDATEONESPOT = 'spots/updateonespot'
+const DELETESPOT = 'spots/deleteonespot'
 
 
 const load = spots => {
@@ -48,6 +49,13 @@ const updateSingle = spot => {
     return {
         type: UPDATEONESPOT,
         spot
+    }
+}
+
+const deleteSpot = (spotId) => {
+    return {
+        type: DELETESPOT,
+        spotId
     }
 }
 
@@ -125,6 +133,18 @@ export const updateOneSpot = (obj, id) => async dispatch => {
     dispatch(updateSingle(data))
 }
 
+export const deleteSingleSpot =  (spotId) => async dispatch => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    if(response.ok) {
+        dispatch(deleteSpot(spotId))
+    }
+}
 
 
 
@@ -169,6 +189,14 @@ const spotsReducer = (state = initialState, action) => {
             const newState = {...state}
             newState.singleSpot[action.spotId] = action.spot
             return newState;
+        }
+
+        case DELETESPOT: {
+            const newState = {...state}
+            delete newState.currentSpots[action.spotId]
+            delete newState.allSpots[action.spotId]
+            delete newState.singleSpot
+            return newState
         }
 
         default: return state

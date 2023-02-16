@@ -19,18 +19,21 @@ export const getSpotReviews = (spotId) => async dispatch => {
     if(response.ok) {
         const data = await response.json()
 
-        console.log('From store', data)
-
         dispatch(spotReviews(data))
     }
 }
 
-const initialStates = [];
+const initialStates = {
+    spot: {},
+    user: {}
+};
 
 export default function reviewsReducer(state = initialStates, action) {
     switch(action.type) {
         case GETSPOTREVIEWS:
-        return action.reviews
+        const newState = {...state, spot: {}}
+        action.reviews.forEach(ele => newState.spot[ele.id] = ele)
+        return newState
         default: return state
     }
 }

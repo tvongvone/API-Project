@@ -1,0 +1,21 @@
+.delete-container {
+    margin: 10px;
+    width: 300px;
+    font-family: cursive;
+}
+
+.del-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.del-container button{
+    background-color: lightcoral;
+    height: 30px;
+    margin-top: 5px;
+    font-family: cursive;
+}
+
+.del-container button:hover {
+    cursor: pointer;
+}
