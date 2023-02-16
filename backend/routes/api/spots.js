@@ -140,19 +140,19 @@ router.post('/:id/reviews', requireAuth, async (req, res, next) => {
         next(err)
     }
 
-    if(existingReview) {
-        const err = new Error('Validation error')
-        err.status = 403,
-        err.errors = ["User already has a review for this spot"]
-        next(err)
-    }
+    // if(existingReview) {
+    //     const err = new Error('Validation error')
+    //     err.status = 403,
+    //     err.errors = ["User already has a review for this spot"]
+    //     next(err)
+    // }
 
     if(!review) {
         const err = new Error('Validation error')
         err.status = 400,
         err.errors = ['Review text is required']
         next(err)
-    } else if (stars !== parseInt(stars) || stars < 1 || stars > 5) {
+    } else if (stars !== parseFloat(stars) || stars < .5 || stars > 5) {
         const err = new Error('Validation error')
         err.status = 400,
         err.errors = ['Stars must be an integer from 1 to 5']
