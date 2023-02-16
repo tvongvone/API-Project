@@ -9,18 +9,14 @@ import DeleteComponent from './DeleteComponent'
 
 export default function CurrentSpots() {
     const dispatch = useDispatch();
-    const data = useSelector(state => state.spots.currentSpots)
+    const data = useSelector(state => state.spots)
     const user = useSelector(state => state.session.user)
 
-    const current = Object.values(data)
+    const current = Object.values(data.currentSpots)
 
     useEffect(() => {
         dispatch(getCurrentSpots())
     }, [dispatch])
-
-    const afterModalCloses = () => {
-        dispatch(getCurrentSpots())
-    }
 
     if(!user) {
         return <Redirect to='/' />
@@ -57,7 +53,7 @@ export default function CurrentSpots() {
                                         </div>
                                         <div>
                                             <Link to={`/spot/${spot.id}/edit`} style={{textDecoration: 'none'}}className='buttons'>Update</Link>
-                                            <OpenModalButton modalComponent={<DeleteComponent />} buttonText='Delete' onModalClose={afterModalCloses}/>
+                                            <OpenModalButton modalComponent={spot.id && (<DeleteComponent spotId={spot.id}/>)} buttonText='Delete'/>
                                         </div>
                                     </div>
                 </div>

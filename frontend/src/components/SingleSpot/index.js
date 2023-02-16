@@ -24,7 +24,7 @@ export default function SingleSpot() {
         dispatch(getSpotReviews(id))
     }, [dispatch, id])
 
-    return singleSpot && singleSpot.SpotImages && reviews.length ? (
+    return singleSpot && singleSpot.SpotImages ? (
         <div className="container">
             <div className="single-spot-container">
                 <h2>{singleSpot.name}</h2>
@@ -32,7 +32,7 @@ export default function SingleSpot() {
                 <div className='the-images'>
                     <img className='first-image'src={singleData.previewImage} alt="N/A"/>
                     {
-                        singleSpot.SpotImages.slice(1).map(image => (
+                        singleSpot.SpotImages.map(image => (
                             <img className='side-images' key={image.id} src={image.url} alt="N/A" />
                         ))
                     }

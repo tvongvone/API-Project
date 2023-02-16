@@ -27,7 +27,7 @@ module.exports = {
     },
     {
       spotId: 1,
-      url: 'https://media.architecturaldigest.com/photos/571e97c5741fcddb16b559c9/2:1/w_5127,h_2563,c_limit/modernist-decor-inspiration-01.jpg',
+      url: 'https://hgtvhome.sndimg.com/content/dam/images/hgrm/fullset/2012/5/30/0/Original-colonial-den_s4x3.jpg.rend.hgtvcom.1280.960.suffix/1405413131585.jpeg',
       preview: false
     },
     {

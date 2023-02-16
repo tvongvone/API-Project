@@ -158,7 +158,9 @@ const spotsReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD: {
             const newState = {...state}
-            action.spots.forEach(ele => newState.allSpots[ele.id] = ele)
+            action.spots.forEach(ele => {
+                newState.allSpots[ele.id] = ele
+            })
             return newState
         }
         case GETSINGLESPOT: {
@@ -181,7 +183,7 @@ const spotsReducer = (state = initialState, action) => {
 
         case GETCURRENTSPOTS: {
             const newState = {...state}
-            newState.currentSpots = action.bananas
+            action.bananas.forEach(ele => newState.currentSpots[ele.id] = ele)
             return newState
         }
 
@@ -195,7 +197,6 @@ const spotsReducer = (state = initialState, action) => {
             const newState = {...state}
             delete newState.currentSpots[action.spotId]
             delete newState.allSpots[action.spotId]
-            delete newState.singleSpot
             return newState
         }
 

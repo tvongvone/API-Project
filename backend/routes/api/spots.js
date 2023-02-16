@@ -124,12 +124,12 @@ router.put('/:id', validateSpot, requireAuth, async(req, res, next) => {
 router.post('/:id/reviews', requireAuth, async (req, res, next) => {
     const {review, stars} = req.body
 
-    const existingReview = await Review.findOne({
-        where: {
-            userId: req.user.id,
-            spotId: parseInt(req.params.id)
-        }
-    })
+    // const existingReview = await Review.findOne({
+    //     where: {
+    //         userId: req.user.id,
+    //         spotId: parseInt(req.params.id)
+    //     }
+    // })
 
     const spotExist = await Spot.findByPk(req.params.id)
 
@@ -152,7 +152,7 @@ router.post('/:id/reviews', requireAuth, async (req, res, next) => {
         err.status = 400,
         err.errors = ['Review text is required']
         next(err)
-    } else if (stars !== parseFloat(stars) || stars < .5 || stars > 5) {
+    } else if (stars !== parseInt(stars) || stars < 1 || stars > 5) {
         const err = new Error('Validation error')
         err.status = 400,
         err.errors = ['Stars must be an integer from 1 to 5']
@@ -165,7 +165,16 @@ router.post('/:id/reviews', requireAuth, async (req, res, next) => {
             stars: stars
         })
 
-        res.json(theReview)
+
+        const finalReview = await Review.findByPk(theReview.id, {
+            include: [
+                {
+                    model:User
+                }
+            ]
+        })
+
+        res.json(finalReview)
     }
 })
 
@@ -428,8 +437,7 @@ router.get('/:id/reviews', async (req, res, next) => {
             },
             include: [
                 {
-                    model: User,
-                    attributes: ['id', 'firstName', 'lastName']
+                    model: User
                 },
                 {
                     model: Image,
@@ -601,7 +609,7 @@ router.get('/', async(req, res, next) => {
             sum = sum + review.stars
         })
 
-        spot.avgRating = sum / i
+        spot.avgRating = (sum / i).toFixed(1)
 
         spot.SpotImages.forEach(image => {
             if(image.preview === true) {
@@ -639,7 +647,7 @@ router.get('/:id', async(req, res, next) => {
             },
             {
                 model: Image,
-                as: 'SpotImages'
+                as: 'SpotImages',
             },
             {
                 model: User,
@@ -655,8 +663,9 @@ router.get('/:id', async(req, res, next) => {
         next(err)
     } else {
         spot = spot.toJSON()
+        spot.SpotImages = spot.SpotImages.filter(image => image.preview === false)
 
-        // result.spot.spotImages = images
+
         res.status = 200
         res.json(spot)
     }

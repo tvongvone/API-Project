@@ -3,8 +3,8 @@ import { deleteSingleSpot } from "../../../store/allSpots"
 import { useModal } from "../../../context/Modal"
 import './DeleteComponent.css'
 
-export default function DeleteSpot() {
-    const singleSpot = useSelector(state => state.spots.singleSpot)
+export default function DeleteSpot({spotId}) {
+    // const singleSpot = useSelector(state => state.spots.singleSpot)
     const dispatch = useDispatch()
     const {closeModal} = useModal()
 
@@ -12,7 +12,7 @@ export default function DeleteSpot() {
     const noString = 'No (Keep Spot)'
 
     const yesSubmit = () => {
-       dispatch(deleteSingleSpot(singleSpot.id)).then(closeModal) // Undefined??
+       dispatch(deleteSingleSpot(spotId)).then(closeModal)
     }
 
     const noSubmit = () => {

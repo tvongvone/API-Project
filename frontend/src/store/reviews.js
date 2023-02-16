@@ -62,7 +62,7 @@ export default function reviewsReducer(state = initialStates, action) {
         case CREATEREVIEW: {
             const newState = {...state}
             newState.spot[action.review.id] = action.review
-            return newState
+            return newState;
         }
         default: return state
     }
