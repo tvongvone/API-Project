@@ -12,7 +12,7 @@ export default function DeleteSpot() {
     const noString = 'No (Keep Spot)'
 
     const yesSubmit = () => {
-       dispatch(deleteSingleSpot(singleSpot.id)).then(closeModal)
+       dispatch(deleteSingleSpot(singleSpot.id)).then(closeModal) // Undefined??
     }
 
     const noSubmit = () => {

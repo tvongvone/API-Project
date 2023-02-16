@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getSpotReviews } from "../../store/reviews";
 import { getSingleSpot } from "../../store/allSpots";
+import OpenModalButton from '../OpenModalButton'
+import Review from './Review'
 import './SingleSpot.css'
 
 export default function SingleSpot() {
@@ -11,10 +13,10 @@ export default function SingleSpot() {
     const sessionUser = useSelector(state => state.session.user);
     const singleSpot = useSelector(state => state.spots.singleSpot)
     const reviewData = useSelector(state => state.reviews.spot)
-    const singleAllSpot = useSelector(state => state.spots.allSpots)
+    const allSpots = useSelector(state => state.spots.allSpots)
     const reviews = Object.values(reviewData)
 
-    const singleData = singleAllSpot[id]
+    const singleData = allSpots[id]
 
 
     useEffect(() => {
@@ -22,7 +24,7 @@ export default function SingleSpot() {
         dispatch(getSpotReviews(id))
     }, [dispatch, id])
 
-    return singleSpot && singleSpot.SpotImages && singleData && reviews ? (
+    return singleSpot && singleSpot.SpotImages && reviews.length ? (
         <div className="container">
             <div className="single-spot-container">
                 <h2>{singleSpot.name}</h2>
@@ -38,7 +40,7 @@ export default function SingleSpot() {
                 <div className='spot-info-container'>
                     <div className='spot-info'>
                         <h2>Hosted by {singleSpot.Owner.firstName} {singleSpot.Owner.lastName}</h2>
-                        <p>{singleSpot.description}</p>
+                        <p style={{overflow: 'auto', fontFamily: 'cursive'}}>{singleSpot.description}</p>
                     </div>
                     <div className='spot-rating'>
                         <h2>${singleSpot.price} <span style={{fontSize: '15px'}}>night</span></h2>
@@ -52,7 +54,9 @@ export default function SingleSpot() {
                     {reviews.length ? (
                     <>
                     <h3><i className="fa-solid fa-star"></i> {singleData.avgRating} <span style={{marginLeft: '10px'}}>{reviews.length} reviews</span></h3>
-                    {sessionUser && <button>Post Your Review</button>}
+                    {sessionUser &&
+                    (<OpenModalButton modalComponent={<Review />} buttonText={'Post Your Review'} />)
+                    }
                     {reviews.map(review => (
                         <div key={review.id} className='reviews'>
                             <h4>{review.User.firstName}</h4>

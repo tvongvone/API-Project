@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, Redirect, Link } from 'react-router-dom';
-import { getCurrentSpots } from '../../store/allSpots';
+import { getCurrentSpots, getSingleSpot } from '../../store/allSpots';
 import './CurrentSpots.css'
 import OpenModalButton from '../OpenModalButton';
 import DeleteComponent from './DeleteComponent'
@@ -17,6 +17,10 @@ export default function CurrentSpots() {
     useEffect(() => {
         dispatch(getCurrentSpots())
     }, [dispatch])
+
+    const afterModalCloses = () => {
+        dispatch(getCurrentSpots())
+    }
 
     if(!user) {
         return <Redirect to='/' />
@@ -53,7 +57,7 @@ export default function CurrentSpots() {
                                         </div>
                                         <div>
                                             <Link to={`/spot/${spot.id}/edit`} style={{textDecoration: 'none'}}className='buttons'>Update</Link>
-                                            <OpenModalButton modalComponent={<DeleteComponent />} buttonText='Delete'/>
+                                            <OpenModalButton modalComponent={<DeleteComponent />} buttonText='Delete' onModalClose={afterModalCloses}/>
                                         </div>
                                     </div>
                 </div>
