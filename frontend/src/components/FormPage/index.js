@@ -67,8 +67,8 @@ export default function FormPage({spot, formType}) {
                             history.push(`/spots/${response.id}/`)
 
                     }   catch(e) {
-                        const error = await e.json()
-                        setErrors(oldArray => [...oldArray, ...error.errors])
+
+                        setErrors(oldArray => [...oldArray])
 
                     }
             } else {
