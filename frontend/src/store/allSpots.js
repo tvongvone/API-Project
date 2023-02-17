@@ -8,6 +8,7 @@ const GETCURRENTSPOTS = 'spots/getcurrentspots'
 const UPDATEONESPOT = 'spots/updateonespot'
 const DELETESPOT = 'spots/deleteonespot'
 const ADDIMAGE = 'spots/addimage'
+const REMOVESINGLESPOT = 'spots/removesinglespot'
 
 
 const load = spots => {
@@ -64,6 +65,12 @@ const deleteSpot = (spotId) => {
     return {
         type: DELETESPOT,
         spotId
+    }
+}
+
+export const removeSingleSpot = () => {
+    return {
+        type: REMOVESINGLESPOT
     }
 }
 
@@ -168,6 +175,7 @@ export const deleteSingleSpot =  (spotId) => async dispatch => {
 
 
 
+
 const initialState = {
     allSpots : {},
     singleSpot : {},
@@ -225,6 +233,11 @@ const spotsReducer = (state = initialState, action) => {
             delete newState.currentSpots[action.spotId]
             delete newState.allSpots[action.spotId]
             return newState
+        }
+
+        case REMOVESINGLESPOT: {
+            const newState = {...state, singleSpot: {}}
+            return newState;
         }
 
         default: return state

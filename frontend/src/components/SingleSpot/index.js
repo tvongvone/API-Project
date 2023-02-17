@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { deleteSingleReview, getSpotReviews } from "../../store/reviews";
-import { getSingleSpot } from "../../store/allSpots";
+import { getAllSpots, getSingleSpot, removeSingleSpot } from "../../store/allSpots";
 import OpenModalButton from '../OpenModalButton'
 import Review from './Review'
 import './SingleSpot.css'
@@ -16,19 +16,26 @@ export default function SingleSpot() {
     const allSpots = useSelector(state => state.spots.allSpots)
     const reviews = Object.values(reviewData)
 
+    const userArray = reviews.map(ele => ele.User.id)
+
     const singleData = allSpots[id]
 
 
     useEffect(() => {
         dispatch(getSingleSpot(id))
         dispatch(getSpotReviews(id))
+
+        return () => {
+            dispatch(removeSingleSpot())
+            dispatch(getAllSpots())
+        }
     }, [dispatch, id])
 
     const deleteHandler = (id) => {
         dispatch(deleteSingleReview(id))
     }
 
-    return singleSpot && singleSpot.SpotImages && singleData ? (
+    return singleSpot && singleSpot.SpotImages && singleData && userArray ? (
         <div className="container">
             <div className="single-spot-container">
                 <h2>{singleSpot.name}</h2>
@@ -36,8 +43,8 @@ export default function SingleSpot() {
                 <div className='the-images'>
                     <img className='first-image'src={singleData.previewImage} alt="N/A"/>
                     {
-                        singleSpot.SpotImages.slice(1).map(image => (
-                            <img className='side-images' key={image.id} src={image.url} alt="N/A" />
+                        singleSpot.SpotImages.map(image => (
+                            image.preview === false && (<img className='side-images' key={image.id} src={image.url} alt="N/A" />)
                         ))
                     }
                 </div>
@@ -49,17 +56,17 @@ export default function SingleSpot() {
                     <div className='spot-rating'>
                         <h2>${singleSpot.price} <span style={{fontSize: '15px'}}>night</span></h2>
                         <div className="hotdog">
-                            {reviews.length === 1 ? <p><i className="fa-solid fa-star"></i>{singleData.avgRating} {reviews.length} review</p> :
-                            reviews.length ? <p><i className="fa-solid fa-star">{singleData.avgRating} {reviews.length}</i> reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
+                            {reviews.length === 1 ? <p><i className="fa-solid fa-star"></i>{singleData?.avgRating} {reviews.length} review</p> :
+                            reviews.length ? <p><i className="fa-solid fa-star">{singleData?.avgRating} {reviews.length}</i> reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
                         </div>
                     </div>
                 </div>
                 <div className='reviews-container'>
-                    {reviews.length ? (
+                    {reviews.length && singleData.avgRating ? (
                     <>
                     <h3><i className="fa-solid fa-star"></i> {singleData.avgRating} <span style={{marginLeft: '10px'}}>{reviews.length} {reviews.length === 1 ? 'review': 'reviews'}</span></h3>
                     {sessionUser &&
-                    (<OpenModalButton modalComponent={<Review />} buttonText={'Post Your Review'} />)
+                    sessionUser?.id !== singleSpot.ownerId && !userArray.includes(sessionUser?.id) && (<OpenModalButton modalComponent={<Review />} buttonText={'Post Your Review'} />)
                     }
                     {reviews.map(review => (
                         <div key={review.id} className='reviews'>
@@ -75,7 +82,7 @@ export default function SingleSpot() {
                     ):
                     <>
                     <h3><i className="fa-solid fa-star"></i> New</h3>
-                    {sessionUser && (<OpenModalButton modalComponent={<Review />} buttonText={'Post Your Review'} />)}
+                    {sessionUser && sessionUser?.id !== singleSpot.ownerId && (<OpenModalButton modalComponent={<Review />} buttonText={'Post Your Review'} />)}
                     <p>Be the first to post a review!</p>
                     </>
                     }

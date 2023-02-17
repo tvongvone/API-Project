@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect, useParams } from "react-router-dom"
-import { useEffect, useState} from "react"
+import { Redirect } from "react-router-dom"
+import { useState} from "react"
 import './FormPage.css'
 import {useHistory}from 'react-router-dom'
-import { createSingleSpot,getSingleSpot,postPreviewImage, updateOneSpot } from "../../store/allSpots"
+import { createSingleSpot,postPreviewImage, updateOneSpot } from "../../store/allSpots"
 
 export default function FormPage({spot, formType}) {
     const currentUser = useSelector(state => state.session.user)
@@ -40,8 +40,6 @@ export default function FormPage({spot, formType}) {
         setErrors([])
 
         setPhoto([img1, img2, img3, img4])
-
-        console.log(photoArr)
 
         setA(true)
 

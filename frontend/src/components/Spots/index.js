@@ -22,7 +22,7 @@ export default function Spots() {
                                     </span>
                                     <span>
                                         <i className="fa-solid fa-star"></i>
-                                        {spot.avgRating ? spot.avgRating : <span style={{fontFamily: 'cursive'}}>New</span>}
+                                        {spot.avgRating && (!isNaN(spot.avgRating))? spot.avgRating : <span style={{fontFamily: 'cursive'}}>New</span>}
                                     </span>
                                 </div>
                                 <span>${spot.price} night</span>
