@@ -124,12 +124,12 @@ router.put('/:id', validateSpot, requireAuth, async(req, res, next) => {
 router.post('/:id/reviews', requireAuth, async (req, res, next) => {
     const {review, stars} = req.body
 
-    // const existingReview = await Review.findOne({
-    //     where: {
-    //         userId: req.user.id,
-    //         spotId: parseInt(req.params.id)
-    //     }
-    // })
+    const existingReview = await Review.findOne({
+        where: {
+            userId: req.user.id,
+            spotId: parseInt(req.params.id)
+        }
+    })
 
     const spotExist = await Spot.findByPk(req.params.id)
 
@@ -140,12 +140,12 @@ router.post('/:id/reviews', requireAuth, async (req, res, next) => {
         next(err)
     }
 
-    // if(existingReview) {
-    //     const err = new Error('Validation error')
-    //     err.status = 403,
-    //     err.errors = ["User already has a review for this spot"]
-    //     next(err)
-    // }
+    if(existingReview) {
+        const err = new Error('Validation error')
+        err.status = 403,
+        err.errors = ["User already has a review for this spot"]
+        next(err)
+    }
 
     if(!review) {
         const err = new Error('Validation error')
@@ -663,7 +663,6 @@ router.get('/:id', async(req, res, next) => {
         next(err)
     } else {
         spot = spot.toJSON()
-        spot.SpotImages = spot.SpotImages.filter(image => image.preview === false)
 
 
         res.status = 200
