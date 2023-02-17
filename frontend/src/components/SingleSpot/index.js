@@ -49,15 +49,15 @@ export default function SingleSpot() {
                     <div className='spot-rating'>
                         <h2>${singleSpot.price} <span style={{fontSize: '15px'}}>night</span></h2>
                         <div className="hotdog">
-                            {reviews.length ? <p><i className="fa-solid fa-star"></i>{singleData.avgRating} {reviews.length} reviews</p> :
-                            <p><i className="fa-solid fa-star"></i>New</p>}
+                            {reviews.length === 1 ? <p><i className="fa-solid fa-star"></i>{singleData.avgRating} {reviews.length} review</p> :
+                            reviews.length ? <p><i className="fa-solid fa-star">{singleData.avgRating} {reviews.length}</i> reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
                         </div>
                     </div>
                 </div>
                 <div className='reviews-container'>
                     {reviews.length ? (
                     <>
-                    <h3><i className="fa-solid fa-star"></i> {singleData.avgRating} <span style={{marginLeft: '10px'}}>{reviews.length} reviews</span></h3>
+                    <h3><i className="fa-solid fa-star"></i> {singleData.avgRating} <span style={{marginLeft: '10px'}}>{reviews.length} {reviews.length === 1 ? 'review': 'reviews'}</span></h3>
                     {sessionUser &&
                     (<OpenModalButton modalComponent={<Review />} buttonText={'Post Your Review'} />)
                     }

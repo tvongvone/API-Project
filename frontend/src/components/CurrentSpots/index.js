@@ -43,7 +43,7 @@ export default function CurrentSpots() {
                                     </span>
                                     <span>
                                         <i className="fa-solid fa-star"></i>
-                                        {spot.avgRating}
+                                        {spot.avgRating ? spot.avgRating: <span>New</span>}
                                     </span>
                                 </div>
 

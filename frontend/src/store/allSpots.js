@@ -7,6 +7,7 @@ const ADDPREVIEWIMAGE = 'spots/addpreviewimage'
 const GETCURRENTSPOTS = 'spots/getcurrentspots'
 const UPDATEONESPOT = 'spots/updateonespot'
 const DELETESPOT = 'spots/deleteonespot'
+const ADDIMAGE = 'spots/addimage'
 
 
 const load = spots => {
@@ -34,6 +35,13 @@ const createSingle = spot => {
 const addPreviewImage = image => {
     return {
         type: ADDPREVIEWIMAGE,
+        image
+    }
+}
+
+const addImage = image => {
+    return {
+        type: ADDIMAGE,
         image
     }
 }
@@ -105,9 +113,21 @@ export const postPreviewImage = (obj) => async dispatch => {
 
     const data = await response.json()
 
-    console.log(data)
-
     dispatch(addPreviewImage(data))
+}
+
+export const imageArray = (obj) => async dispatch => {
+    const response = await csrfFetch(`/api/spots/${obj.id}/images`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({url: obj.url, preview:false})
+    })
+
+    const data = await response.json()
+
+    dispatch(addImage(data))
 }
 
 export const getCurrentSpots = () => async dispatch => {
@@ -164,14 +184,15 @@ const spotsReducer = (state = initialState, action) => {
             return newState
         }
         case GETSINGLESPOT: {
-        const newState = {...state}
+        const newState = {...state, singleSpot: {}}
         newState.singleSpot = action.spot
         return newState
         }
 
         case CREATESINGLESPOT: {
-        const newState = {...state}
+        const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {}}
         newState.allSpots[action.spot.id] = action.spot
+        newState.singleSpot = action.spot
         return newState;
         }
 
@@ -181,6 +202,12 @@ const spotsReducer = (state = initialState, action) => {
             return newState
         }
 
+        case ADDIMAGE: {
+            const newState = {...state, singleSpot: {...state.singleSpot, SpotImages: [...state.singleSpot.SpotImages]}}
+            newState.singleSpot.SpotImages = [...newState.singleSpot.SpotImages, action.image]
+            return newState;
+        }
+
         case GETCURRENTSPOTS: {
             const newState = {...state}
             action.bananas.forEach(ele => newState.currentSpots[ele.id] = ele)
@@ -188,7 +215,7 @@ const spotsReducer = (state = initialState, action) => {
         }
 
         case UPDATEONESPOT: {
-            const newState = {...state}
+            const newState = {...state, singleSpot: {}}
             newState.singleSpot[action.spotId] = action.spot
             return newState;
         }

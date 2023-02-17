@@ -1,12 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
-import { Redirect } from "react-router-dom"
-import { useState} from "react"
+import { Redirect, useParams } from "react-router-dom"
+import { useEffect, useState} from "react"
 import './FormPage.css'
 import {useHistory}from 'react-router-dom'
-import { createSingleSpot,postPreviewImage, updateOneSpot } from "../../store/allSpots"
+import { createSingleSpot,getSingleSpot,postPreviewImage, updateOneSpot } from "../../store/allSpots"
 
 export default function FormPage({spot, formType}) {
-    // const {id} = useParams()
     const currentUser = useSelector(state => state.session.user)
     const dispatch = useDispatch();
     const history = useHistory();
@@ -22,9 +21,13 @@ export default function FormPage({spot, formType}) {
     const [description, setDescription] = useState(spot.description)
     const [price, setPrice] = useState(spot.price)
     const [previewImage, setPreviewImage] = useState(spot.previewImage)
+    const [img1, setImg1] = useState('')
+    const [img2, setImg2] = useState('')
+    const [img3, setImg3] = useState('')
+    const [img4, setImg4] = useState('')
     const [a, setA] = useState(false)
+    const [photoArr, setPhoto] = useState('')
     const [errors, setErrors] = useState([])
-
 
     if(!currentUser) {
         return (
@@ -32,10 +35,13 @@ export default function FormPage({spot, formType}) {
         )
     }
 
-
     const submitHandler = async e => {
         e.preventDefault()
         setErrors([])
+
+        setPhoto([img1, img2, img3, img4])
+
+        console.log(photoArr)
 
         setA(true)
 
@@ -49,20 +55,20 @@ export default function FormPage({spot, formType}) {
             history.push(`/spots/${spot.id}/`)
 
             } catch(e) {
-                // const error = await e.json()
                 setErrors(oldArray => [...oldArray])
-                console.log(errors)
             }
 
         }
 
         else {
-            if(previewImage.endsWith('.jpg') || previewImage.endsWith('.jpeg')) {
+            if(previewImage.includes('.jpg') || previewImage.includes('.jpeg')) {
                 setA(false)
                 try {
                             const response = await dispatch(createSingleSpot({country, address, city, state, lat: +lat, lng: +lng, name,  description, price: +price}))
 
                             dispatch(postPreviewImage({id: response.id, url: previewImage}))
+
+                            photoArr.length && (photoArr.forEach(ele => dispatch(postPreviewImage({id: response.id, url: ele}))))
 
                             history.push(`/spots/${response.id}/`)
 
@@ -132,12 +138,12 @@ export default function FormPage({spot, formType}) {
                         <div>
                         <h2>Liven up your spot with photos</h2>
                         <p>Submit a link to at least one photo to publish your spot.</p>
-                        <span className={hasSubmitted && a === true ? "" : "hidden"} style={{color: 'red'}}>Preview Image is Required. Must end in .jpg, .jpeg, or .png</span>
+                        <span className={hasSubmitted && a === true ? "" : "hidden"} style={{color: 'red'}}>Preview Image is Required. Must be .jpg, .jpeg, or .png file</span>
                         <input className='required-image' id="previewImage" name="previewImage" placeholder="Preview Image URL" type='url' value={previewImage} onChange={e => setPreviewImage(e.target.value)}/>
-                        {/* <input  id="image2" name="image2" placeholder="Image URL" type='url' />
-                        <input  id="image3" name="image3" placeholder="Image URL" type='url' />
-                        <input  id="image4" name="image4" placeholder="Image URL" type='url' />
-                        <input  id="image5" name="image5" placeholder="Image URL" type='url' /> */}
+                        <input  id="image2" name="image2" placeholder="Image URL" type='url' value={img1} onChange={e => setImg1(e.target.value)}/>
+                        <input  id="image3" name="image3" placeholder="Image URL" type='url' value={img2} onChange={e => setImg2(e.target.value)}/>
+                        <input  id="image4" name="image4" placeholder="Image URL" type='url' value={img3} onChange={e => setImg3(e.target.value)}/>
+                        <input  id="image5" name="image5" placeholder="Image URL" type='url' value={img4} onChange={e => setImg4(e.target.value)}/>
                     </div>
                     )}
                     <button type="submit">{formType} Spot</button>
