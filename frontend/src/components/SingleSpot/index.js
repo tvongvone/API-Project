@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { getSpotReviews } from "../../store/reviews";
+import { deleteSingleReview, getSpotReviews } from "../../store/reviews";
 import { getSingleSpot } from "../../store/allSpots";
 import OpenModalButton from '../OpenModalButton'
 import Review from './Review'
@@ -24,7 +24,11 @@ export default function SingleSpot() {
         dispatch(getSpotReviews(id))
     }, [dispatch, id])
 
-    return singleSpot && singleSpot.SpotImages ? (
+    const deleteHandler = (id) => {
+        dispatch(deleteSingleReview(id))
+    }
+
+    return singleSpot && singleSpot.SpotImages && singleData ? (
         <div className="container">
             <div className="single-spot-container">
                 <h2>{singleSpot.name}</h2>
@@ -62,13 +66,16 @@ export default function SingleSpot() {
                             <h4>{review.User.firstName}</h4>
                             <span>{review.createdAt.slice(0, 10)}</span>
                             <p>{review.review}</p>
+                            {(review.userId === sessionUser.id) && (
+                                <button onClick={() => deleteHandler(review.id)} style={{backgroundColor: 'lightcoral', color: 'white'}}>Delete</button>
+                            )}
                         </div>
                     ))}
                     </>
                     ):
                     <>
                     <h3><i className="fa-solid fa-star"></i> New</h3>
-                    {sessionUser && <button>Post Your Review</button>}
+                    {sessionUser && (<OpenModalButton modalComponent={<Review />} buttonText={'Post Your Review'} />)}
                     <p>Be the first to post a review!</p>
                     </>
                     }

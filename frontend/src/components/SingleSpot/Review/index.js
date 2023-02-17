@@ -15,7 +15,6 @@ export default function Review() {
 
     const [review, setReview] = useState('')
     const [stars, setStars] = useState(1)
-    const [errors, setErrors] = useState('')
 
     const submitHandler = async () => {
         dispatch(createSingleReview(spot.id, {review, stars})).then(closeModal)
@@ -26,13 +25,6 @@ export default function Review() {
         <div className="review-container">
             <div className="review-content">
                 <h2>How was your stay?</h2>
-                {errors && (
-                    <ul>
-                        {errors.map(e => (
-                            <li>{e}</li>
-                        ))}
-                    </ul>
-                )}
                 <textarea placeholder="Just a quick review." value={review} onChange={e => setReview(e.target.value)} />
 
                 <div>
@@ -40,7 +32,7 @@ export default function Review() {
                 emptyIcon={<i className="far fa-star" />}
                 filledIcon={<i className="fa fa-star" />} value={stars} onChange={e => setStars(e)}/>
                 </div>
-                <button onClick={submitHandler}>Submit Your Review</button>
+                <button disabled={review.length < 10 || review.length > 200} onClick={submitHandler}>Submit Your Review</button>
 
             </div>
 

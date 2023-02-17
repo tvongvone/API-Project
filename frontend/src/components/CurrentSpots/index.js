@@ -61,5 +61,5 @@ export default function CurrentSpots() {
                 ))}
             </div>
         </div>
-    ): <div>Loading...</div>
+    ): <div style={{display: 'flex', margin: '100px', fontFamily:'cursive'}}>You currently have no spots!</div>
 }

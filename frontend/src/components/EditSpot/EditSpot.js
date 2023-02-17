@@ -7,6 +7,7 @@ import FormPage from "../FormPage"
 
 export default function EditSpot() {
     const { id } = useParams()
+    console.log(id, "From Edit form function")
     const dispatch = useDispatch()
     const spotData = useSelector(state => state.spots.singleSpot)
     // const spotAll = useSelector(state => state.spots.allSpots)
