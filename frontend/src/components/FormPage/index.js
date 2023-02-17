@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom"
 import { useState} from "react"
 import './FormPage.css'
 import {useHistory}from 'react-router-dom'
-import { createSingleSpot,postPreviewImage, updateOneSpot } from "../../store/allSpots"
+import { createSingleSpot,postPreviewImage, updateOneSpot, imageArray } from "../../store/allSpots"
 
 export default function FormPage({spot, formType}) {
     const currentUser = useSelector(state => state.session.user)
@@ -26,7 +26,6 @@ export default function FormPage({spot, formType}) {
     const [img3, setImg3] = useState('')
     const [img4, setImg4] = useState('')
     const [a, setA] = useState(false)
-    const [photoArr, setPhoto] = useState('')
     const [errors, setErrors] = useState([])
 
     if(!currentUser) {
@@ -66,7 +65,10 @@ export default function FormPage({spot, formType}) {
 
                             dispatch(postPreviewImage({id: response.id, url: previewImage}))
 
-                            photoArr.length && (photoArr.forEach(ele => dispatch(postPreviewImage({id: response.id, url: ele}))))
+                            img1 && (dispatch(imageArray({id: response.id, url: img1})))
+                            img2 && (dispatch(imageArray({id: response.id, url: img2})))
+                            img3 && (dispatch(imageArray({id: response.id, url: img3})))
+                            img4 && (dispatch(imageArray({id: response.id, url: img4})))
 
                             history.push(`/spots/${response.id}/`)
 

@@ -198,7 +198,7 @@ const spotsReducer = (state = initialState, action) => {
         }
 
         case CREATESINGLESPOT: {
-        const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {}}
+        const newState = {...state, allSpots: {...state.allSpots}, singleSpot: {SpotImages: []}}
         newState.allSpots[action.spot.id] = action.spot
         newState.singleSpot = action.spot
         return newState;
@@ -211,7 +211,7 @@ const spotsReducer = (state = initialState, action) => {
         }
 
         case ADDIMAGE: {
-            const newState = {...state, singleSpot: {...state.singleSpot, SpotImages: [...state.singleSpot.SpotImages]}}
+            const newState = {...state, singleSpot: {SpotImages: []}}
             newState.singleSpot.SpotImages = [...newState.singleSpot.SpotImages, action.image]
             return newState;
         }

@@ -50,7 +50,7 @@ export default function SingleSpot() {
                 </div>
                 <div className='spot-info-container'>
                     <div className='spot-info'>
-                        <h2>Hosted by {singleSpot.Owner.firstName} {singleSpot.Owner.lastName}</h2>
+                        <h2>Hosted by {singleSpot.Owner?.firstName} {singleSpot.Owner?.lastName}</h2>
                         <p style={{overflow: 'auto', fontFamily: 'cursive'}}>{singleSpot.description}</p>
                     </div>
                     <div className='spot-rating'>
