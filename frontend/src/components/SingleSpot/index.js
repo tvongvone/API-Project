@@ -36,7 +36,7 @@ export default function SingleSpot() {
                 <div className='the-images'>
                     <img className='first-image'src={singleData.previewImage} alt="N/A"/>
                     {
-                        singleSpot.SpotImages.map(image => (
+                        singleSpot.SpotImages.slice(1).map(image => (
                             <img className='side-images' key={image.id} src={image.url} alt="N/A" />
                         ))
                     }
@@ -66,7 +66,7 @@ export default function SingleSpot() {
                             <h4>{review.User.firstName}</h4>
                             <span>{review.createdAt.slice(0, 10)}</span>
                             <p>{review.review}</p>
-                            {(review.userId === sessionUser.id) && (
+                            {(review.userId === sessionUser?.id) && (
                                 <button onClick={() => deleteHandler(review.id)} style={{backgroundColor: 'lightcoral', color: 'white'}}>Delete</button>
                             )}
                         </div>
