@@ -38,8 +38,6 @@ export default function FormPage({spot, formType}) {
         e.preventDefault()
         setErrors([])
 
-        setPhoto([img1, img2, img3, img4])
-
         setA(true)
 
         setHasSubmitted(true)
