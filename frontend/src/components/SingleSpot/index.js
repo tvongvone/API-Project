@@ -20,14 +20,19 @@ export default function SingleSpot() {
 
     const singleData = allSpots[id]
 
+    const num = reviews.reduce((acc, ele) => {
+        return (ele.stars + acc)
+    }, 0)
+
+    const final = parseFloat((num / reviews.length)).toFixed(1)
 
     useEffect(() => {
         dispatch(getSingleSpot(id))
         dispatch(getSpotReviews(id))
-
         return () => {
             dispatch(removeSingleSpot())
             dispatch(getAllSpots())
+            // dispatch(clearReview())
         }
     }, [dispatch, id])
 
@@ -56,15 +61,15 @@ export default function SingleSpot() {
                     <div className='spot-rating'>
                         <h2>${singleSpot.price} <span style={{fontSize: '15px'}}>night</span></h2>
                         <div className="hotdog">
-                            {reviews.length === 1 ? <p><i className="fa-solid fa-star"></i>{singleData?.avgRating} {reviews.length} review</p> :
-                            reviews.length ? <p><i className="fa-solid fa-star">{singleData?.avgRating} {reviews.length}</i> reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
+                            {reviews.length === 1 ? <p><i className="fa-solid fa-star"></i>{final} {reviews.length} review</p> :
+                            reviews.length ? <p><i className="fa-solid fa-star">{final} {reviews.length}</i> reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
                         </div>
                     </div>
                 </div>
                 <div className='reviews-container'>
-                    {reviews.length && singleData.avgRating ? (
+                    {reviews.length && final ? (
                     <>
-                    <h3><i className="fa-solid fa-star"></i> {singleData.avgRating} <span style={{marginLeft: '10px'}}>{reviews.length} {reviews.length === 1 ? 'review': 'reviews'}</span></h3>
+                    <h3><i className="fa-solid fa-star"></i> {final} <span style={{marginLeft: '10px'}}>{reviews.length} {reviews.length === 1 ? 'review': 'reviews'}</span></h3>
                     {sessionUser &&
                     sessionUser?.id !== singleSpot.ownerId && !userArray.includes(sessionUser?.id) && (<OpenModalButton modalComponent={<Review />} buttonText={'Post Your Review'} />)
                     }

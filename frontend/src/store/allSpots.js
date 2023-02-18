@@ -236,8 +236,8 @@ const spotsReducer = (state = initialState, action) => {
         }
 
         case REMOVESINGLESPOT: {
-            const newState = {...state, singleSpot: {}}
-            return newState;
+            // const newState = {...state, singleSpot: {}}
+            return initialState;
         }
 
         default: return state

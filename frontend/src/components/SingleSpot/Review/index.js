@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import ReactStars from "react-rating-stars-component"
 import { useDispatch, useSelector } from "react-redux"
 import './Review.css'
 import { useModal } from "../../../context/Modal"
-import { createSingleReview } from "../../../store/reviews"
+import { createSingleReview, getSpotReviews } from "../../../store/reviews"
+import { getAllSpots, getSingleSpot, removeSingleSpot } from "../../../store/allSpots"
 
 
 export default function Review() {
@@ -15,6 +16,11 @@ export default function Review() {
 
     const [review, setReview] = useState('')
     const [stars, setStars] = useState(1)
+
+    // useEffect(() => {
+    //     dispatch(getSingleSpot(spot.id))
+
+    // },[dispatch, spot.id])
 
     const submitHandler = async () => {
         dispatch(createSingleReview(spot.id, {review, stars})).then(closeModal)

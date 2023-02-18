@@ -4,6 +4,7 @@ import { csrfFetch } from "./csrf";
 const GETSPOTREVIEWS = 'reviews/getspotreviews'
 const CREATEREVIEW = 'reviews/createreview'
 const DELETEREVIEW = 'reviews/deletereview'
+const CLEARREVIEW = 'jdsoifajfiasjfo'
 
 const spotReviews = reviews => {
     return {
@@ -23,6 +24,12 @@ const deleteReview = reviewId => {
     return {
         type: DELETEREVIEW,
         reviewId
+    }
+}
+
+export const clearReview = () => {
+    return {
+        type: CLEARREVIEW,
     }
 }
 
@@ -90,6 +97,10 @@ export default function reviewsReducer(state = initialStates, action) {
             const newState = {...state, spot: {...state.spot}}
             delete newState.spot[action.reviewId]
             return newState
+        }
+
+        case CLEARREVIEW: {
+            return initialStates
         }
         default: return state
     }
