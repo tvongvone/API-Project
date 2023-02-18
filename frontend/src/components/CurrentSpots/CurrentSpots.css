@@ -25,6 +25,7 @@
     margin-top: 50px;
     margin-bottom: 50px;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .buttons {
@@ -36,4 +37,8 @@
 
 .buttons:hover {
     cursor: pointer;
+}
+
+.current-single-spot {
+    margin-top: 20px;
 }

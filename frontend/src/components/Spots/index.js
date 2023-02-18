@@ -11,10 +11,10 @@ export default function Spots() {
     return spots.length ? (
         <div className='spot-container'>
             {spots.map(spot => (
-                <div key={spot.id}>
+                <div className="spot-single-spot"key={spot.id}>
                     <NavLink to={`/spots/${spot.id}`} style={{textDecoration: 'none'}} >
                         <div className='single-spot'>
-                            <img src={spot.previewImage} alt='preview'/>
+                            <img className='all-images' src={spot.previewImage} alt='preview'/>
 
                                 <div className="under-image">
                                     <span>

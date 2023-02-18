@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, Redirect, Link } from 'react-router-dom';
-import { getCurrentSpots, getSingleSpot } from '../../store/allSpots';
+import { getCurrentSpots } from '../../store/allSpots';
 import './CurrentSpots.css'
 import OpenModalButton from '../OpenModalButton';
 import DeleteComponent from './DeleteComponent'
@@ -31,7 +31,7 @@ export default function CurrentSpots() {
 
             <div className="current-spot">
                 {current.map(spot => (
-                    <div key={spot.id}>
+                    <div className='current-single-spot' key={spot.id}>
                     <NavLink to={`/spots/${spot.id}`} style={{textDecoration: 'none'}} >
                         <div className='single-spot'>
                             <img src={spot.previewImage} alt='preview'/>
