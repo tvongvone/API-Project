@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { deleteSingleSpot } from "../../../store/allSpots"
 import { useModal } from "../../../context/Modal"
 import './DeleteComponent.css'
