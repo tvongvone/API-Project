@@ -33,5 +33,5 @@ export default function Spots() {
                 </div>
             ))}
         </div>
-    ): <div>Loading...</div>
+    ): <div>Sorry could not retrieve spots at this time!!!</div>
 }
