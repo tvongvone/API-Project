@@ -39,17 +39,14 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
-  const demoLogin = () => {
-    dispatch(sessionActions.login({credential: 'Demo-lition', password: 'password'}))
-    closeMenu();
-  }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+      <button className="profile-button" onClick={openMenu}>
+        <i class="fa-solid fa-bars"></i>
+        <i style={{paddingLeft: '2px'}} className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -57,9 +54,9 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
-            <li><NavLink to='/spots/current' style={{textDecoration: 'none'}}>Manage Spots</NavLink></li>
+            <li><NavLink to='/spots/current' style={{textDecoration: 'none', color: 'white'}}>Manage Spots</NavLink></li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button style={{fontfontFamily: 'cursive',border: 'none', color: 'white', backgroundColor: 'dodgerblue'}} onClick={logout}>Log Out</button>
             </li>
           </>
         ) : (
@@ -74,7 +71,6 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
-            <span onClick={demoLogin} style={{cursor: 'pointer'}}>Demo</span>
           </>
         )}
       </ul>

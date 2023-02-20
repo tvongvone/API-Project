@@ -15,7 +15,7 @@
     width: 180px;
     text-align: center;
     box-shadow: 2px;
-    background-color: lightcoral;
+    background-color: dodgerblue;
     box-shadow: 4px 3px 3px black;
 }
 
@@ -29,10 +29,11 @@
 }
 
 .buttons {
-    background-color: lightcoral;
+    background-color: dodgerblue;
     color: white;
     border: 2px solid black;
     box-shadow: 3px 3px 3px black;
+    margin-right: 5px;
 }
 
 .buttons:hover {

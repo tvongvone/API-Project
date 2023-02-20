@@ -71,8 +71,8 @@ export default function FormPage({spot, formType}) {
                             history.push(`/spots/${response.id}/`)
 
                     }   catch(e) {
-
-                        setErrors(oldArray => [...oldArray])
+                        const err = await e.json()
+                        setErrors(oldArray => [oldArray, ...err.errors])
 
                     }
             } else {
@@ -97,31 +97,31 @@ export default function FormPage({spot, formType}) {
                         <label htmlFor="country">Country <span className={hasSubmitted && (!country.length) ? "" && setErrors(o => [...o, 'country']): "hidden"} style={{ color: 'red'}}> Country is required</span></label>
 
 
-                        <input id="country" name="country" type='text' placeholder="Country" value={country} onChange={e => setCountry(e.target.value)}/>
+                        <input id="country" name="country" type='text' value={country} onChange={e => setCountry(e.target.value)}/>
                         <label htmlFor="address">Street Address <span className={hasSubmitted && (!address.length) ? "" && setErrors(o => [...o, 'address']): "hidden"} style={{ color: 'red'}}> Address is required</span></label>
-                        <input id="address" name="address" type='text' placeholder="Address" value={address} onChange={e => setAddress(e.target.value)}/>
+                        <input id="address" name="address" type='text' value={address} onChange={e => setAddress(e.target.value)}/>
                         <label htmlFor="city">City <span className={hasSubmitted && (!city.length) ? "" && setErrors(o => [...o, 'city']): "hidden"} style={{ color: 'red'}}> City is required</span></label>
-                        <input id="city" name="city" value={city} type='text' placeholder="City" onChange={e => setCity(e.target.value)}/>
+                        <input id="city" name="city" value={city} type='text' onChange={e => setCity(e.target.value)}/>
                         <label htmlFor="state">State <span className={hasSubmitted && (!state.length) ? "" && setErrors(o => [...o, 'state']): "hidden"} style={{ color: 'red'}}> State is required</span></label>
-                        <input id="state" name="state" value={state} type='text' placeholder="State" onChange={e => setState(e.target.value)}/>
+                        <input id="state" name="state" value={state} type='text' onChange={e => setState(e.target.value)}/>
                         <label htmlFor="latitude">Latitude</label>
-                        <input id="latitude" name="latitude" value={lat} placeholder="Latitude" type='number' onChange={e => setLatitude(e.target.value)}/>
+                        <input id="latitude" name="latitude" value={lat} type='number' onChange={e => setLatitude(e.target.value)}/>
                         <label htmlFor="longitude">Longitude</label>
-                        <input id="longitude" name="longitude" value={lng} placeholder="Longitude" type='number' onChange={e => setLongitude(e.target.value)}/>
+                        <input id="longitude" name="longitude" value={lng} type='number' onChange={e => setLongitude(e.target.value)}/>
                     </div>
                     <div>
                         <h3>Describe your place to guests</h3>
                         <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
                         <div style={{display:'flex', flexDirection: 'column'}}>
                         <span className={hasSubmitted && (description.length < 30) ? "" && setErrors(o => [...o, 'description']): "hidden"} style={{ color: 'red'}}> Description is needs a minimum of 30 characters.</span>
-                        <textarea id="description" name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)}/>
+                        <textarea id="description" name="description" value={description} onChange={e => setDescription(e.target.value)}/>
                         </div>
                     </div>
                     <div>
                         <h3>Create a title for your spot</h3>
                         <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
-                        <span className={hasSubmitted && (!name.length) ? "" && setErrors(o => [...o, 'name']): "hidden"} style={{ color: 'red'}}> Name is required </span>
-                        <input id='name' name='name' placeholder="name" value={name} type="text" onChange={e => setName(e.target.value)}/>
+                        <span className={(hasSubmitted && errors.includes('Invalid value')) || (hasSubmitted && !name.length) ? "" && setErrors(o => [...o, 'name']): "hidden"} style={{ color: 'red'}}> Name is required </span>
+                        <input id='name' name='name' value={name} type="text" onChange={e => setName(e.target.value)}/>
                     </div>
                     <div>
                         <h3>Set a base price for your spot</h3>
@@ -129,7 +129,7 @@ export default function FormPage({spot, formType}) {
                         <span className={hasSubmitted && !price ? "" : "hidden"} style={{ color: 'red'}}> Price is required </span>
                         <div style={{display:'flex'}}>
 
-                        <span className='dollar-sign'>$ <input id="price" name="price" placeholder="Price" value={price} type="number" onChange={e => setPrice(e.target.value)}/></span>
+                        <span className='dollar-sign'>$ <input id="price" name="price" value={price} type="number" onChange={e => setPrice(e.target.value)}/></span>
                         </div>
                     </div>
                     {formType === 'Create' && (

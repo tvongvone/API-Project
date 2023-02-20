@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import ReactStars from "react-rating-stars-component"
 import { useDispatch, useSelector } from "react-redux"
 import './Review.css'
 import { useModal } from "../../../context/Modal"
-import { createSingleReview, getSpotReviews } from "../../../store/reviews"
-import { getAllSpots, getSingleSpot, removeSingleSpot } from "../../../store/allSpots"
+import { createSingleReview} from "../../../store/reviews"
 
 
 export default function Review() {
@@ -33,12 +32,12 @@ export default function Review() {
                 <h2>How was your stay?</h2>
                 <textarea placeholder="Just a quick review." value={review} onChange={e => setReview(e.target.value)} />
 
-                <div>
-                <ReactStars size={20} count={5} isHalf={false} activeColor='lightcoral' color='black'
+                <div className='stars'>
+                <ReactStars size={20} count={5} isHalf={false} activeColor='dodgerblue' color='black'
                 emptyIcon={<i className="far fa-star" />}
                 filledIcon={<i className="fa fa-star" />} value={stars} onChange={e => setStars(e)}/>
                 </div>
-                <button disabled={review.length < 10 || review.length > 200} onClick={submitHandler}>Submit Your Review</button>
+                <button disabled={review.length < 10} onClick={submitHandler}>Submit Your Review</button>
 
             </div>
 

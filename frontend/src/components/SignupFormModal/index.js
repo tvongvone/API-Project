@@ -30,9 +30,9 @@ function SignupFormModal() {
   };
 
   return (
-    <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="signup-container">
+      <h1 style={{paddingTop: '10px', fontFamily: 'cursive'}}>Sign Up</h1>
+      <form className="signup-content" onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
@@ -92,7 +92,7 @@ function SignupFormModal() {
         </label>
         <button type="submit">Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
 

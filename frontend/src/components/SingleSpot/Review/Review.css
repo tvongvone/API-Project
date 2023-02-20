@@ -1,11 +1,12 @@
 
 .review-container {
-    width: 350px;
+    width: 850px;
     height: 250px;
     display: flex;
     justify-content: center;
     border: solid black 3px;
     font-family: cursive;
+    border-radius: 20px;
 }
 
 .review-content {
@@ -19,16 +20,27 @@
     height: 70%;
     border: solid black 2px;
     font-family: cursive;
+    border-radius: 10px;
 }
 
 .review-content button {
-    background-color: lightcoral;
-    color: white;
+    background-color: dodgerblue;
     font-family: cursive;
     padding:10px;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
+    box-shadow: 3px 3px 3px black;
 }
 
 button:hover {
     cursor: pointer;
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+}
+
+.reviews {
+    width: 850px;
+    overflow-wrap: break-word;
 }

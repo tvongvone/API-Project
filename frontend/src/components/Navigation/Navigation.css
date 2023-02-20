@@ -9,7 +9,10 @@
     right: 40px;
     z-index: 1;
     border: solid 1px black;
-    background-color: white;
+    border-radius: 10px;
+    background-color: dodgerblue;
+    color: white;
+    padding: 10px;
 }
 
 .fas:hover {
@@ -19,13 +22,32 @@
 .list-container {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding-top: 40px;
     margin-left: 20px;
     margin-right: 20px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid gray;
+}
+
+.list-container img {
+    height: 80px;
+    width: 80px;
+    position: relative;
+    bottom: 30px;
 }
 
 ul {
     list-style: none;
     font-family: cursive;
+}
+
+
+.profile-button {
+    background-color: dodgerblue;
+    border-radius: 20px;
+    padding: 5px;
+    color: white;
+}
+
+.hover-profile:hover {
+    cursor: pointer;
 }

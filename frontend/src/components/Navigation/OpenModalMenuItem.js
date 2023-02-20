@@ -17,7 +17,7 @@ function OpenModalMenuItem({
   };
 
   return (
-    <li onClick={onClick}>{itemText}</li>
+    <li className='hover-profile' onClick={onClick}>{itemText}</li>
   );
 }
 

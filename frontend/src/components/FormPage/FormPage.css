@@ -1,20 +1,40 @@
 .create-container {
     display: flex;
-    border: solid black 2px;
     justify-content: center;
+    align-items: center;
 }
 
 .create-content {
     display: block;
     justify-content: center;
-    border: solid black 1px;
     width: 500px;
+    font-family: cursive;
 }
 
 .the-form label {
     display:block;
+    padding: 10px;
 }
 
 .the-form input {
+    font-family: cursive;
     width: 80%;
+    height: 40px;
+    margin: 5px;
+}
+
+.the-form textarea {
+    width: 80%;
+    margin: 5px;
+    height: 80px;
+}
+
+.the-form button {
+    margin: 5px;
+    height: 50px;
+    width: 50%;
+    background-color: dodgerblue;
+    box-shadow: 3px 3px 3px black;
+    color: white;
+    font-family: cursive;
 }

@@ -31,23 +31,8 @@ module.exports = {
       {
         reviewId: 2,
         url: "John's third url"
-      },
-      {
-        reviewId: 4,
-        url: "Tony's first url"
-      },
-      {
-        reviewId: 5,
-        url: "Tony's second url"
-      },
-      {
-        reviewId: 6,
-        url: "Mike's first url"
-      },
-      {
-        reviewId: 6,
-        url: "Mike's second url"
       }
+
     ])
   },
 

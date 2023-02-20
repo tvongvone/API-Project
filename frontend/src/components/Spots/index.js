@@ -7,6 +7,7 @@ export default function Spots() {
     const spotsData = useSelector(state => state.spots)
 
     const spots = Object.values(spotsData.allSpots)
+    spots.sort((a, b) => -1)
 
     return spots.length ? (
         <div className='spot-container'>
@@ -20,7 +21,7 @@ export default function Spots() {
                                     <span>
                                         {spot.city}, {spot.state}
                                     </span>
-                                    <span>
+                                    <span style={{display: 'flex'}}>
                                         <i className="fa-solid fa-star"></i>
                                         {spot.avgRating && (!isNaN(spot.avgRating))? spot.avgRating : <span style={{fontFamily: 'cursive'}}>New</span>}
                                     </span>

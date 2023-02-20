@@ -53,7 +53,7 @@ export default function CurrentSpots() {
                                         </div>
                                         <div>
                                             <Link to={`/spot/${spot.id}/edit`} style={{textDecoration: 'none'}}className='buttons'>Update</Link>
-                                            <OpenModalButton modalComponent={spot.id && (<DeleteComponent spotId={spot.id}/>)} buttonText='Delete'/>
+                                            <OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white', boxShadow: '3px 3px 3px black', position: 'relative', bottom: '1px'}} modalComponent={spot.id && (<DeleteComponent spotId={spot.id}/>)} buttonText='Delete'/>
                                         </div>
                                     </div>
                 </div>

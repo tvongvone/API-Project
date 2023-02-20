@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import "./LoginForm.css";
+import './LoginForm.css'
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -11,6 +11,10 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+
+  const demoLogin = () => {
+    dispatch(sessionActions.login({credential: 'Demo-lition', password: 'password'})).then(closeModal)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,8 +30,9 @@ function LoginFormModal() {
   };
 
   return (
-    <>
+    <div className='form-container'>
       <h1>Log In</h1>
+      <div className="form-content">
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
@@ -52,9 +57,12 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+        <button className='button1'type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
       </form>
-    </>
+      </div>
+      <button onClick={demoLogin} className='button2'>Demo User</button>
+    </div>
+
   );
 }
 
