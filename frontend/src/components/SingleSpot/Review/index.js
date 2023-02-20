@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-// import ReactStars from "react-rating-stars-component"
+import ReactStars from "react-rating-stars-component"
 import { useDispatch, useSelector } from "react-redux"
 import './Review.css'
 import { useModal } from "../../../context/Modal"
@@ -33,9 +33,9 @@ export default function Review() {
                 <textarea placeholder="Just a quick review." value={review} onChange={e => setReview(e.target.value)} />
 
                 <div className='stars'>
-                {/* <ReactStars size={20} count={5} isHalf={false} activeColor='dodgerblue' color='black'
+                <ReactStars size={20} count={5} isHalf={false} activeColor='dodgerblue' color='black'
                 emptyIcon={<i className="far fa-star" />}
-                filledIcon={<i className="fa fa-star" />} value={stars} onChange={e => setStars(e)}/> */}
+                filledIcon={<i className="fa fa-star" />} value={stars} onChange={e => setStars(e)}/>
                 </div>
                 <button disabled={review.length < 10} onClick={submitHandler}>Submit Your Review</button>
 
