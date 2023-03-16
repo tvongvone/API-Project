@@ -1,3 +1,7 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
 
 .single-spot-container {
     display: flex;
