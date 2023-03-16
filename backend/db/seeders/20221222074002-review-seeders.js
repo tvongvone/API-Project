@@ -27,7 +27,7 @@ module.exports = {
     {
       userId: 1,
       spotId: 3,
-      review: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In tellus integer feugiat scelerisque varius morbi enim. Feugiat in ante metus dictum at tempor commodo ullamcorper a. Diam volutpat commodo sed egestas. Ac ut consequat semper viverra nam libero justo. Suspendisse faucibus interdum posuere lorem ipsum dolor sit amet consectetur!",
+      review: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempo!",
       stars: 3
     },
     {
