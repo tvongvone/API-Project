@@ -54,30 +54,35 @@ cd backend
 npm start
 ```
 
-## Landing Page
 
-### Preview
+## Preview
 
 ![Screenshot (121)](https://user-images.githubusercontent.com/107327260/230183411-2768d6e8-37e4-49bc-af9e-57f38ffb86e9.png)
 
 ### Technical Challenges
 
-Removing a single pin from a board. I passed both the boardId and pinId, looped through all of the boards pins, found the matching id, then popped the pin off the board so that it was just removed not deleted
+First time working on a project. The biggest challenge at the time was getting the validations correct for the booking. Iterated through each existing booking, and made sure that the response startingData and endingData didn't overlap with any of the existing bookings. 
 
 ```bash
-  def remove_pin(id):
-
-    res = request.get_json()
-    pinId = int(res['pinId'])
-
-    data = Board.query.get(id)
-    for idx, x in enumerate(data.board_pins):
-        if x.id == pinId:
-            index = idx
-
-
-    data.board_pins.pop(index)
-    db.session.add(data)
-    db.session.commit()
+ bookingList.forEach(booking => {
+            if(new Date(req.body.startDate).getTime() >= new Date(booking.startDate).getTime() &&
+            new Date(req.body.startDate).getTime() <= new Date(booking.endDate).getTime()) {
+                noErrors = false
+                const err = new Error("Sorry, this spot is already booked for the specified dates")
+                err.status = 403
+                err.errors = ['Start date conflicts with an existing booking',
+            'End date conflicts with an existing booking']
+                next(err)
+            }
+            if(new Date(req.body.endDate).getTime() >= new Date(booking.startDate).getTime() &&
+            new Date(req.body.endDate).getTime() <= new Date(booking.endDate).getTime()) {
+                noErrors = false
+                const err = new Error("Sorry, this spot is already booked for the specified dates")
+                err.status = 403
+                err.errors = ['Start date conflicts with an existing booking',
+                'End date conflicts with an existing booking']
+                next(err)
+            }
+        })
 
 ```
