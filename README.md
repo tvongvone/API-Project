@@ -1,11 +1,8 @@
 ## Aliennb
 
-Pinsta is a social media platform that allows users to discover and save ideas for various projects or interests by pinning them to virtual pinboards. It's often used for inspiration, planning, and bookmarking, with content ranging from recipes and fashion to home decor and travel. Here is the live link [Pinsta](https://pinsta-project-sdav.onrender.com/)
+Alien is a clone of the popular Air-bnb which is a online marketplace and hospitality service that allows people to rent out their homes or apartments to travelers.
 
-## Wiki
-- [Feature List](https://github.com/ELIxFOSTER/Pinsta/wiki/Feature-List)
-- [User Stories](https://github.com/ELIxFOSTER/Pinsta/wiki/User-Story)
-- [Database Schema](https://dbdiagram.io/d/640abdd5296d97641d86deb9)
+Here is the live site! <a href="https://tonys-air-bnb.onrender.com">Tonysnb</a> 🏘️
 
 ## Tech Stack
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Flask](https://img.shields.io/badge/Flask-%23404d59.svg?style=for-the-badge&logo=flask&logoColor=%2361DAFB) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
