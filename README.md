@@ -61,7 +61,7 @@ npm start
 
 ### Technical Challenges
 
-First time working on a project. The biggest challenge at the time was getting the validations correct for the booking. Iterated through each existing booking, and made sure that the response startingData and endingData didn't overlap with any of the existing bookings. 
+First time working on a project. The biggest challenge at the time was getting the validations correct for the booking. Iterated through each existing booking, and made sure that the request startDate and endDate didn't overlap with any of the existing bookings. 
 
 ```bash
  bookingList.forEach(booking => {
