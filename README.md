@@ -18,44 +18,47 @@ Here is the live site! <a href="https://tonys-air-bnb.onrender.com">Tonysnb</a> 
 ## Run Locally
 ### HTTPS
 ```bash
-  git clone https://github.com/ELIxFOSTER/Pinsta.git
+  git clone https://github.com/tvongvone/API-Project.git
 ```
 
 ### SSH
 ```bash
-  git clone git@github.com/ELIxFOSTER/Pinsta.git
+  git clone git@github.com:tvongvone/API-Project.git
 ```
 
-Install dependencies
+Install dependencies for frontend
 
 ```bash
-pip install -r requirements.txt &&
-flask db upgrade &&
-flask seed all
+cd frontend
+npm install --prefix frontend
 ```
 
+install dependencies for the backend
+
 ```bash
-cd react-app
-npm install --prefix react-app 
+cd backend
+npm install --prefix backend 
 ```
 
-Start the server
+Start the server in the frontend
 
 ```bash
-pipenv run flask run
+cd frontend
+npm start
 ```
 
-In seperate terminal
+In seperate terminal start in the backend
 
 ```bash
-cd react-app
+cd backend
 npm start
 ```
 
 ## Landing Page
 
-### Cloned Site
-![Screenshot 2023-03-19 231413](https://user-images.githubusercontent.com/107530902/226262446-14b545d8-bb77-4182-ad1b-8feba4d4498d.png)
+### Preview
+
+![Screenshot (121)](https://user-images.githubusercontent.com/107327260/230183411-2768d6e8-37e4-49bc-af9e-57f38ffb86e9.png)
 
 ### Technical Challenges
 
