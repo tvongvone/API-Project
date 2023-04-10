@@ -1,6 +1,6 @@
-## tonysnb
+## Tonysnb
 
-tonysnb is a clone of the popular Air-bnb which is a online marketplace and hospitality service that allows people to rent out their homes or apartments to travelers.
+Tonysnb is a clone of the popular Air-bnb which is a online marketplace and hospitality service that allows people to rent out their homes or apartments to travelers.
 
 Here is the live site! <a href="https://tonys-air-bnb.onrender.com">Tonysnb</a> 🏘️
 
