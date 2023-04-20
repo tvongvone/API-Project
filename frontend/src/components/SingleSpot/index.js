@@ -5,7 +5,9 @@ import { deleteSingleReview, getSpotReviews } from "../../store/reviews";
 import { getAllSpots, getSingleSpot, removeSingleSpot } from "../../store/allSpots";
 import OpenModalButton from '../OpenModalButton'
 import Review from './Review'
+import PickDate from "../PickDate";
 import './SingleSpot.css'
+import { getSpotBookings } from "../../store/bookings";
 
 export default function SingleSpot() {
     const {id} = useParams()
@@ -31,6 +33,7 @@ export default function SingleSpot() {
     useEffect(() => {
         dispatch(getSingleSpot(id))
         dispatch(getSpotReviews(id))
+        dispatch(getSpotBookings(id))
         return () => {
             dispatch(removeSingleSpot())
             dispatch(getAllSpots())
@@ -70,7 +73,10 @@ export default function SingleSpot() {
                                 reviews.length ? <p><i className="fa-solid fa-star"> <span style={{fontWeight: '400',fontFamily: 'cursive'}}>{final}</span> <i style={{ marginLeft: '5px', marginRight: '3px', fontSize: '8px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i></i>{reviews.length} reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
                             </div>
                         </div>
-                        <button onClick={() => alert('Feature coming soon!')}>Reserve</button>
+                        {sessionUser.id != singleSpot.Owner?.id ? (
+                            <OpenModalButton modalComponent={<PickDate />} buttonText={'Reserve'}/>
+                        ): <button>Bookings</button>}
+
                     </div>
                 </div>
                 <div className='reviews-container'>
