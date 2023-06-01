@@ -75,7 +75,7 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
     if(!bookingExist) {
         noErrors = false
         res.status = 404
-        res.json({
+        return res.json({
             message: "Booking couldn't be found",
             statusCode: 404
         })
@@ -93,7 +93,7 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
         noErrors = false
         const err = "Booking must belong to User"
         err.status = 404
-        next(err)
+        return next(err)
     }
         if(ownBooking.dataValues.endDate < new Date()) {
             noErrors = false
@@ -123,7 +123,7 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
                 err.status = 403
                 err.errors = ['Start date conflicts with an existing booking',
             'End date conflicts with an existing booking']
-                next(err)
+                return next(err)
             }
             if(new Date(req.body.endDate).getTime() >= new Date(booking.startDate).getTime() &&
             new Date(req.body.endDate).getTime() <= new Date(booking.endDate).getTime()) {
@@ -132,7 +132,7 @@ router.put('/:id', requireAuth, dateMiddleware, async (req, res, next) => {
                 err.status = 403
                 err.errors = ['Start date conflicts with an existing booking',
                 'End date conflicts with an existing booking']
-                next(err)
+                return next(err)
             }
         })
 

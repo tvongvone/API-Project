@@ -16,6 +16,7 @@ export default function SingleSpot() {
     const singleSpot = useSelector(state => state.spots.singleSpot)
     const reviewData = useSelector(state => state.reviews.spot)
     const allSpots = useSelector(state => state.spots.allSpots)
+    const bookings = useSelector(state => state.bookings)
     const reviews = Object.values(reviewData)
 
     reviews.sort((a, b) => -1)
@@ -45,7 +46,7 @@ export default function SingleSpot() {
         dispatch(deleteSingleReview(id))
     }
 
-    return singleSpot && singleSpot.SpotImages && singleData && userArray ? (
+    return singleSpot && singleSpot.SpotImages && singleData && userArray && bookings ? (
         <div className="container">
             <div className="single-spot-container">
                 <h2>{singleSpot.name}</h2>
@@ -73,8 +74,8 @@ export default function SingleSpot() {
                                 reviews.length ? <p><i className="fa-solid fa-star"> <span style={{fontWeight: '400',fontFamily: 'cursive'}}>{final}</span> <i style={{ marginLeft: '5px', marginRight: '3px', fontSize: '8px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i></i>{reviews.length} reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
                             </div>
                         </div>
-                        {sessionUser.id != singleSpot.Owner?.id ? (
-                            <OpenModalButton modalComponent={<PickDate />} buttonText={'Reserve'}/>
+                        {sessionUser && sessionUser?.id !== singleSpot?.ownerId ? (
+                            <OpenModalButton modalComponent={<PickDate spotId={id}/>} buttonText={'Reserve'}/>
                         ): <button>Bookings</button>}
 
                     </div>

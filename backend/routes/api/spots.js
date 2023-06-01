@@ -45,19 +45,37 @@ const validateSpot = [
 ]
 
 const dateMiddleware = (req, res, next) => {
+    // debugger
     const {startDate, endDate} = req.body
+
+    if(!startDate || !endDate) {
+        const err = new Error('Please provide a start date and end date')
+        err.title='Validation error'
+        err.status=422
+        err.message='Please provide a start-date and end-date'
+        // return res.json(err)
+        res.statusMessage = 'Booking must be in the future'
+        return res.status(422).send(err)
+    }
+
     if(new Date(startDate).getTime() < new Date().getTime()) {
         const err = new Error("Booking must be in the future")
         err.title = 'Validation Error'
-        err.status = 403
-        next(err)
+        err.status = 422
+        err.message = 'Booking must be in the future'
+        res.statusMessage = 'Booking must be in the future'
+        return res.status(422).send(err)
+        // return next(err)
     }
 
     if(new Date(endDate).getTime() <= new Date(startDate).getTime()) {
         const err = new Error("endDate cannot be on or before startDate")
         err.title = 'Validation Error'
-        err.status = 400
-        next(err)
+        err.status = 422
+        // res.status(400)
+        res.statusMessage = 'Booking must be in the future'
+        return res.status(422).send(err)
+        // return next(err)
     }
 
     next()
@@ -71,7 +89,7 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
         err.title = "Validation Error"
         err.status = 404
         err.errors = ["Spot couldn't be found"]
-        next(err)
+        return next(err)
     }
     const owner = await Spot.findOne({where: {id: req.params.id, ownerId: req.user.id}})
 
@@ -79,11 +97,11 @@ router.delete('/:id', requireAuth, async (req, res, next) => {
         const err = new Error("This is not your spot")
         err.title = "Authorization Error"
         err.status = 404
-        next(err)
+        return next(err)
     } else {
         await deleteSpot.destroy()
         res.status = 200;
-        res.json({
+        return res.json({
             message: "Successfully deleted",
             statusCode: 200
         })
@@ -205,7 +223,7 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
         const err = new Error("Could not find Spot by specified Id")
         err.title = "Server Error"
         err.status = 404
-        next(err)
+        return next(err)
     }
 
     const existingBooking = await Booking.findAll({
@@ -227,7 +245,7 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
             err.status = 403
             err.errors = ['Start date conflicts with an existing booking',
         'End date conflicts with an existing booking']
-            next(err)
+            return next(err)
         }
         if(new Date(req.body.endDate).getTime() >= new Date(booking.startDate).getTime() &&
         new Date(req.body.endDate).getTime() <= new Date(booking.endDate).getTime()) {
@@ -236,7 +254,7 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
             err.status = 403
             err.errors = ['Start date conflicts with an existing booking',
             'End date conflicts with an existing booking']
-            next(err)
+            return next(err)
         }
     })
 
