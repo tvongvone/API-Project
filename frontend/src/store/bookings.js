@@ -56,7 +56,8 @@ export const createSpotBooking = (id, obj) => async dispatch => {
 
     } catch(err) {
         // Create a dispatch to display error
-        dispatch(errBooking(err))
+        const response = await err.json()
+        return response
     }
 }
 

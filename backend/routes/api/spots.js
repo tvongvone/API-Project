@@ -54,17 +54,17 @@ const dateMiddleware = (req, res, next) => {
         err.status=422
         err.message='Please provide a start-date and end-date'
         // return res.json(err)
-        res.statusMessage = 'Booking must be in the future'
-        return res.status(422).send(err)
+        res.statusMessage = 'Must be valid start date and end date'
+        return res.status(422).json(err.message)
     }
 
     if(new Date(startDate).getTime() < new Date().getTime()) {
         const err = new Error("Booking must be in the future")
         err.title = 'Validation Error'
         err.status = 422
-        err.message = 'Booking must be in the future'
+        err.message = `Booking must be in the future ${new Date(startDate).getTime(), new Date().getTime()}`
         res.statusMessage = 'Booking must be in the future'
-        return res.status(422).send(err)
+        return res.status(422).json(err.message)
         // return next(err)
     }
 
@@ -73,8 +73,8 @@ const dateMiddleware = (req, res, next) => {
         err.title = 'Validation Error'
         err.status = 422
         // res.status(400)
-        res.statusMessage = 'Booking must be in the future'
-        return res.status(422).send(err)
+        res.statusMessage = 'End date cannot be before start date'
+        return res.status(422).json(err.message)
         // return next(err)
     }
 
@@ -241,20 +241,21 @@ router.post('/:id/bookings', dateMiddleware, requireAuth, async (req, res, next)
         if(new Date(req.body.startDate).getTime() >= new Date(booking.startDate).getTime() &&
         new Date(req.body.startDate).getTime() <= new Date(booking.endDate).getTime()) {
             noErrors = false
-            const err = new Error("Sorry, this spot is already booked for the specified dates")
-            err.status = 403
-            err.errors = ['Start date conflicts with an existing booking',
-        'End date conflicts with an existing booking']
-            return next(err)
+            const err = new Error(`Spot is already booked for ${req.body.startDate} to ${req.body.endDate}`)
+            err.status = 422
+            err.message = `A Spot is already booked for ${booking.startDate.slice(0, 10)} to ${booking.endDate.slice(0, 10)}`
+        //     err.errors = ['Start date conflicts with an existing booking',
+        // 'End date conflicts with an existing booking']
+            // return next(err)
+            res.status(422).json(err.message)
         }
         if(new Date(req.body.endDate).getTime() >= new Date(booking.startDate).getTime() &&
         new Date(req.body.endDate).getTime() <= new Date(booking.endDate).getTime()) {
             noErrors = false
             const err = new Error("Sorry, this spot is already booked for the specified dates")
-            err.status = 403
-            err.errors = ['Start date conflicts with an existing booking',
-            'End date conflicts with an existing booking']
-            return next(err)
+            err.status = 422
+            err.message = `A Spot is already booked for ${booking.startDate.slice(0, 10)} to ${booking.endDate.slice(0, 10)}`
+            res.status(422).json(err.message)
         }
     })
 

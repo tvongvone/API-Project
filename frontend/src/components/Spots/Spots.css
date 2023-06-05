@@ -13,8 +13,11 @@
 .single-spot img {
     height: 250px;
     width: 100%;
-    border: 2px solid black;
     object-fit: cover;
+}
+
+.single-spot img:hover {
+    filter: brightness(80%);
 }
 
 .under-image {
@@ -29,6 +32,6 @@
 }
 
 .all-images {
-    border: solid 2px black;
-    border-radius: 10px;
+
+    border-radius: 5px;
 }

@@ -18,8 +18,7 @@ const PickDate = ({spotId}) => {
         const data = await dispatch(createSpotBooking(spotId, {startDate, endDate}))
 
         if(data) {
-            setErrors([...data.message])
-            console.log(data)
+            setErrors([data])
         } else {
             setErrors([])
             setStart('')

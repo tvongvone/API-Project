@@ -57,7 +57,7 @@ export default function SingleSpot() {
                         </div>
                         <div  className="side-container">
                                 {singleSpot.SpotImages.map(image => (
-                                    image.preview === false && (<div key={image.id} className='side-images'><img style={{border: 'solid black 3px'}} key={image.id} src={image.url} alt="N/A" /></div>)
+                                    image.preview === false && (<div key={image.id} className='side-images'><img key={image.id} src={image.url} alt="N/A" /></div>)
                                 ))}
                         </div>
                     </div>
