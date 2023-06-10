@@ -76,7 +76,7 @@ export default function SingleSpot() {
                         </div>
                         {sessionUser && sessionUser?.id !== singleSpot?.ownerId ? (
                             <OpenModalButton modalComponent={<PickDate spotId={id}/>} buttonText={'Reserve'}/>
-                        ): <button>Bookings</button>}
+                        ): <button>Hello</button>}
 
                     </div>
                 </div>
@@ -85,7 +85,7 @@ export default function SingleSpot() {
                     <>
                     <h3><i className="fa-solid fa-star"></i>{final} <i style={{ verticalAlign:'middle' ,marginLeft: '10px', fontSize: '8px'}} className="fa-solid fa-circle"></i> <span style={{marginLeft: '10px'}}>{reviews.length} {reviews.length === 1 ? 'review': 'reviews'}</span></h3>
                     {sessionUser &&
-                    sessionUser?.id !== singleSpot.ownerId && !userArray.includes(sessionUser?.id) && (<OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white', padding: '4px', borderRadius: '10px', boxShadow: '3px 3px 3px black'}} modalComponent={<Review />} buttonText={'Post Your Review'} />)
+                    sessionUser?.id !== singleSpot.ownerId && !userArray.includes(sessionUser?.id) && (<OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white', padding: '10px', borderRadius: '10px', border: 'solid 1px black'}} modalComponent={<Review />} buttonText={'Post Your Review'} />)
                     }
                     {reviews.map(review => (
                         <div key={review.id} className='reviews'>
@@ -101,7 +101,7 @@ export default function SingleSpot() {
                     ):
                     <>
                     <h3><i className="fa-solid fa-star"></i> New</h3>
-                    {sessionUser && sessionUser?.id !== singleSpot.ownerId && (<OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white', padding: '4px', borderRadius: '10px', boxShadow: '3px 3px 3px black'}} modalComponent={<Review />} buttonText={'Post Your Review'} />)}
+                    {sessionUser && sessionUser?.id !== singleSpot.ownerId && (<OpenModalButton modalComponent={<Review />} buttonText={'Post Your Review'} />)}
                     <p>Be the first to post a review!</p>
                     </>
                     }

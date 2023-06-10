@@ -28,7 +28,11 @@
     font-family: cursive;
     padding:10px;
     margin-bottom: 20px;
-    box-shadow: 3px 3px 3px black;
+}
+
+.review-content button:active {
+    background-color: #6FB8FF;
+    padding: 8px;
 }
 
 button:hover {

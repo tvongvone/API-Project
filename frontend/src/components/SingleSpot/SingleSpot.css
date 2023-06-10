@@ -79,13 +79,20 @@
 
 
 .spot-rating button {
-    width: 60%;
+    width: 80%;
     height: 50px;
     font-family: cursive;
     border-radius: 10px;
-    box-shadow: 3px 3px 3px black;
     background-color: dodgerblue;
     color: white;
+    border: solid black 1px;
+    font-size: 15px;
+}
+
+.spot-rating button:active {
+    background-color: #6FB8FF;
+    height: 48px;
+    width: 78%
 }
 
 

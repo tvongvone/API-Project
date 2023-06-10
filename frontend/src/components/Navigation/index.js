@@ -12,7 +12,7 @@ function Navigation({ isLoaded }){
   return (
     <ul className='list-container'>
       <li>
-        <NavLink exact to="/"><img src={alien} alt='spaceship logo'/></NavLink>
+        <NavLink style={{fontSize: '20px', textDecoration: 'none', fontWeight: '800px'}} exact to="/">tonysnb</NavLink>
       </li>
       {isLoaded && (
         <>
