@@ -45,8 +45,8 @@ function ProfileButton({ user }) {
   return (
     <>
       <button className="profile-button" onClick={openMenu}>
-        <i className="fa-solid fa-bars"></i>
-        <i style={{paddingLeft: '2px'}} className="fas fa-user-circle" />
+        <i style={{paddingRight: '15px', paddingLeft: '5px', paddingBottom: '5px', paddingTop: '5px', color: 'rgba(0, 0, 0, 0.751)'}} className="fa-solid fa-bars"></i>
+        <i style={{fontSize: '25px' ,paddingLeft: '2px', color: 'gray'}} className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -54,9 +54,9 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
-            <li><NavLink to='/spots/current' style={{textDecoration: 'none', color: 'white'}}>Manage Spots</NavLink></li>
+            <li><NavLink to='/spots/current' style={{textDecoration: 'none', color: 'rgba(0, 0, 0, 0.751)'}}>Manage Spots</NavLink></li>
             <li>
-              <button style={{fontfontFamily: 'cursive',border: 'none', color: 'white', backgroundColor: 'dodgerblue'}} onClick={logout}>Log Out</button>
+              <button style={{fontfontFamily: 'Arial, Helvetica, sans-serif',border: 'none', color: 'white', backgroundColor: 'dodgerblue'}} onClick={logout}>Log Out</button>
             </li>
           </>
         ) : (

@@ -12,11 +12,11 @@ function Navigation({ isLoaded }){
   return (
     <ul className='list-container'>
       <li>
-        <NavLink style={{fontSize: '20px', textDecoration: 'none', fontWeight: '800px'}} exact to="/">tonysnb</NavLink>
+        <NavLink style={{display: 'flex', fontSize: '25px', textDecoration: 'none', alignItems: 'center', color: 'dodgerblue', fontFamily: 'cursive'}} exact to="/"><img style={{width: '40px', height: 'auto'}} src={alien}></img>tonysnb</NavLink>
       </li>
       {isLoaded && (
         <>
-          <li>
+          <li style={{display: 'flex', alignItems: 'center', marginRight: '25px'}}>
           {sessionUser && (
             <NavLink to='/spots/new' style={{marginRight: '10px', textDecoration: 'none', color: 'dodgerblue'}}>Create a New Spot </NavLink>
           )}

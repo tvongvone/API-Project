@@ -1,7 +1,7 @@
 .delete-container {
     margin: 10px;
     width: 300px;
-    font-family: cursive;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .del-container {
@@ -13,7 +13,7 @@
     background-color: dodgerblue;
     height: 30px;
     margin-top: 5px;
-    font-family: cursive;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 .del-container button:hover {

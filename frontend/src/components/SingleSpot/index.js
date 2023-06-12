@@ -8,6 +8,7 @@ import Review from './Review'
 import PickDate from "../PickDate";
 import './SingleSpot.css'
 import { getSpotBookings } from "../../store/bookings";
+import Loading from "../Loading";
 
 export default function SingleSpot() {
     const {id} = useParams()
@@ -64,14 +65,14 @@ export default function SingleSpot() {
                 <div className='spot-info-container'>
                     <div className='spot-info'>
                         <h2>Hosted by {singleSpot.Owner?.firstName} {singleSpot.Owner?.lastName}</h2>
-                        <p style={{overflowWrap: 'break-word', fontFamily: 'cursive'}}>{singleSpot.description}</p>
+                        <p style={{overflowWrap: 'break-word', fontFamily: 'Arial, Helvetica, sans-serif'}}>{singleSpot.description}</p>
                     </div>
                     <div className='spot-rating'>
                         <div style={{display: 'flex', justifyContent: 'space-between', width: '80%'}}>
                             <h2>${singleSpot.price} <span style={{fontSize: '15px'}}>night</span></h2>
                             <div className="hotdog">
                                 {reviews.length === 1 ? <p><i className="fa-solid fa-star"></i>{final} <i style={{ marginLeft: '5px', marginRight: '3px' ,fontSize: '5px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i> {reviews.length} review</p> :
-                                reviews.length ? <p><i className="fa-solid fa-star"> <span style={{fontWeight: '400',fontFamily: 'cursive'}}>{final}</span> <i style={{ marginLeft: '5px', marginRight: '3px', fontSize: '8px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i></i>{reviews.length} reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
+                                reviews.length ? <p><i className="fa-solid fa-star"> <span style={{fontWeight: '400',fontFamily: 'Arial, Helvetica, sans-serif'}}>{final}</span> <i style={{ marginLeft: '5px', marginRight: '3px', fontSize: '8px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i></i>{reviews.length} reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
                             </div>
                         </div>
                         {sessionUser && sessionUser?.id !== singleSpot?.ownerId ? (
@@ -89,9 +90,9 @@ export default function SingleSpot() {
                     }
                     {reviews.map(review => (
                         <div key={review.id} className='reviews'>
-                            <h4>{review.User.firstName}</h4>
-                            <span>{review.createdAt.slice(0, 10)}</span>
-                            <p>{review.review}</p>
+                            <h4 style={{marginBottom: '10px'}}>{review.User.firstName}</h4>
+                            <span style={{marginBottom: '20px'}}>{review.createdAt.slice(0, 10)}</span>
+                            <p style={{marginTop: '20px'}}>{review.review}</p>
                             {(review.userId === sessionUser?.id) && (
                                 <button onClick={() => deleteHandler(review.id)} style={{backgroundColor: 'dodgerblue', color: 'white'}}>Delete</button>
                             )}
@@ -109,5 +110,5 @@ export default function SingleSpot() {
             </div>
         </div>
     ):
-    <div>Loading...</div>
+    <Loading />
 }
