@@ -2,10 +2,14 @@ import {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import { createSpotBooking } from '../../store/bookings';
 import { useEffect } from 'react';
+import './PickDate.css'
+import { useParams } from "react-router";
 
-const PickDate = ({spotId}) => {
+
+const PickDate = () => {
     const dispatch = useDispatch();
 
+    const {id} = useParams();
     const [startDate, setStart] = useState('')
     const [endDate, setEnd] = useState('')
     const [validationErrors, setErrors] = useState([])
@@ -15,7 +19,7 @@ const PickDate = ({spotId}) => {
         e.preventDefault();
         setSubmitted(true)
 
-        const data = await dispatch(createSpotBooking(spotId, {startDate, endDate}))
+        const data = await dispatch(createSpotBooking(id, {startDate, endDate}))
 
         if(data) {
             setErrors([data])
@@ -36,26 +40,37 @@ const PickDate = ({spotId}) => {
     }, [startDate, endDate])
 
     return (
-        <div>
-            <h2>Booking</h2>
-            {hasSubmitted && validationErrors.length > 0 && (
-                    <div className='errors-info'>
-                        <ul>
-                            {validationErrors.map(error => (
-                            <li key={error}>{error}</li>
-                            ))}
-                        </ul>
+        <div className='date-container'>
+            <div className='date-content'>
+                <h2 style={{fontSize: '30px'}}>Choose a time range</h2>
+                {hasSubmitted && validationErrors.length > 0 && (
+                        <div className='errors-info'>
+                            <ul>
+                                {validationErrors.map(error => (
+                                <li key={error}>{error}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                <form onSubmit={submitHandler}>
+                    <div style={{display:'flex', padding: '10px', flexDirection: 'column'}}>
+                        <div className='label-content'>
+                            <label className="random" htmlFor="startDate">Start Date</label>
+                            <input className='date-label' id="startDate" type="date" value={startDate} onChange={e => setStart(e.target.value)}></input>
+                        </div>
+
+                        <div className='label-content'>
+                            <label className='random' htmlFor="endDate">End Date</label>
+                            <input className='date-label' id="endDate" type="date" value={endDate} onChange={e => setEnd(e.target.value)}></input>
+                        </div>
+
+                        <button type='submit'>Book</button>
                     </div>
-                )}
-            <form onSubmit={submitHandler}>
-                <label htmlFor="startDate">Start Date</label>
-                <input id="startDate" type="date" value={startDate} onChange={e => setStart(e.target.value)}></input>
+                </form>
+            </div>
+            <div className='date-right'>
 
-                <label htmlFor="endDate">End Date</label>
-                <input id="endDate" type="date" value={endDate} onChange={e => setEnd(e.target.value)}></input>
-
-                <button type='submit'>Book</button>
-            </form>
+            </div>
         </div>
     )
 }

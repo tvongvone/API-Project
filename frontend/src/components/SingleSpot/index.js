@@ -9,6 +9,7 @@ import PickDate from "../PickDate";
 import './SingleSpot.css'
 import { getSpotBookings } from "../../store/bookings";
 import Loading from "../Loading";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function SingleSpot() {
     const {id} = useParams()
@@ -76,8 +77,9 @@ export default function SingleSpot() {
                             </div>
                         </div>
                         {sessionUser && sessionUser?.id !== singleSpot?.ownerId ? (
-                            <OpenModalButton modalComponent={<PickDate spotId={id}/>} buttonText={'Reserve'}/>
-                        ): <button>Hello</button>}
+                            // <OpenModalButton modalComponent={<PickDate spotId={id}/>} buttonText={'Reserve'}/>
+                            <NavLink className="booking-button" to={`/booking/${id}`}>Reserve</NavLink>
+                        ): <button>Bookings</button>}
 
                     </div>
                 </div>

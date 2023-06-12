@@ -9,6 +9,7 @@ import SingleSpot from "./components/SingleSpot";
 import CreateSpot from "./components/CreateSpot";
 import CurrentSpots from "./components/CurrentSpots"
 import EditSpot from "./components/EditSpot/EditSpot";
+import PickDate from "./components/PickDate";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,9 +41,13 @@ function App() {
           <Route path="/spots/:id">
             <SingleSpot />
           </Route>
+          <Route path="/booking/:id">
+            <PickDate />
+          </Route>
           <Route>
             Sorry this page does not exist
           </Route>
+
         </Switch>
       )}
     </>
