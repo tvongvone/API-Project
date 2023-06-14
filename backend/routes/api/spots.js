@@ -62,7 +62,7 @@ const dateMiddleware = (req, res, next) => {
         const err = new Error("Booking must be in the future")
         err.title = 'Validation Error'
         err.status = 422
-        err.message = `Booking must be in the future ${new Date(startDate).getTime(), new Date().getTime()}`
+        err.message = `Booking must be in the future`
         res.statusMessage = 'Booking must be in the future'
         return res.status(422).json(err.message)
         // return next(err)

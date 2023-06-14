@@ -77,8 +77,8 @@ export default function SingleSpot() {
                             </div>
                         </div>
                         {sessionUser && sessionUser?.id !== singleSpot?.ownerId ? (
-                            // <OpenModalButton modalComponent={<PickDate spotId={id}/>} buttonText={'Reserve'}/>
-                            <NavLink className="booking-button" to={`/booking/${id}`}>Reserve</NavLink>
+                            <OpenModalButton modalComponent={<PickDate price={singleSpot.price} spotId={id}/>} buttonText={'Reserve'}/>
+                            // <NavLink className="booking-button" to={`/booking/${id}`}>Reserve</NavLink>
                         ): <button>Bookings</button>}
 
                     </div>
