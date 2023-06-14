@@ -3,7 +3,6 @@ import {useDispatch} from 'react-redux'
 import { createSpotBooking } from '../../store/bookings';
 import { useEffect } from 'react';
 import './PickDate.css'
-import { useParams } from "react-router";
 
 
 const PickDate = ({price, spotId}) => {
@@ -12,7 +11,8 @@ const PickDate = ({price, spotId}) => {
     const [startDate, setStart] = useState('')
     const [endDate, setEnd] = useState('')
     const [days, setDays] = useState('')
-    const [total, setTotal] = useState()
+    const [total, setTotal] = useState('')
+    const [showDate, setShow] = useState(false)
     const [validationErrors, setErrors] = useState([])
     const [hasSubmitted, setSubmitted] = useState(false)
 
@@ -26,13 +26,16 @@ const PickDate = ({price, spotId}) => {
         if(data) {
             setErrors([data])
         } else {
+            setShow(true)
             setErrors([])
-            setStart('')
-            setEnd('')
-            setSubmitted(false)
+            // setStart('')
+            // setEnd('')
+            // setSubmitted(false)
         }
 
     }
+
+    console.log(new Date(startDate).toDateString())
 
     useEffect(() => {
         const errors = []
@@ -51,7 +54,7 @@ const PickDate = ({price, spotId}) => {
             setDays(diffDays)
             setTotal(price * diffDays)
         }
-    }, [startDate, endDate])
+    }, [startDate, endDate, price])
 
     return (
         <div className='date-container'>
@@ -70,27 +73,35 @@ const PickDate = ({price, spotId}) => {
                     <div style={{display:'flex', padding: '10px', flexDirection: 'column'}}>
                         <div className='label-content'>
                             <label className="random" htmlFor="startDate">Start Date</label>
-                            <input className='date-label' id="startDate" type="date" value={startDate} onChange={e => setStart(e.target.value)}></input>
+                            <input disabled={showDate} className='date-label' id="startDate" type="date" value={startDate} onChange={e => setStart(e.target.value)}></input>
                         </div>
 
                         <div className='label-content'>
                             <label className='random' htmlFor="endDate">End Date</label>
-                            <input className='date-label' id="endDate" type="date" value={endDate} onChange={e => setEnd(e.target.value)}></input>
+                            <input disabled={showDate} className='date-label' id="endDate" type="date" value={endDate} onChange={e => setEnd(e.target.value)}></input>
                         </div>
 
-                        <button style={{border: 'none', backgroundColor: 'dodgerblue', color: 'white', padding: '5px 10px', marginLeft: '100px'}} type='submit'>Book</button>
+                        <button disabled={showDate} style={{border: 'none', backgroundColor: 'dodgerblue', color: 'white', padding: '5px 10px', marginLeft: '100px'}} type='submit'>Book</button>
+
+                        {showDate && (
+                            <div style={{marginTop: '20px', padding: '5px'}}>
+                                <p>Successfully booked for {new Date(startDate).toDateString()}</p>
+                                <p> to {new Date(endDate).toDateString()}!</p>
+                            </div>
+                        )}
                     </div>
                 </form>
             </div>
             <div className='price-content'>
                 <div className='price'>
-                        <h3>Price details</h3>
-                        <span>{price} per night</span>
-                            <span>x</span>
+                        <h3 style={{fontSize: '25px', marginBottom: '20px', marginTop: '10px'}}>Price details</h3>
+                        <p style={{borderBottom: 'solid 1px black', width: '90%', paddingBottom: '10px'}}>${price} x {days} nights</p>
                         {total && (
-                            <>
-                            <span>{days} days</span>
-                            </>
+                            <div style ={{width: '80%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px'}}>
+                                <span style={{fontWeight: 'bold'}}>Total (USD)</span>
+                                <span>${total}</span>
+                            </div>
+
                         )}
                 </div>
             </div>
