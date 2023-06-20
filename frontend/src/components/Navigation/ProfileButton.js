@@ -54,9 +54,9 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
-            <li><NavLink to='/spots/current' style={{textDecoration: 'none', color: 'rgba(0, 0, 0, 0.751)'}}>Manage Spots</NavLink></li>
+            <li><NavLink to='/spots/current' style={{textDecoration: 'none'}}>Manage Spots</NavLink></li>
             <li>
-              <button style={{fontfontFamily: 'Arial, Helvetica, sans-serif',border: 'none', color: 'white', backgroundColor: 'dodgerblue'}} onClick={logout}>Log Out</button>
+              <button style={{fontfontFamily: 'Arial, Helvetica, sans-serif', padding: '5px', border: 'none', marginTop: '3px'}} onClick={logout}>Log Out</button>
             </li>
           </>
         ) : (

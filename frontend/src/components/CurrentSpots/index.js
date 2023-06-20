@@ -52,8 +52,8 @@ export default function CurrentSpots() {
                                             <span>${spot.price} night</span>
                                         </div>
                                         <div>
-                                            <Link to={`/spot/${spot.id}/edit`} style={{textDecoration: 'none'}}className='buttons'>Update</Link>
-                                            <OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white', boxShadow: '3px 3px 3px black', position: 'relative', bottom: '1px'}} modalComponent={spot.id && (<DeleteComponent spotId={spot.id}/>)} buttonText='Delete'/>
+                                            <Link to={`/spot/${spot.id}/edit`} style={{textDecoration: 'none', position: 'relative', top: '3px'}}className='buttons'>Update</Link>
+                                            <OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white'}} modalComponent={spot.id && (<DeleteComponent spotId={spot.id}/>)} buttonText='Delete'/>
                                         </div>
                                     </div>
                 </div>

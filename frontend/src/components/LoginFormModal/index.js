@@ -31,7 +31,7 @@ function LoginFormModal() {
 
   return (
     <div className='form-container'>
-      <h1>Log In</h1>
+      <h1 style={{marginTop: '50px'}}>Log In</h1>
       <div className="form-content">
       <form onSubmit={handleSubmit}>
         <ul>

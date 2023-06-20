@@ -16,7 +16,9 @@
     text-align: center;
     box-shadow: 2px;
     background-color: dodgerblue;
-    box-shadow: 4px 3px 3px black;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 

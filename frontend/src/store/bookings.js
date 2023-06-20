@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_BOOKINGS = 'bookings/get_bookings'
 const CREATE_BOOKING = 'bookings/create_booking'
 const BOOKING_ERROR = 'booking/error_booking'
+const REMOVE_BOOKINGS = 'bookings/remove_bookings'
 
 
 const getBooking = (data) => {
@@ -19,10 +20,9 @@ const createBooking = (data) => {
     }
 }
 
-const errBooking = (data) => {
+export const removeBookings = () => {
     return {
-        type: BOOKING_ERROR,
-        payload: data
+        type: REMOVE_BOOKINGS
     }
 }
 
@@ -32,7 +32,7 @@ export const getSpotBookings = (id) => async dispatch => {
 
     const data = await response.json();
 
-    dispatch(getBooking(data))
+    dispatch(getBooking(data.Bookings))
 }
 
 // Create booking
@@ -66,12 +66,14 @@ const initialState = {
     errorBooking: {}
 }
 
+
 export default function bookingsReducer(state = initialState, action) {
     switch(action.type) {
         case GET_BOOKINGS: {
             const newState = {...state, spotBooking: {}}
-            action.payload.Bookings.forEach(ele => newState.spotBooking[ele.id] = ele)
+            newState.spotBooking = action.payload
             return newState
+
         }
         case CREATE_BOOKING: {
             const newState = {...state, spotBooking: {...state.spotBooking}}
@@ -81,6 +83,12 @@ export default function bookingsReducer(state = initialState, action) {
         case BOOKING_ERROR: {
             const newState = {...state, spotBooking: {...state.spotBooking}, errorBooking: {}}
             newState.errorBooking = action.payload
+            return newState
+        }
+
+        case REMOVE_BOOKINGS: {
+            const newState = {...state, spotBooking: {}}
+
             return newState
         }
         default: return state;

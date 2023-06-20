@@ -7,9 +7,9 @@ import OpenModalButton from '../OpenModalButton'
 import Review from './Review'
 import PickDate from "../PickDate";
 import './SingleSpot.css'
-import { getSpotBookings } from "../../store/bookings";
 import Loading from "../Loading";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import LoginFormModal from "../LoginFormModal"
+import {NavLink} from "react-router-dom"
 
 export default function SingleSpot() {
     const {id} = useParams()
@@ -18,7 +18,7 @@ export default function SingleSpot() {
     const singleSpot = useSelector(state => state.spots.singleSpot)
     const reviewData = useSelector(state => state.reviews.spot)
     const allSpots = useSelector(state => state.spots.allSpots)
-    const bookings = useSelector(state => state.bookings)
+    // const bookingsData = useSelector(state => state.bookings)
     const reviews = Object.values(reviewData)
 
     reviews.sort((a, b) => -1)
@@ -33,13 +33,16 @@ export default function SingleSpot() {
 
     const final = parseFloat((num / reviews.length)).toFixed(1)
 
+    // console.log(bookingsData.spotBooking)
+
     useEffect(() => {
         dispatch(getSingleSpot(id))
         dispatch(getSpotReviews(id))
-        dispatch(getSpotBookings(id))
+        // dispatch(getSpotBookings(id))
         return () => {
             dispatch(removeSingleSpot())
             dispatch(getAllSpots())
+            // dispatch(removeBookings())
             // dispatch(clearReview())
         }
     }, [dispatch, id])
@@ -48,7 +51,7 @@ export default function SingleSpot() {
         dispatch(deleteSingleReview(id))
     }
 
-    return singleSpot && singleSpot.SpotImages && singleData && userArray && bookings ? (
+    return singleSpot && singleSpot.SpotImages && singleData && userArray ? (
         <div className="container">
             <div className="single-spot-container">
                 <h2>{singleSpot.name}</h2>
@@ -79,7 +82,9 @@ export default function SingleSpot() {
                         {sessionUser && sessionUser?.id !== singleSpot?.ownerId ? (
                             <OpenModalButton modalComponent={<PickDate price={singleSpot.price} spotId={id}/>} buttonText={'Reserve'}/>
                             // <NavLink className="booking-button" to={`/booking/${id}`}>Reserve</NavLink>
-                        ): <button>Bookings</button>}
+                        ): sessionUser && sessionUser?.id === singleSpot?.ownerId ? (
+                            <NavLink className='booking-button' to={`/spot/${id}/bookings`}>View Bookings</NavLink>
+                        ): <OpenModalButton modalComponent={<LoginFormModal />} buttonText={'Login'} />}
 
                     </div>
                 </div>

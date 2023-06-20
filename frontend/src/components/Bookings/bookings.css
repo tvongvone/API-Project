@@ -1,0 +1,29 @@
+.bookings-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.bookings-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.subtitles {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.subtitles span {
+    padding: 40px;
+}
+
+.client-info {
+    margin-top: 40px;
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+}
