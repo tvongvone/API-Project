@@ -25,7 +25,7 @@ export default function CurrentSpots() {
     return current.length ? (
         <div className='current-container'>
             <div style={{display:'flex', flexDirection: 'column'}}>
-                <h1 style={{fontFamily:'Arial, Helvetica, sans-serif'}}>Manage Your Spots</h1>
+                <h1>Manage Your Spots</h1>
                 <NavLink className='navlink' to='/spots/new'>Create a New Spot</NavLink>
             </div>
 
@@ -61,5 +61,5 @@ export default function CurrentSpots() {
                 ))}
             </div>
         </div>
-    ): <div style={{display: 'flex', margin: '100px', fontFamily:'Arial, Helvetica, sans-serif'}}>You currently have no spots!</div>
+    ): <div style={{display: 'flex', margin: '100px'}}>You currently have no spots!</div>
 }

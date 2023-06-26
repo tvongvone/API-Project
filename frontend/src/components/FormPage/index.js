@@ -87,11 +87,11 @@ export default function FormPage({spot, formType}) {
     return (
         <div className='create-container'>
            <div className="create-content">
-                <h2>{formType} a new Spot</h2>
+                <h2 style={{marginBottom: '10px', marginTop: '10px'}}>{formType} a new Spot</h2>
 
                 <form className="the-form" onSubmit={submitHandler}>
                     <div>
-                        <h3>Where's your place located?</h3>
+                        <h3 style={{marginTop: '10px', marginBottom: '10px'}}>Where's your place located?</h3>
                         <p>Guests will only get your exact address once they booked a reservation.</p>
 
                         <label htmlFor="country">Country <span className={hasSubmitted && (!country.length) ? "" && setErrors(o => [...o, 'country']): "hidden"} style={{ color: 'red'}}> Country is required</span></label>
@@ -110,22 +110,22 @@ export default function FormPage({spot, formType}) {
                         <input id="longitude" name="longitude" value={lng} type='number' onChange={e => setLongitude(e.target.value)}/>
                     </div>
                     <div>
-                        <h3>Describe your place to guests</h3>
-                        <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
+                        <h3 style={{marginTop: '10px', marginBottom: '10px'}}>Describe your place to guests</h3>
+                        <p style={{marginBottom: '10px'}}>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
                         <div style={{display:'flex', flexDirection: 'column'}}>
                         <span className={hasSubmitted && (description.length < 30) ? "" && setErrors(o => [...o, 'description']): "hidden"} style={{ color: 'red'}}> Description is needs a minimum of 30 characters.</span>
                         <textarea id="description" name="description" value={description} onChange={e => setDescription(e.target.value)}/>
                         </div>
                     </div>
                     <div>
-                        <h3>Create a title for your spot</h3>
-                        <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+                        <h3 style={{marginTop: '10px', marginBottom: '10px'}}>Create a title for your spot</h3>
+                        <p style={{marginBottom: '10px'}}>Catch guests' attention with a spot title that highlights what makes your place special.</p>
                         <span className={(hasSubmitted && errors.includes('Invalid value')) || (hasSubmitted && !name.length) ? "" && setErrors(o => [...o, 'name']): "hidden"} style={{ color: 'red'}}> Name is required </span>
                         <input id='name' name='name' value={name} type="text" onChange={e => setName(e.target.value)}/>
                     </div>
                     <div>
-                        <h3>Set a base price for your spot</h3>
-                        <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
+                        <h3 style={{marginTop: '10px', marginBottom: '10px'}}>Set a base price for your spot</h3>
+                        <p style={{marginBottom: '10px'}}>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                         <span className={hasSubmitted && !price ? "" : "hidden"} style={{ color: 'red'}}> Price is required </span>
                         <div style={{display:'flex'}}>
 
@@ -134,8 +134,8 @@ export default function FormPage({spot, formType}) {
                     </div>
                     {formType === 'Create' && (
                         <div>
-                        <h2>Liven up your spot with photos</h2>
-                        <p>Submit a link to at least one photo to publish your spot.</p>
+                        <h2 style={{marginTop: '10px', marginBottom: '10px'}}>Liven up your spot with photos</h2>
+                        <p style={{marginBottom: '10px'}}>Submit a link to at least one photo to publish your spot.</p>
                         <span className={hasSubmitted && a === true ? "" : "hidden"} style={{color: 'red'}}>Preview Image is Required. Must be .jpg, .jpeg, or .png file</span>
                         <input className='required-image' id="previewImage" name="previewImage" placeholder="Preview Image URL" type='url' value={previewImage} onChange={e => setPreviewImage(e.target.value)}/>
                         <input  id="image2" name="image2" placeholder="Image URL" type='url' value={img1} onChange={e => setImg1(e.target.value)}/>

@@ -31,10 +31,10 @@ function SignupFormModal() {
 
   return (
     <div className="signup-container">
-      <h1 style={{paddingTop: '10px', fontFamily: 'Arial, Helvetica, sans-serif', marginTop: '40px'}}>Sign Up</h1>
+      <h1 style={{fontFamily: 'cursive', marginTop: '50px'}}>Sign Up</h1>
       <form className="signup-content" onSubmit={handleSubmit}>
         <ul>
-          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+          {errors.map((error, idx) => <li style={{padding: '10px'}} key={idx}>{error}</li>)}
         </ul>
         <label>
           Email

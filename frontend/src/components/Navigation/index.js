@@ -10,21 +10,23 @@ function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <ul className='list-container'>
-      <li>
-        <NavLink style={{display: 'flex', fontSize: '25px', textDecoration: 'none', alignItems: 'center', color: 'dodgerblue', fontFamily: 'cursive'}} exact to="/"><img style={{width: '40px', height: 'auto'}} src={alien}></img>tonysnb</NavLink>
-      </li>
-      {isLoaded && (
-        <>
-          <li style={{display: 'flex', alignItems: 'center', marginRight: '25px'}}>
-          {sessionUser && (
-            <NavLink to='/spots/new' style={{marginRight: '10px', textDecoration: 'none', color: 'dodgerblue'}}>Create a New Spot</NavLink>
-          )}
-            <ProfileButton user={sessionUser} />
-          </li>
-        </>
-      )}
-    </ul>
+    <div className="list-container">
+      <ul className='list-content'>
+        <li>
+          <NavLink style={{display: 'flex', fontSize: '25px', textDecoration: 'none', alignItems: 'center', color: 'dodgerblue', fontFamily: 'cursive'}} exact to="/"><img style={{width: '40px', height: 'auto'}} src={alien}></img>tonysnb</NavLink>
+        </li>
+        {isLoaded && (
+          <>
+            <li style={{display: 'flex', alignItems: 'center'}}>
+            {sessionUser && (
+              <NavLink to='/spots/new' style={{marginRight: '10px', textDecoration: 'none', color: 'dodgerblue'}}>Create a New Spot</NavLink>
+            )}
+              <ProfileButton user={sessionUser} />
+            </li>
+          </>
+        )}
+      </ul>
+    </div>
   );
 }
 

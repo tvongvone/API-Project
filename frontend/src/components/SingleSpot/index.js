@@ -69,14 +69,14 @@ export default function SingleSpot() {
                 <div className='spot-info-container'>
                     <div className='spot-info'>
                         <h2>Hosted by {singleSpot.Owner?.firstName} {singleSpot.Owner?.lastName}</h2>
-                        <p style={{overflowWrap: 'break-word', fontFamily: 'Arial, Helvetica, sans-serif'}}>{singleSpot.description}</p>
+                        <p style={{overflowWrap: 'break-word'}}>{singleSpot.description}</p>
                     </div>
                     <div className='spot-rating'>
                         <div style={{display: 'flex', justifyContent: 'space-between', width: '80%'}}>
                             <h2>${singleSpot.price} <span style={{fontSize: '15px'}}>night</span></h2>
                             <div className="hotdog">
                                 {reviews.length === 1 ? <p><i className="fa-solid fa-star"></i>{final} <i style={{ marginLeft: '5px', marginRight: '3px' ,fontSize: '5px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i> {reviews.length} review</p> :
-                                reviews.length ? <p><i className="fa-solid fa-star"> <span style={{fontWeight: '400',fontFamily: 'Arial, Helvetica, sans-serif'}}>{final}</span> <i style={{ marginLeft: '5px', marginRight: '3px', fontSize: '8px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i></i>{reviews.length} reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
+                                reviews.length ? <p><i className="fa-solid fa-star"> <span style={{fontWeight: '400'}}>{final}</span> <i style={{ marginLeft: '5px', marginRight: '3px', fontSize: '8px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i></i>{reviews.length} reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
                             </div>
                         </div>
                         {sessionUser && sessionUser?.id !== singleSpot?.ownerId ? (

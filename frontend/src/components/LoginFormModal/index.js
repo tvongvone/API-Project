@@ -30,13 +30,13 @@ function LoginFormModal() {
   };
 
   return (
-    <div className='form-container'>
+    <div className='signup-container'>
       <h1 style={{marginTop: '50px'}}>Log In</h1>
-      <div className="form-content">
+      <div className="signup-content">
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+            <li style={{padding: '10px'}} key={idx}>{error}</li>
           ))}
         </ul>
         <label>

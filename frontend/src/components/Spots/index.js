@@ -11,6 +11,7 @@ export default function Spots() {
 
     return spots.length ? (
         <div className='spot-container'>
+            <div className="spot-con">
             <div className='spot-content'>
             {spots.map(spot => (
                 <div className="spot-single-spot"key={spot.id}>
@@ -24,7 +25,7 @@ export default function Spots() {
                                     </span>
                                     <span style={{display: 'flex'}}>
                                         <i className="fa-solid fa-star"></i>
-                                        {spot.avgRating && (!isNaN(spot.avgRating))? spot.avgRating : <span style={{fontFamily: 'Arial, Helvetica, sans-serif'}}>New</span>}
+                                        {spot.avgRating && (!isNaN(spot.avgRating))? spot.avgRating : <span>New</span>}
                                     </span>
                                 </div>
                                 <span>${spot.price} night</span>
@@ -33,6 +34,7 @@ export default function Spots() {
                     </NavLink>
                 </div>
             ))}
+            </div>
             </div>
         </div>
 

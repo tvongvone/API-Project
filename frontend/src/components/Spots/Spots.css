@@ -1,13 +1,19 @@
 .spot-container {
     display: flex;
-    font-family: Arial, Helvetica, sans-serif;
     justify-content: center;
-    margin-left: 100px;
+    align-items: center;
+}
 
+.spot-con {
+    width: 90%;
+    display: flex;
+    justify-content: center;
 }
 
 .spot-content {
+    max-width: 100%;
     display: flex;
+    width: 100%;
     flex-wrap: wrap;
 }
 
@@ -16,13 +22,15 @@
 }
 
 .single-spot {
-    width: 300px;
-    padding: 15px;
+    width: 326.82px;
+    justify-content: center;
+    align-items: center;
+    margin: 7.5px;
 }
 
 .single-spot img {
     height: 280px;
-    width: 100%;
+    max-width: 100%;
     object-fit: cover;
     border-radius: 10px;
 }
@@ -40,6 +48,9 @@
 
 .spot-single-spot {
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .all-images {
