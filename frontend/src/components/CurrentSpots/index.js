@@ -1,26 +1,39 @@
 
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { NavLink, Redirect, Link } from 'react-router-dom';
-import { getCurrentSpots } from '../../store/allSpots';
+import { NavLink, Redirect, useHistory } from 'react-router-dom';
+import { getCurrentSpots, removeSingleSpot } from '../../store/allSpots';
 import './CurrentSpots.css'
 import OpenModalButton from '../OpenModalButton';
 import DeleteComponent from './DeleteComponent'
 
 export default function CurrentSpots() {
+    const history = useHistory();
     const dispatch = useDispatch();
     const data = useSelector(state => state.spots)
     const user = useSelector(state => state.session.user)
 
     const current = Object.values(data.currentSpots)
 
+    const onClickHander = (spotId) => {
+        // onClickHander(spotId) {
+        //     return <Redirect to={`/spot/${spotIdd}/edit`} />
+        // }
+       return history.push(`/spot/${spotId}/edit`)
+    }
+
     useEffect(() => {
         dispatch(getCurrentSpots())
+
+        return () => {
+            dispatch(removeSingleSpot())
+        }
     }, [dispatch])
 
     if(!user) {
         return <Redirect to='/' />
     }
+
 
     return current.length ? (
         <div className='current-container'>
@@ -52,7 +65,7 @@ export default function CurrentSpots() {
                                             <span>${spot.price} night</span>
                                         </div>
                                         <div>
-                                            <Link to={`/spot/${spot.id}/edit`} style={{textDecoration: 'none', position: 'relative', top: '3px'}}className='buttons'>Update</Link>
+                                            <button onClick={() => onClickHander(spot.id)} className='buttons'>Update</button>
                                             <OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white'}} modalComponent={spot.id && (<DeleteComponent spotId={spot.id}/>)} buttonText='Delete'/>
                                         </div>
                                     </div>
