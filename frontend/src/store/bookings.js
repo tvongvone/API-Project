@@ -1,9 +1,10 @@
-import { body } from "express-validator";
+
 import { csrfFetch } from "./csrf";
 const GET_BOOKINGS = 'bookings/get_bookings'
 const CREATE_BOOKING = 'bookings/create_booking'
 const BOOKING_ERROR = 'booking/error_booking'
 const REMOVE_BOOKINGS = 'bookings/remove_bookings'
+const USER_BOOKING = 'booking/user_booking'
 
 
 const getBooking = (data) => {
@@ -20,13 +21,20 @@ const createBooking = (data) => {
     }
 }
 
+const userBookings = (data) => {
+    return {
+        type: USER_BOOKING,
+        payload: data
+    }
+}
+
 export const removeBookings = () => {
     return {
         type: REMOVE_BOOKINGS
     }
 }
 
-// Get booking
+// Get location booking
 export const getSpotBookings = (id) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${id}/bookings`)
 
@@ -61,9 +69,23 @@ export const createSpotBooking = (id, obj) => async dispatch => {
     }
 }
 
+// Get users current bookings
+
+export const getUserBookings = () => async dispatch => {
+    const response = await csrfFetch('/api/bookings/current')
+
+    if(response.ok) {
+        const data = await response.json()
+
+        // console.log(data.Bookings)
+        dispatch(userBookings(data.Bookings))
+    }
+}
+
 const initialState = {
     spotBooking: {},
-    errorBooking: {}
+    errorBooking: {},
+    userBooking: {}
 }
 
 
@@ -85,10 +107,14 @@ export default function bookingsReducer(state = initialState, action) {
             newState.errorBooking = action.payload
             return newState
         }
-
         case REMOVE_BOOKINGS: {
             const newState = {...state, spotBooking: {}}
 
+            return newState
+        }
+        case USER_BOOKING: {
+            const newState = {...state, userBooking: {}}
+            newState.userBooking = action.payload
             return newState
         }
         default: return state;

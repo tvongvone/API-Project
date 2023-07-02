@@ -54,6 +54,7 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
+            <li><NavLink to='/bookings/current'>View my bookings</NavLink></li>
             <li><NavLink to='/spots/current' style={{textDecoration: 'none'}}>Manage Spots</NavLink></li>
             <li>
               <button style={{padding: '5px', border: 'none', marginTop: '3px'}} onClick={logout}>Log Out</button>

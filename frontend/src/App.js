@@ -11,6 +11,7 @@ import CurrentSpots from "./components/CurrentSpots"
 import EditSpot from "./components/EditSpot/EditSpot";
 import PickDate from "./components/PickDate";
 import Bookings from "./components/Bookings";
+import UserBookings from "./components/UserBookings";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +45,9 @@ function App() {
           </Route>
           <Route path="/spots/:id">
             <SingleSpot />
+          </Route>
+          <Route path="/bookings/current">
+            <UserBookings />
           </Route>
           <Route path="/booking/:id">
             <PickDate />

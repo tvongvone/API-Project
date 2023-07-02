@@ -24,7 +24,7 @@ export default function Bookings() {
             <div className="bookings-content">
                <h1>Booking History</h1>
                {bookings.length && (
-                <div>
+                <div style={{width: '100%', marginTop: '40px'}}>
                     <div className="subtitles">
                     <span>First Name</span>
                     <span>Last Name</span>
