@@ -33,8 +33,15 @@
 
 .button2 {
     border: none;
-    background-color: white;
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 10px;
     font-size: 20px;
-    text-decoration: underline;
-    margin-bottom: 50px;
+    text-decoration: none;
+    margin-bottom: 30px;
+    transition: .4s;
+}
+
+.button2:hover {
+    background-color: gray;
 }

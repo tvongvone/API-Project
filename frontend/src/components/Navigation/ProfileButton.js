@@ -40,7 +40,7 @@ function ProfileButton({ user }) {
   };
 
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = showMenu ? "profile-dropdown" : "hidden"
 
   return (
     <>
@@ -54,10 +54,10 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
-            <li><NavLink to='/bookings/current'>View my bookings</NavLink></li>
-            <li><NavLink to='/spots/current' style={{textDecoration: 'none'}}>Manage Spots</NavLink></li>
+            <li className='profile-options'><NavLink style={{textDecoration: 'none', color: 'dodgerblue'}} to='/bookings/current'>View my bookings</NavLink></li>
+            <li className="profile-options"><NavLink to='/spots/current' style={{textDecoration: 'none', color: 'dodgerblue'}}>Manage Spots</NavLink></li>
             <li>
-              <button style={{padding: '5px', border: 'none', marginTop: '3px'}} onClick={logout}>Log Out</button>
+              <button className='logout-button' style={{padding: '5px', border: 'none', marginTop: '3px', borderRadius: '10px'}} onClick={logout}>Log Out</button>
             </li>
           </>
         ) : (

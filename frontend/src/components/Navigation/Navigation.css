@@ -5,6 +5,13 @@
 
 
 .profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: hidden;
     position: absolute;
     z-index: 1;
     background-color: white;
@@ -65,4 +72,26 @@ ul {
 
 .hover-profile {
     padding: 10px;
+}
+
+.profile-options {
+    text-decoration: none;
+    color: black;
+    border-radius: 10px;
+    padding: 5px 0px;
+    transition: .4s;
+
+}
+
+.profile-options:hover {
+    background-color: lightgray;
+}
+
+.logout-button {
+    padding: 5px;
+    transition: .4s;
+}
+
+.logout-button:hover {
+    background-color: gray;
 }
