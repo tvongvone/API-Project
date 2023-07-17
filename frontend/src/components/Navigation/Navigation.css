@@ -59,4 +59,10 @@ ul {
 
 .hover-profile:hover {
     cursor: pointer;
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+.hover-profile {
+    padding: 10px;
 }
