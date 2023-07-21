@@ -10,7 +10,6 @@
 .navlink {
     text-decoration: none;
     color: white;
-    border: solid 2px black;
     width: 180px;
     text-align: center;
     box-shadow: 2px;
@@ -18,6 +17,10 @@
     margin-top: 20px;
     padding: 10px;
     border-radius: 10px;
+}
+
+.navlink:hover {
+    background-color: cornflowerblue;
 }
 
 
