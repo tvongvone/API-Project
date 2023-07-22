@@ -2,6 +2,7 @@ import './UserBookings.css'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserBookings } from '../../store/bookings';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 export default function UserBookings() {
@@ -15,32 +16,39 @@ export default function UserBookings() {
 
     return userBookings ? (
         <div className="bookings-container">
-            <div className="bookings-content">
+            <div className="user-bookings-content">
                <h1>My Bookings</h1>
-               {userBookings.length && (
-                <div style={{width: '100%', marginTop: '40px'}}>
-                    <div className="subtitles">
-                    <span>Name</span>
-                    <span>Address</span>
-                    <span>Start Date</span>
-                    <span>End Date</span>
-                    </div>
-                    {userBookings.map(ele => (
-                        <div className="client-info" key={ele.id}>
-                            <span>{ele?.Spot?.name}</span>
-                            <span>{ele?.Spot?.address}</span>
-                            <span>{ele?.startDate.slice(0, 10)}</span>
-                            <span>{ele?.endDate.slice(0, 10)}</span>
+                {userBookings.length && (
+                    <div style={{display: 'flex', width: '100%', overflow: 'hidden', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+                            {userBookings.map(ele => (
+                                <div className="user-bookings-data" key={ele.id}>
+                                    <NavLink to={`/spots/${ele?.Spot?.id}`}>
+                                        <img src={ele?.Spot?.previewImage} />
+                                    </NavLink>
+                                    <div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+                                        <span style={{maxWidth: '50%', overflow: 'hidden'}}>{ele?.Spot?.name}</span>
+                                        <span style={{maxWidth: '50%', overflow: 'hidden'}}>{ele?.Spot?.city}, {ele?.Spot?.state}</span>
+                                    </div>
 
-                        </div>
-                    ))}
-                </div>
-               )}
+                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                        <span>Start Date: </span>
+                                        <span>{ele?.startDate.slice(0, 10)}</span>
+                                    </div>
+
+                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                        <span>End Date: </span>
+                                        <span>{ele?.endDate.slice(0, 10)}</span>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                )}
             </div>
         </div>
     ) :
     <div className="bookings-container">
-    <div className="bookings-content">
+    <div className="user-bookings-content">
        <h1>You currently have no bookings</h1>
     </div>
     </div>
