@@ -35,7 +35,7 @@ const PickDate = ({price, spotId}) => {
 
     }
 
-    console.log(new Date(startDate).toDateString())
+    // console.log(new Date(startDate).toDateString())
 
     useEffect(() => {
         const errors = []

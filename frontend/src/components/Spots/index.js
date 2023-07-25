@@ -11,7 +11,6 @@ export default function Spots() {
 
     return spots.length ? (
         <div className='spot-container'>
-            <div className="spot-con">
             <div className='spot-content'>
             {spots.map(spot => (
                 <div className="spot-single-spot"key={spot.id}>
@@ -34,7 +33,6 @@ export default function Spots() {
                     </NavLink>
                 </div>
             ))}
-            </div>
             </div>
         </div>
 

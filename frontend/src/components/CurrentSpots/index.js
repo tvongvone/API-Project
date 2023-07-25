@@ -66,7 +66,7 @@ export default function CurrentSpots() {
                                         </div>
                                         <div>
                                             <button onClick={() => onClickHander(spot.id)} className='buttons'>Update</button>
-                                            <OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white'}} modalComponent={spot.id && (<DeleteComponent spotId={spot.id}/>)} buttonText='Delete'/>
+                                            <OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white', border: 'none', padding: '5px', borderRadius: '10px'}} modalComponent={spot.id && (<DeleteComponent spotId={spot.id}/>)} buttonText='Delete'/>
                                         </div>
                                     </div>
                 </div>
