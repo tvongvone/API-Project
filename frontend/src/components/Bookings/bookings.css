@@ -11,15 +11,19 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 80%;
+    width: 90%;
 }
 
 .subtitles {
     display: flex;
-    justify-content: space-between;
     width: 100%;
     margin-top: 20px;
     font-size: 20px;
+}
+
+.subtitles span {
+    width: 25%;
+    overflow: hidden;
 }
 
 
@@ -27,5 +31,9 @@
     margin-top: 40px;
     font-size: 15px;
     display: flex;
-    justify-content: space-between;
+}
+
+.client-info span {
+    width: 25%;
+    overflow: hidden;
 }
