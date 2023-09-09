@@ -34,7 +34,7 @@ function LoginFormModal() {
       <h1 style={{marginTop: '50px'}}>Log In</h1>
       <div className="signup-content">
       <form onSubmit={handleSubmit}>
-        <ul>
+        <ul style={{display: 'flex', justifyContent: 'center', color: 'red'}}>
           {errors.map((error, idx) => (
             <li style={{padding: '10px'}} key={idx}>{error}</li>
           ))}
