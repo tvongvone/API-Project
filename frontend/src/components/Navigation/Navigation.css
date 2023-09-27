@@ -67,11 +67,11 @@ ul {
 .hover-profile:hover {
     cursor: pointer;
     background-color: lightgray;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .hover-profile {
-    padding: 10px;
+    padding: 5px 10px;
 }
 
 .profile-options {
