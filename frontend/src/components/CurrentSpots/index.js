@@ -62,7 +62,7 @@ export default function CurrentSpots() {
 
                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                         <div>
-                                            <span>${spot.price} night</span>
+                                            <span>${spot.price} per night</span>
                                         </div>
                                         <div>
                                             <button onClick={() => onClickHander(spot.id)} className='buttons'>Update</button>
