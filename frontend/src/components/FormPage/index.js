@@ -136,7 +136,7 @@ export default function FormPage({spot, formType}) {
                         <div>
                         <h2 style={{marginTop: '10px', marginBottom: '10px'}}>Liven up your spot with photos</h2>
                         <p style={{marginBottom: '10px'}}>Submit a link to at least one photo to publish your spot.</p>
-                        <span className={hasSubmitted && a === true ? "" : "hidden"} style={{color: 'red'}}>Preview Image is Required. Must be .jpg, .jpeg, or .png file</span>
+                        <span className={hasSubmitted && a === true ? "" : "hidden"} style={{color: 'red'}}>Preview Image is Required. Must be .jpg, .jpeg, or .png file.</span>
                         <input className='required-image' id="previewImage" name="previewImage" placeholder="Preview Image URL" type='url' value={previewImage} onChange={e => setPreviewImage(e.target.value)}/>
                         <input  id="image2" name="image2" placeholder="Image URL" type='url' value={img1} onChange={e => setImg1(e.target.value)}/>
                         <input  id="image3" name="image3" placeholder="Image URL" type='url' value={img2} onChange={e => setImg2(e.target.value)}/>
