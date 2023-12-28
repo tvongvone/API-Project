@@ -62,10 +62,10 @@ export default function CurrentSpots() {
 
                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                         <div>
-                                            <span>${spot.price} per night</span>
+                                            <span>${spot.price} night</span>
                                         </div>
                                         <div>
-                                            <button onClick={() => onClickHander(spot.id)} className='buttons'>Update spot</button>
+                                            <button onClick={() => onClickHander(spot.id)} className='buttons'>Update</button>
                                             <OpenModalButton styleOption={{backgroundColor: 'dodgerblue', color: 'white', border: 'none', padding: '5px', borderRadius: '10px'}} modalComponent={spot.id && (<DeleteComponent spotId={spot.id}/>)} buttonText='Delete'/>
                                         </div>
                                     </div>
