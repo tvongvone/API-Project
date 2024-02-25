@@ -38,7 +38,7 @@ export default function CurrentSpots() {
     return current.length ? (
         <div className='current-container'>
             <div style={{display:'flex', flexDirection: 'column'}}>
-                <h1>Manage Your Spots</h1>
+                <h1>Manage Spots</h1>
                 <NavLink className='navlink' to='/spots/new'>Create a New Spot</NavLink>
             </div>
 
