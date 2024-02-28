@@ -73,7 +73,7 @@ export default function SingleSpot() {
                     </div>
                     <div className='spot-rating'>
                         <div style={{display: 'flex', justifyContent: 'space-between', width: '80%'}}>
-                            <h2>${singleSpot.price} <span style={{fontSize: '15px'}}>night</span></h2>
+                            <h2>${singleSpot.price} <span style={{fontSize: '15px'}}>per night</span></h2>
                             <div className="hotdog">
                                 {reviews.length === 1 ? <p><i className="fa-solid fa-star"></i>{final} <i style={{ marginLeft: '5px', marginRight: '3px' ,fontSize: '5px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i> {reviews.length} review</p> :
                                 reviews.length ? <p><i className="fa-solid fa-star"> <span style={{fontWeight: '400'}}>{final}</span> <i style={{ marginLeft: '5px', marginRight: '3px', fontSize: '8px', verticalAlign: 'middle'}} className="fa-solid fa-circle"></i></i>{reviews.length} reviews</p> : <p><i className="fa-solid fa-star"></i>New</p>}
