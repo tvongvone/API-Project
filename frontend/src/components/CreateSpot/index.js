@@ -20,5 +20,5 @@ export default function CreateSpot() {
     const spot = {country: "", address: "", city: "", state: "", lat: "", lng: "", name: "", description: "", price: "", previewImage: ""}
     return spot ? (
         <FormPage spot={spot} formType='Create'/>
-    ): <div>This is an error</div>
+    ): <div></div>
 }
