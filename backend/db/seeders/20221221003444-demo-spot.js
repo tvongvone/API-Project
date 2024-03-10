@@ -70,6 +70,30 @@ module.exports = {
       name: "Gambling maniacs",
       description: "Tellus integer feugiat scelerisque varius morbi. Varius duis at consectetur lorem donec. Leo urna molestie at elementum. Posuere ac ut consequat semper viverra nam libero. Elementum nisi quis eleifend quam adipiscing vitae. Turpis egestas pretium aenean pharetra magna ac placerat vestibulum. Mi sit amet mauris commodo quis imperdiet. Leo in vitae turpis massa. Magna ac placerat vestibulum lectus mauris. Sit amet consectetur adipiscing elit. Non diam phasellus vestibulum lorem sed risus ultricies. Sed blandit libero volutpat sed cras. Enim sed faucibus turpis in eu mi bibendum. Vitae purus faucibus ornare suspendisse sed nisi. Vulputate ut pharetra sit amet.",
       price: 234
+    },
+    {
+      ownerId: 1,
+      address: "47 Ranch ave",
+      city: "Seattle",
+      state: "Washington",
+      country: "United States of America",
+      lat: 24.7645358,
+      lng: -101.4730327,
+      name: "Rainy Roof",
+      description: "Tellus integer feugiat scelerisque varius morbi. Varius duis at consectetur lorem donec. Leo urna molestie at elementum. Posuere ac ut consequat semper viverra nam libero. Elementum nisi quis eleifend quam adipiscing vitae. Turpis egestas pretium aenean pharetra magna ac placerat vestibulum. Mi sit amet mauris commodo quis imperdiet. Leo in vitae turpis massa. Magna ac placerat vestibulum lectus mauris. Sit amet consectetur adipiscing elit. Non diam phasellus vestibulum lorem sed risus ultricies. Sed blandit libero volutpat sed cras. Enim sed faucibus turpis in eu mi bibendum. Vitae purus faucibus ornare suspendisse sed nisi. Vulputate ut pharetra sit amet.",
+      price: 213
+    },
+    {
+      ownerId: 2,
+      address: "Random street 365",
+      city: "Tulsa",
+      state: "Oklahoma",
+      country: "United States of America",
+      lat: 24.7645358,
+      lng: -101.4730327,
+      name: "Lazy Lodge",
+      description: "Tellus integer feugiat scelerisque varius morbi. Varius duis at consectetur lorem donec. Leo urna molestie at elementum. Posuere ac ut consequat semper viverra nam libero. Elementum nisi quis eleifend quam adipiscing vitae. Turpis egestas pretium aenean pharetra magna ac placerat vestibulum. Mi sit amet mauris commodo quis imperdiet. Leo in vitae turpis massa. Magna ac placerat vestibulum lectus mauris. Sit amet consectetur adipiscing elit. Non diam phasellus vestibulum lorem sed risus ultricies. Sed blandit libero volutpat sed cras. Enim sed faucibus turpis in eu mi bibendum. Vitae purus faucibus ornare suspendisse sed nisi. Vulputate ut pharetra sit amet.",
+      price: 315
     }
    ])
   },
