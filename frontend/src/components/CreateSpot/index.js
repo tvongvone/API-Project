@@ -21,7 +21,11 @@ export default function CreateSpot() {
     return spot ? (
         <FormPage spot={spot} formType='Create'/>
 <<<<<<< HEAD
+<<<<<<< HEAD
     ): <div>This would be an error</div>
+=======
+    ): <div></div>
+>>>>>>> 89c8c1e36aad18cf0366a41de4400b033856b374
 =======
     ): <div></div>
 >>>>>>> 89c8c1e36aad18cf0366a41de4400b033856b374
