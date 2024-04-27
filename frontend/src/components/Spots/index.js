@@ -37,5 +37,5 @@ export default function Spots() {
         </div>
 
 
-    ): <div className='loading-container' style={{marginTop: '100px'}}>Sorry cannot retrieve spots at this time!</div>
+    ): <div className='loading-container' style={{marginTop: '100px'}}>Sorry could not retrieve spots at this time!</div>
 }
