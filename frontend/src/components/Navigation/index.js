@@ -19,7 +19,7 @@ function Navigation({ isLoaded }){
           <>
             <li style={{display: 'flex', alignItems: 'center'}}>
             {sessionUser && (
-              <NavLink to='/spots/new' style={{marginRight: '10px', textDecoration: 'none', color: 'dodgerblue'}}>Create a New Spot</NavLink>
+              <NavLink to='/spots/new' style={{marginRight: '10px', textDecoration: 'none', color: 'dodgerblue'}}>Create New Spot</NavLink>
             )}
               <ProfileButton user={sessionUser} />
             </li>
